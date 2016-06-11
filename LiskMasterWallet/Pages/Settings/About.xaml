@@ -1,0 +1,22 @@
+﻿<UserControl x:Class="LiskMasterWallet.Pages.Settings.About"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mui="http://firstfloorsoftware.com/ModernUI"
+             mc:Ignorable="d"
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid>
+        <ScrollViewer>
+            <StackPanel MinWidth="200">
+                <TextBlock Text="ABOUT" Style="{StaticResource Heading2}" />
+                <StackPanel HorizontalAlignment="Center">
+                    <TextBlock x:Name="AboutText" Margin="8" TextWrapping="Wrap" />
+                    <Image Source="pack://siteoforigin:,,,/Resources/gplv3-127x51.png" Width="58"
+                           HorizontalAlignment="Left" VerticalAlignment="Top" Margin="4,0,0,0" />
+                    <mui:BBCodeBlock BBCode="[url=http://www.gnu.org/licenses/gpl-3.0.en.html#content]GNU GPL v3[/url]" />
+                </StackPanel>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</UserControl>

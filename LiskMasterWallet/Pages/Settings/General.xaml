@@ -1,0 +1,54 @@
+﻿<UserControl
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mui="http://firstfloorsoftware.com/ModernUI"
+    x:Class="LiskMasterWallet.Pages.Settings.General"
+    mc:Ignorable="d"
+    d:DesignHeight="300" d:DesignWidth="600" Unloaded="UserControl_Unloaded">
+    <Grid>
+        <ScrollViewer>
+            <StackPanel x:Name="Panel" MinWidth="150">
+                <TextBlock Text="GENERAL" Style="{StaticResource Heading2}" Margin="0,0,0,8" />
+                <Grid HorizontalAlignment="Center">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition MinWidth="220" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" MinHeight="32" />
+                        <RowDefinition Height="Auto" MinHeight="32" />
+                        <RowDefinition Height="Auto" MinHeight="36" />
+                        <RowDefinition Height="Auto" MinHeight="70" />
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Text="Show Console:" VerticalAlignment="Center" Margin="0,0,16,4" />
+                    <CheckBox Grid.Row="0" Grid.Column="1" VerticalAlignment="Center"
+                              IsChecked="{Binding ShowDebugConsole, Mode=TwoWay}" />
+
+                    <TextBlock Grid.Row="1" Text="Auto Server:" VerticalAlignment="Center" Margin="0,0,16,0" />
+                    <CheckBox Grid.Row="1" Grid.Column="1" VerticalAlignment="Center"
+                              IsChecked="{Binding AutoFindServer, Mode=TwoWay}" />
+
+                    <TextBlock Grid.Row="2" Text="Add Server:" VerticalAlignment="Top" Margin="0,0,16,0" />
+                    <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="1" MaxHeight="26">
+                        <TextBox Name="NewServerTextBox" Width="200" Margin="0,0,6,0" MaxLines="1" MaxLength="64" />
+                        <mui:ModernButton Name="AddServerButton"
+                                          IconData="F1 M 35,19L 41,19L 41,35L 57,35L 57,41L 41,41L 41,57L 35,57L 35,41L 19,41L 19,35L 35,35L 35,19 Z"
+                                          Content="Add" Click="AddServerButton_Click" />
+                    </StackPanel>
+
+                    <TextBlock Grid.Row="3" Text="Servers:" VerticalAlignment="Top" Margin="0,0,16,0" />
+                    <ListView Name="ServersListView" Grid.Row="3" Grid.Column="1" />
+                </Grid>
+                <TextBlock xml:space="preserve"
+                           Text="Disabling 'Auto Server' is not recomended, when disabled only the first server in the list will be used.&#10;Close and restart the application for these settings to take effect."
+                           TextWrapping="Wrap" />
+                <mui:ModernButton Name="SaveRestartButton" Content="Save &amp; Restart"
+                                  IconData="F1 M 23.7501,33.25L 34.8334,44.3333L 52.2499,22.1668L 56.9999,26.9168L 34.8334,53.8333L 19.0001,38L 23.7501,33.25 Z"
+                                  HorizontalAlignment="Right" Margin="0,18,18,0" Click="SaveRestartButton_Click" />
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</UserControl>

@@ -1,0 +1,41 @@
+﻿<UserControl x:Class="LiskMasterWallet.Pages.Accounts.Overview"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d"
+             d:DesignHeight="300" d:DesignWidth="300" Loaded="UserControl_Loaded">
+    <Grid Style="{StaticResource ContentRoot}">
+        <ScrollViewer>
+            <StackPanel MinWidth="200">
+                <TextBlock Text="Account Overview" Style="{StaticResource Heading2}" />
+                <Grid HorizontalAlignment="Center">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition MinWidth="220" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Column="0" Text="Address:" VerticalAlignment="Top" Margin="0,0,0,4" />
+                    <TextBox Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" Margin="0,0,0,4" IsReadOnly="True" Text="{Binding Address}" Foreground="{Binding Foreground, ElementName=textBlock}" FontFamily="{Binding FontFamily, ElementName=textBlock}" FontSize="{Binding FontSize, ElementName=textBlock}" />
+
+                    <TextBlock Grid.Row="1" Grid.Column="0" Text="Public Key:" VerticalAlignment="Top" Margin="0,0,0,4" />
+                    <TextBox Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" Margin="0,0,0,4" IsReadOnly="True" Text="{Binding PublicKey}" Foreground="{Binding Foreground, ElementName=textBlock}" FontFamily="{Binding FontFamily, ElementName=textBlock}" FontSize="{Binding FontSize, ElementName=textBlock}"/>
+
+                    <TextBlock Grid.Row="2" Grid.Column="0" Text="LSK Balance:" VerticalAlignment="Top" Margin="0,0,0,4" />
+                    <TextBox Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" Margin="0,0,0,4" IsReadOnly="True" Text="{Binding Balance}" Foreground="{Binding Foreground, ElementName=textBlock}" FontFamily="{Binding FontFamily, ElementName=textBlock}" FontSize="{Binding FontSize, ElementName=textBlock}"/>
+
+
+                </Grid>
+            </StackPanel>
+        </ScrollViewer>
+        <!-- This element is not shown but we pull the style from it and apply it to the textboxes since textbox style is not what we want and I did not want to build a custom style for it just to implement mui styling -->
+        <TextBlock x:Name="textBlock" Visibility="Collapsed" />
+    </Grid>
+</UserControl>

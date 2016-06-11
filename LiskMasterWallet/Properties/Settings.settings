@@ -1,0 +1,63 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="LiskMasterWallet.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="ShowDebugConsole" Roaming="true" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="KeySize" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">256</Value>
+    </Setting>
+    <Setting Name="MWLocation" Roaming="true" Type="System.Windows.Point" Scope="User">
+      <Value Profile="(Default)">0,0</Value>
+    </Setting>
+    <Setting Name="MWSize" Roaming="true" Type="System.Windows.Size" Scope="User">
+      <Value Profile="(Default)">1100,670</Value>
+    </Setting>
+    <Setting Name="MWMaximized" Roaming="true" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="MWMinimized" Roaming="true" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="UpgradeRequired" Roaming="true" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="AutoFindServer" Roaming="true" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="Theme" Roaming="true" Type="System.Uri" Scope="User">
+      <Value Profile="(Default)">/FirstFloor.ModernUI;component/Assets/ModernUI.Dark.xaml</Value>
+    </Setting>
+    <Setting Name="AccentColor" Roaming="true" Type="System.Windows.Media.Color" Scope="User">
+      <Value Profile="(Default)">#FF1BA1E2</Value>
+    </Setting>
+    <Setting Name="FontSize" Roaming="true" Type="System.String" Scope="User">
+      <Value Profile="(Default)">large</Value>
+    </Setting>
+    <Setting Name="SendFee" Type="System.Decimal" Scope="Application">
+      <Value Profile="(Default)">0.1</Value>
+    </Setting>
+    <Setting Name="masterwalletConnectionString" Type="(Connection string)" Scope="Application">
+      <DesignTimeValue Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;SerializableConnectionString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
+  &lt;ConnectionString&gt;page size=1024;data source=|DataDirectory|\LiskMasterWallet\wallet.dat;datetime kind=Utc;to full path=True&lt;/ConnectionString&gt;
+  &lt;ProviderName&gt;System.Data.SQLite.EF6&lt;/ProviderName&gt;
+&lt;/SerializableConnectionString&gt;</DesignTimeValue>
+      <Value Profile="(Default)">page size=1024;data source=|DataDirectory|\LiskMasterWallet\wallet.dat;datetime kind=Utc;to full path=True</Value>
+    </Setting>
+    <Setting Name="Servers" Roaming="true" Type="System.Collections.Specialized.StringCollection" Scope="User">
+      <Value Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;ArrayOfString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
+  &lt;string&gt;https://www.liskwallet.info&lt;/string&gt;
+  &lt;string&gt;https://login.lisk.io&lt;/string&gt;
+&lt;/ArrayOfString&gt;</Value>
+    </Setting>
+    <Setting Name="AddressBookEntries" Roaming="true" Type="System.Collections.Specialized.StringCollection" Scope="User">
+      <Value Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;ArrayOfString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
+  &lt;string&gt;ByronP|5566846547481905162L&lt;/string&gt;
+&lt;/ArrayOfString&gt;</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>
