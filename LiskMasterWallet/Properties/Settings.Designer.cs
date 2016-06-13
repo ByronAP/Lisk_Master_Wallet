@@ -188,6 +188,7 @@ namespace LiskMasterWallet.Properties {
 <ArrayOfString xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"">
   <string>https://www.liskwallet.info</string>
   <string>https://login.lisk.io</string>
+  <string>https://login.lisk.guru</string>
 </ArrayOfString>")]
         [global::System.Configuration.SettingsManageabilityAttribute(global::System.Configuration.SettingsManageability.Roaming)]
         public global::System.Collections.Specialized.StringCollection Servers {
@@ -211,6 +212,63 @@ namespace LiskMasterWallet.Properties {
             }
             set {
                 this["AddressBookEntries"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute(@"<?xml version=""1.0"" encoding=""utf-16""?>
+<ArrayOfString xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"">
+  <string>https://testnet.liskwallet.info</string>
+  <string>https://testnet.lisk.io</string>
+  <string>https://testnet.lisk.guru</string>
+</ArrayOfString>")]
+        [global::System.Configuration.SettingsManageabilityAttribute(global::System.Configuration.SettingsManageability.Roaming)]
+        public global::System.Collections.Specialized.StringCollection TestnetServers {
+            get {
+                return ((global::System.Collections.Specialized.StringCollection)(this["TestnetServers"]));
+            }
+            set {
+                this["TestnetServers"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        [global::System.Configuration.SettingsManageabilityAttribute(global::System.Configuration.SettingsManageability.Roaming)]
+        public bool Testnet {
+            get {
+                return ((bool)(this["Testnet"]));
+            }
+            set {
+                this["Testnet"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1.0")]
+        [global::System.Configuration.SettingsManageabilityAttribute(global::System.Configuration.SettingsManageability.Roaming)]
+        public decimal VoteFee {
+            get {
+                return ((decimal)(this["VoteFee"]));
+            }
+            set {
+                this["VoteFee"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("25")]
+        [global::System.Configuration.SettingsManageabilityAttribute(global::System.Configuration.SettingsManageability.Roaming)]
+        public decimal DelegateRegFee {
+            get {
+                return ((decimal)(this["DelegateRegFee"]));
+            }
+            set {
+                this["DelegateRegFee"] = value;
             }
         }
     }
