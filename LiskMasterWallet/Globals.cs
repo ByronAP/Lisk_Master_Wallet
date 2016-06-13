@@ -1,4 +1,5 @@
-﻿using System.Security;
+﻿using System;
+using System.Security;
 using System.Threading;
 using Lisk.API;
 using LiskMasterWallet.ViewModels;
@@ -41,6 +42,7 @@ namespace LiskMasterWallet
 
         public static void StartTimers()
         {
+            Console.WriteLine("Starting timers");
             Timer10Seconds = new Timer(Timer10Seconds_Tick, new AutoResetEvent(false), 0, 10000);
             Timer30Seconds = new Timer(Timer30Seconds_Tick, new AutoResetEvent(false), 0, 30000);
             Timer60Seconds = new Timer(Timer60Seconds_Tick, new AutoResetEvent(false), 0, 60000);

@@ -8,6 +8,8 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+using System.Collections.Specialized;
+
 namespace LiskMasterWallet.Properties {
     
     
@@ -191,7 +193,7 @@ namespace LiskMasterWallet.Properties {
   <string>https://login.lisk.guru</string>
 </ArrayOfString>")]
         [global::System.Configuration.SettingsManageabilityAttribute(global::System.Configuration.SettingsManageability.Roaming)]
-        public global::System.Collections.Specialized.StringCollection Servers {
+        public StringCollection Servers {
             get {
                 return ((global::System.Collections.Specialized.StringCollection)(this["Servers"]));
             }

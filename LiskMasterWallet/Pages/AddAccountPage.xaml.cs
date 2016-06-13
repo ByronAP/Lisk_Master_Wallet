@@ -71,7 +71,7 @@ namespace LiskMasterWallet.Pages
                     SecretHash = ssece,
                     Balance = Globals.API.LSKLongToDecimal(act.account.balance)
                 };
-                Globals.AppViewModel.AccountsViewModel.AddAccountAsync(ni);
+                await Globals.AppViewModel.AccountsViewModel.AddAccountAsync(ni);
                 NavigationCommands.BrowseBack.Execute(null, null);
             }
         }

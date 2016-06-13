@@ -110,7 +110,7 @@ namespace LiskMasterWallet.ViewModels
 
         private async void Globals_OnDelegate60SecondTimerTick()
         {
-            _accountsViewModel.UpdateAccounts();
+            await _accountsViewModel.UpdateAccounts();
             RaisePropertyChanged("AccountsViewModel");
 
             await _transactionsViewModel.UpdateTransactions();

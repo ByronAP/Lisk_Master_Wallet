@@ -21,6 +21,7 @@
                         <RowDefinition Height="Auto" MinHeight="32" />
                         <RowDefinition Height="Auto" MinHeight="36" />
                         <RowDefinition Height="Auto" MinHeight="70" />
+                        <RowDefinition Height="Auto" MinHeight="32" />
                     </Grid.RowDefinitions>
 
                     <TextBlock Text="Show Console:" VerticalAlignment="Center" Margin="0,0,16,4" />
@@ -41,6 +42,10 @@
 
                     <TextBlock Grid.Row="3" Text="Servers:" VerticalAlignment="Top" Margin="0,0,16,0" />
                     <ListView Name="ServersListView" Grid.Row="3" Grid.Column="1" />
+
+                    <TextBlock Grid.Row="4" Text="Testnet:" VerticalAlignment="Center" Margin="0,0,16,4" />
+                    <CheckBox Grid.Row="4" Grid.Column="1" VerticalAlignment="Center"
+                              IsChecked="{Binding Testnet, Mode=TwoWay}" />
                 </Grid>
                 <TextBlock xml:space="preserve"
                            Text="Disabling 'Auto Server' is not recomended, when disabled only the first server in the list will be used.&#10;Close and restart the application for these settings to take effect."

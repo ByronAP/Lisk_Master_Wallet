@@ -81,8 +81,8 @@ namespace LiskMasterWallet.Pages.Accounts
                 if (rmpw.DialogResult == null || rmpw.DialogResult == false || string.IsNullOrEmpty(avm.Password))
                     return;
                 var actsec = AppHelpers.DecryptString(act.SecretHash, avm.Password);
-                res = Globals.API.Transactions_Send(actsec, (long) Globals.API.LSKDecimalToLong(iamount),
-                    ToAddressTextBox.Text.Trim(), act.PublicKey, "").Result;
+                res = await Globals.API.Transactions_Send(actsec, (long) Globals.API.LSKDecimalToLong(iamount),
+                    ToAddressTextBox.Text.Trim(), act.PublicKey, "");
             }
             if (res == null || !res.success || string.IsNullOrEmpty(res.transactionId))
             {
@@ -96,6 +96,7 @@ namespace LiskMasterWallet.Pages.Accounts
                 Console.WriteLine("Send transaction id " + res.transactionId + " sent " + iamount + " LSK from " +
                                   act.FriendlyName + " to " + ToAddressTextBox.Text.Trim());
                 await Globals.AppViewModel.TransactionsViewModel.UpdateTransactions();
+                await Globals.AppViewModel.AccountsViewModel.UpdateAccounts();
                 MessageBox.Show("Sent " + iamount + " LSK from " + act.FriendlyName + " to " +
                                 ToAddressTextBox.Text.Trim());
                 try

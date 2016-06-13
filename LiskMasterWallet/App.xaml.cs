@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Specialized;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -30,10 +31,9 @@ namespace LiskMasterWallet
 
             await SetupAPI();
 
-            Console.WriteLine("Starting application windowing process run");
-
             Globals.StartTimers();
 
+            Console.WriteLine("Starting application MainWindow");
             var mainWindow = new MainWindow();
             mainWindow.Show();
         }
@@ -43,6 +43,12 @@ namespace LiskMasterWallet
             if (Settings.Default.ShowDebugConsole)
                 DebugConsole.ShowConsoleWindow();
             Console.WriteLine("************* Lisk Master Wallet *************");
+            Console.WriteLine("*************         by         *************");
+            Console.WriteLine("       ______  ______  ____  _   ______ ");
+            Console.WriteLine("      / __ ) \\/ / __ \\/ __ \\/ | / / __ \\");
+            Console.WriteLine("     / __  |\\  / /_/ / / / /  |/ / /_/ /");
+            Console.WriteLine("    / /_/ / / / _, _/ /_/ / /|  / ____/ ");
+            Console.WriteLine("   /_____/ /_/_/ |_|\\____/_/ |_/_/   ");
             Console.WriteLine(AppHelpers.GNUGPLNotice);
             Console.WriteLine(AppHelpers.CopyrightNotice);
             Console.WriteLine("Version: " + Assembly.GetExecutingAssembly().GetName().Version);
@@ -144,13 +150,16 @@ namespace LiskMasterWallet
         internal static async Task SetupAPI()
         {
             Console.WriteLine("Setting up API system");
+            if(Settings.Default.Testnet)
+                Console.WriteLine("USING TESTNET");
             // find the fastest server
             var fastserver = "";
             var fastservertime = 0L;
             if (Settings.Default.AutoFindServer)
             {
                 Console.WriteLine("Finding best node");
-                foreach (var s in Settings.Default.Servers)
+                var servers = Settings.Default.Testnet ? Settings.Default.TestnetServers : Settings.Default.Servers;
+                foreach (var s in servers)
                 {
                     var rt = AppHelpers.GetServerResponseTime(s);
                     Console.WriteLine("tested server " + s + " response time " + rt + " ms");
