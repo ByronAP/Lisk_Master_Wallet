@@ -25,23 +25,23 @@
                         <RowDefinition />
                         <RowDefinition />
                     </Grid.RowDefinitions>
-                    <TextBlock Grid.Column="0" Text="Address Book:" VerticalAlignment="Top" Margin="0,0,0,4" />
+                    <TextBlock Grid.Column="0" Text="Address Book:" VerticalAlignment="Top" Margin="0,0,16,4" />
                     <ComboBox Grid.Row="0" Grid.Column="1" x:Name="AddressBookComboBox" VerticalAlignment="Center" Margin="0,0,0,4" SelectionChanged="AddressBookComboBox_OnSelectionChanged" />
 
-                    <TextBlock Grid.Row="1" Grid.Column="0" Text="To Address:" VerticalAlignment="Top" Margin="0,0,0,4" />
+                    <TextBlock Grid.Row="1" Grid.Column="0" Text="To Address:" VerticalAlignment="Top" Margin="0,0,16,4" />
                     <TextBox Grid.Row="1" Grid.Column="1" x:Name="ToAddressTextBox" MaxLines="4" VerticalAlignment="Center" Margin="0,0,0,4" />
 
-                    <TextBlock Grid.Row="2" Text="Balance:" VerticalAlignment="Top" Margin="0,0,0,4" />
+                    <TextBlock Grid.Row="2" Text="Balance:" VerticalAlignment="Top" Margin="0,0,16,4" />
                     <TextBox Grid.Row="2" Grid.Column="1" x:Name="AvailableBalanceTextBox" MaxLines="1" VerticalAlignment="Center" Margin="0,0,0,4" IsReadOnly="True" MouseDoubleClick="AvailableBalanceTextBox_OnMouseDoubleClick" />
 
-                    <TextBlock Grid.Row="3" Grid.Column="0" Text="Amount:" VerticalAlignment="Center" Margin="0,0,0,4" />
+                    <TextBlock Grid.Row="3" Grid.Column="0" Text="Amount:" VerticalAlignment="Center" Margin="0,0,16,4" />
                     <TextBox Grid.Row="3" Grid.Column="1" x:Name="SendAmountTextBox" VerticalAlignment="Center" Text="0.0" Margin="0,0,0,4" PreviewTextInput="SendAmountTextBox_OnPreviewTextInput" DataObject.Pasting="SendAmountTextBox_OnPasting" TextInput="SendAmountTextBox_OnTextInput"
                              TextChanged="SendAmountTextBox_OnTextChanged" />
 
-                    <TextBlock Grid.Row="4" Grid.Column="0" Text="Network Fee:" VerticalAlignment="Center" Margin="0,0,0,4" />
+                    <TextBlock Grid.Row="4" Grid.Column="0" Text="Network Fee:" VerticalAlignment="Center" Margin="0,0,16,4" />
                     <TextBox Grid.Row="4" Grid.Column="1" x:Name="FeeAmountTextBox" VerticalAlignment="Center" Margin="0,0,0,4" IsReadOnly="True" />
 
-                    <TextBlock Grid.Row="5" Grid.Column="0" Text="Total Amount:" VerticalAlignment="Center" Margin="0,0,0,4" />
+                    <TextBlock Grid.Row="5" Grid.Column="0" Text="Total Amount:" VerticalAlignment="Center" Margin="0,0,16,4" />
                     <TextBox Grid.Row="5" Grid.Column="1" x:Name="TotalAmountTextBox" VerticalAlignment="Center" Margin="0,0,0,4" IsReadOnly="True" />
                 </Grid>
                 <mui:ModernButton x:Name="SendLSKButton" HorizontalAlignment="Center" Margin="0,4,0,0"

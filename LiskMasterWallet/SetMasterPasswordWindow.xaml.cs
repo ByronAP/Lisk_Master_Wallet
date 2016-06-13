@@ -11,14 +11,24 @@ namespace LiskMasterWallet
     public partial class SetMasterPasswordWindow : ModernWindow
     {
         internal string mpwdh = "";
+        internal Brush DefaultCtrlBkgBrush;
 
         public SetMasterPasswordWindow()
         {
             InitializeComponent();
+            DefaultCtrlBkgBrush = MasterPasswordTextBox.Background;
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            MasterPasswordTextBox.Background = DefaultCtrlBkgBrush;
+            MasterPasswordVerifyTextBox.Background = DefaultCtrlBkgBrush;
+
+            if (MasterPasswordTextBox.Password.Trim() != MasterPasswordVerifyTextBox.Password.Trim())
+            {
+                MasterPasswordVerifyTextBox.Background = new SolidColorBrush(Colors.DarkRed);
+                return;
+            }
             var tmp = MasterPasswordTextBox.Password;
             MasterPasswordTextBox.Password = "";
             if (string.IsNullOrEmpty(tmp) || tmp.Contains(" ") || tmp.Trim().Length < 6 || tmp.Trim().Length > 16)

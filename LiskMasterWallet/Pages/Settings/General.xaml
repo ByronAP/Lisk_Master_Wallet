@@ -40,7 +40,7 @@
                                           Content="Add" Click="AddServerButton_Click" />
                     </StackPanel>
 
-                    <TextBlock Grid.Row="3" Text="Servers:" VerticalAlignment="Top" Margin="0,0,16,0" />
+                    <TextBlock Grid.Row="3" Text="Servers:" VerticalAlignment="Top" Margin="0,0,16,4" />
                     <ListView Name="ServersListView" Grid.Row="3" Grid.Column="1" />
 
                     <TextBlock Grid.Row="4" Text="Testnet:" VerticalAlignment="Center" Margin="0,0,16,4" />
