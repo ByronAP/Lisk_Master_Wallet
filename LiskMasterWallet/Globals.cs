@@ -53,7 +53,8 @@ namespace LiskMasterWallet
         {
             Application.Current.Dispatcher.Invoke(() =>
             {
-                OnDelegate60SecondTimerTick?.Invoke();
+                if (OnDelegate60SecondTimerTick != null)
+                    OnDelegate60SecondTimerTick.Invoke();
             });
         }
 
@@ -61,7 +62,8 @@ namespace LiskMasterWallet
         {
             Application.Current.Dispatcher.Invoke(() =>
             {
-                OnDelegate30SecondTimerTick?.Invoke();
+                if (OnDelegate30SecondTimerTick != null)
+                    OnDelegate30SecondTimerTick.Invoke();
             });
         }
 
@@ -70,12 +72,15 @@ namespace LiskMasterWallet
             Application.Current.Dispatcher.Invoke(new Action(async () =>
             {
                 CurrentBlockHeight = (await API.Blocks_GetHeight()).height;
-                OnDelegate10SecondTimerTick?.Invoke();
+                if (OnDelegate10SecondTimerTick != null)
+                    OnDelegate10SecondTimerTick.Invoke();
                 if (Initializing)
                 {
                     Initializing = false;
-                    OnDelegate30SecondTimerTick?.Invoke();
-                    OnDelegate60SecondTimerTick?.Invoke();
+                    if (OnDelegate30SecondTimerTick != null)
+                        OnDelegate30SecondTimerTick.Invoke();
+                    if (OnDelegate60SecondTimerTick != null)
+                        OnDelegate60SecondTimerTick.Invoke();
                 }
             }));
         }

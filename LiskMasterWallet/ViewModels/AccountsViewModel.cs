@@ -29,7 +29,7 @@ namespace LiskMasterWallet.ViewModels
 
         public void RaisePropertyChanged(string prop)
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
+            if (PropertyChanged != null) PropertyChanged.Invoke(this, new PropertyChangedEventArgs(prop));
         }
 
         public static async Task UpdateAccounts()
@@ -42,7 +42,7 @@ namespace LiskMasterWallet.ViewModels
                 try
                 {
                     var actinf = await Globals.API.Accounts_GetAccount(a.Address);
-                    if (actinf?.account == null || !actinf.success)
+                    if (actinf == null || actinf.account == null || !actinf.success)
                         continue;
                     a.Balance = Lisk.API.LiskAPI.LSKLongToDecimal(actinf.account.balance);
                     a.LastUpdate = DateTime.UtcNow;
@@ -66,7 +66,7 @@ namespace LiskMasterWallet.ViewModels
             try
             {
                 var actinf = await Globals.API.Accounts_GetAccount(acttoupd.Address);
-                if (actinf?.account == null || !actinf.success)
+                if (actinf == null || actinf.account == null || !actinf.success)
                     return;
                 acttoupd.Balance = Lisk.API.LiskAPI.LSKLongToDecimal(actinf.account.balance);
                 acttoupd.LastUpdate = DateTime.UtcNow;

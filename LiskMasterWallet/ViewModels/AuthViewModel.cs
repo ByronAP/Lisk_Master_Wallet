@@ -51,7 +51,8 @@ namespace LiskMasterWallet.ViewModels
 
         public void RaisePropertyChanged(string prop)
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
+            if (PropertyChanged != null)
+                PropertyChanged.Invoke(this, new PropertyChangedEventArgs(prop));
         }
 
         protected virtual void Dispose(bool disposing)

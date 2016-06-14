@@ -32,27 +32,8 @@ namespace LiskMasterWallet.ViewModels
         private Color selectedAccentColor;
         private string selectedFontSize;
         private Link selectedTheme;
-
-        public AppearanceViewModel()
+        private readonly Color[] _accentColors =
         {
-            // add the default themes
-            Themes.Add(new Link {DisplayName = "dark", Source = AppearanceManager.DarkThemeSource});
-            Themes.Add(new Link {DisplayName = "light", Source = AppearanceManager.LightThemeSource});
-
-            SelectedFontSize = AppearanceManager.Current.FontSize == FontSize.Large ? FontLarge : FontSmall;
-            SyncThemeAndColor();
-
-            AppearanceManager.Current.PropertyChanged += OnAppearanceManagerPropertyChanged;
-        }
-
-        public LinkCollection Themes { get; } = new LinkCollection();
-
-        public string[] FontSizes
-        {
-            get { return new[] {FontSmall, FontLarge}; }
-        }
-
-        public Color[] AccentColors { get; } = {
             Color.FromRgb(0xa4, 0xc4, 0x00), // lime
             Color.FromRgb(0x60, 0xa9, 0x17), // green
             Color.FromRgb(0x00, 0x8a, 0x00), // emerald
@@ -74,6 +55,35 @@ namespace LiskMasterWallet.ViewModels
             Color.FromRgb(0x76, 0x60, 0x8a), // mauve
             Color.FromRgb(0x87, 0x79, 0x4e) // taupe
         };
+
+        private readonly LinkCollection _themes = new LinkCollection();
+
+        public AppearanceViewModel()
+        {
+            // add the default themes
+            Themes.Add(new Link {DisplayName = "dark", Source = AppearanceManager.DarkThemeSource});
+            Themes.Add(new Link {DisplayName = "light", Source = AppearanceManager.LightThemeSource});
+
+            SelectedFontSize = AppearanceManager.Current.FontSize == FontSize.Large ? FontLarge : FontSmall;
+            SyncThemeAndColor();
+
+            AppearanceManager.Current.PropertyChanged += OnAppearanceManagerPropertyChanged;
+        }
+
+        public LinkCollection Themes
+        {
+            get { return _themes; }
+        }
+
+        public string[] FontSizes
+        {
+            get { return new[] {FontSmall, FontLarge}; }
+        }
+
+        public Color[] AccentColors
+        {
+            get { return _accentColors; }
+        }
 
         public Link SelectedTheme
         {

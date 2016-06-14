@@ -85,8 +85,16 @@ namespace LiskMasterWallet.ViewModels
             }
         }
 
-        public long CurrentBlockHeight => Globals.CurrentBlockHeight;
-        public string CurrentServer => Globals.API.Server_Url;
+        public long CurrentBlockHeight
+        {
+            get { return Globals.CurrentBlockHeight; }
+        }
+
+        public string CurrentServer
+        {
+            get { return Globals.API.Server_Url; }
+        }
+
         public static string SelectedAccountFriendlyName { get; set; }
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -97,7 +105,8 @@ namespace LiskMasterWallet.ViewModels
 
         public void RaisePropertyChanged(string prop)
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
+            if (PropertyChanged != null)
+                PropertyChanged.Invoke(this, new PropertyChangedEventArgs(prop));
         }
 
         private void Globals_OnDelegate10SecondTimerTick()

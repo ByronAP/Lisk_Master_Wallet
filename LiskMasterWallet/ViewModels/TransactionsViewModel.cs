@@ -29,7 +29,8 @@ namespace LiskMasterWallet.ViewModels
 
         public void RaisePropertyChanged(string prop)
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
+            if (PropertyChanged != null)
+                PropertyChanged.Invoke(this, new PropertyChangedEventArgs(prop));
         }
 
         private void CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
