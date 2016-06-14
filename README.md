@@ -4,5 +4,5 @@ A Windows desktop client for Lisk. Lisk Master Wallet allows you to store and ac
 TODO</br>
 *switch servers if an inturuption is detected</br>
 *voting</br>
-*cleanup magic strings and localazation</br>
+*cleanup magic strings and localization</br>
 *multisig
