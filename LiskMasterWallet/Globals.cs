@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Security;
 using System.Threading;
+using System.Windows;
 using Lisk.API;
 using LiskMasterWallet.ViewModels;
 
@@ -16,7 +17,7 @@ namespace LiskMasterWallet
             "CREATE TABLE [Transactions] ([Id] nvarchar(256) PRIMARY KEY NOT NULL,[Block] bigint NOT NULL,[Sender] nvarchar(256) NOT NULL,[Receiver] nvarchar(256) NOT NULL,[Amount] decimal NOT NULL,[TType] int NOT NULL,[Created] datetime NOT NULL,[Fee] decimal NOT NULL);";
 
         internal const string CreateAccountsTableSQL =
-            "CREATE TABLE [Accounts] ([Address] nvarchar(256) PRIMARY KEY NOT NULL,[Balance] decimal NOT NULL,[Block] bigint NOT NULL,[FriendlyName] nvarchar(64) NOT NULL,[LastUpdate] datetime NOT NULL,[PublicKey] nvarchar(256) NOT NULL,[SecretHash] nvarchar(256) NOT NULL);";
+            "CREATE TABLE [Accounts] ([Address] nvarchar(256) PRIMARY KEY NOT NULL,[Balance] decimal NOT NULL,[Block] bigint NOT NULL,[FriendlyName] nvarchar(64) NOT NULL,[LastUpdate] datetime NOT NULL,[PublicKey] nvarchar(256) NOT NULL,[SecretHash] nvarchar(256) NOT NULL,[LastTransactionsUpdate] datetime NOT NULL);";
 
         internal const string CreateUserSettingsTableSQL =
             "CREATE TABLE [UserSettings] ([MasterPasswordHash] nvarchar(256) PRIMARY KEY NOT NULL,[CBCVector] nvarchar(256) NOT NULL);";
@@ -50,24 +51,33 @@ namespace LiskMasterWallet
 
         private static void Timer60Seconds_Tick(object stateInfo)
         {
-            OnDelegate60SecondTimerTick?.Invoke();
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                OnDelegate60SecondTimerTick?.Invoke();
+            });
         }
 
         private static void Timer30Seconds_Tick(object stateInfo)
         {
-            OnDelegate30SecondTimerTick?.Invoke();
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                OnDelegate30SecondTimerTick?.Invoke();
+            });
         }
 
-        private static async void Timer10Seconds_Tick(object stateInfo)
+        private static void Timer10Seconds_Tick(object stateInfo)
         {
-            CurrentBlockHeight = (await API.Blocks_GetHeight()).height;
-            OnDelegate10SecondTimerTick?.Invoke();
-            if (Initializing)
+            Application.Current.Dispatcher.Invoke(new Action(async () =>
             {
-                Initializing = false;
-                OnDelegate30SecondTimerTick?.Invoke();
-                OnDelegate60SecondTimerTick?.Invoke();
-            }
+                CurrentBlockHeight = (await API.Blocks_GetHeight()).height;
+                OnDelegate10SecondTimerTick?.Invoke();
+                if (Initializing)
+                {
+                    Initializing = false;
+                    OnDelegate30SecondTimerTick?.Invoke();
+                    OnDelegate60SecondTimerTick?.Invoke();
+                }
+            }));
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿// T4 code generation is enabled for model 'C:\Users\info\Desktop\LiskMasterWallet\LiskMasterWallet\LiskMasterWallet\AccountsModel.edmx'. 
+﻿// T4 code generation is enabled for model 'C:\Users\info\Source\Repos\Lisk_Master_Wallet\LiskMasterWallet\AccountsModel.edmx'. 
 // To enable legacy code generation, change the value of the 'Code Generation Strategy' designer
 // property to 'Legacy ObjectContext'. This property is available in the Properties Window when the model
 // is open in the designer.

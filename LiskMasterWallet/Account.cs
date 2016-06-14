@@ -21,5 +21,6 @@ namespace LiskMasterWallet
         public System.DateTime LastUpdate { get; set; }
         public string PublicKey { get; set; }
         public string SecretHash { get; set; }
+        public System.DateTime LastTransactionsUpdate { get; set; }
     }
 }

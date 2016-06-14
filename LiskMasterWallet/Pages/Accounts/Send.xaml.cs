@@ -56,7 +56,7 @@ namespace LiskMasterWallet.Pages.Accounts
             var act = (from a in Globals.AppViewModel.AccountsViewModel.Accounts
                 where a.FriendlyName == AppViewModel.SelectedAccountFriendlyName
                 select a).First();
-            var avail = act.Balance - 0.000000005m;
+            var avail = act.Balance;
             decimal iamount;
             if (!decimal.TryParse(SendAmountTextBox.Text.Trim(), out iamount))
                 return;
@@ -94,8 +94,8 @@ namespace LiskMasterWallet.Pages.Accounts
             else
             {
                 Console.WriteLine("Send transaction id " + res.transactionId + " sent " + iamount + " LSK from " + act.FriendlyName + " to " + ToAddressTextBox.Text.Trim());
-                await Globals.AppViewModel.TransactionsViewModel.UpdateTransactions();
-                await Globals.AppViewModel.AccountsViewModel.UpdateAccounts();
+                await TransactionsViewModel.UpdateTransactions();
+                await AccountsViewModel.UpdateAccount(act.Address);
                 var nd = new NoticeDialog("Send LSK", "Sent " + iamount + " LSK from " + act.FriendlyName + " to " + ToAddressTextBox.Text.Trim());
                 nd.ShowDialog();
                 try

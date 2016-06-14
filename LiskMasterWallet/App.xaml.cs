@@ -72,20 +72,22 @@ namespace LiskMasterWallet
         {
             var wfilloc = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) +
                           "\\LiskMasterWallet\\wallet.dat";
+            var _dbcontext = new masterwalletEntities();
             if (!File.Exists(wfilloc))
             {
                 if (!File.Exists(wfilloc))
                 {
+                    
                     Console.WriteLine("Creating new wallet");
-                    Globals.DbContext.Database.ExecuteSqlCommand(Globals.CreateAccountsTableSQL);
-                    Globals.DbContext.Database.ExecuteSqlCommand(Globals.CreateTransactionsTableSQL);
-                    Globals.DbContext.Database.ExecuteSqlCommand(Globals.CreateUserSettingsTableSQL);
+                    _dbcontext.Database.ExecuteSqlCommand(Globals.CreateAccountsTableSQL);
+                    _dbcontext.Database.ExecuteSqlCommand(Globals.CreateTransactionsTableSQL);
+                    _dbcontext.Database.ExecuteSqlCommand(Globals.CreateUserSettingsTableSQL);
                     Console.WriteLine("New wallet created");
                 }
             }
             RETRY:
             var nv = AppHelpers.GetNewCBCVector();
-            if (!(from s in Globals.DbContext.UserSettings select s).Any())
+            if (!(from s in _dbcontext.UserSettings select s).Any())
             {
                 Console.WriteLine("Initializing user settings");
                 Console.WriteLine("Creating new CBCVector");
@@ -94,19 +96,20 @@ namespace LiskMasterWallet
                     CBCVector = nv,
                     MasterPasswordHash = RequestCreatMasterPassword()
                 };
-                Globals.DbContext.UserSettings.Add(ni);
-                Globals.DbContext.SaveChanges();
+                _dbcontext.UserSettings.Add(ni);
+                _dbcontext.SaveChanges();
                 Console.WriteLine("CBCVector creation success");
                 Console.WriteLine("User settings update success");
                 Console.WriteLine("Restarting Lisk Master Wallet");
                 ForceRestart();
             }
-            if (!(from s in Globals.DbContext.UserSettings select s).Any())
+            if (!(from s in _dbcontext.UserSettings select s).Any())
             {
                 Console.WriteLine("User settings initialization failed");
                 Console.WriteLine("Retrying user settings initialization");
                 goto RETRY;
             }
+            _dbcontext.Dispose();
         }
 
         private static string RequestCreatMasterPassword()

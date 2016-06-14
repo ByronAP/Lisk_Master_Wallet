@@ -5,11 +5,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="masterwalletModel.Store" Provider="System.Data.SQLite.EF6"
-              ProviderManifestToken="page size=1024;data source=C:\Users\info\Desktop\LiskMasterWallet\LiskMasterWallet\LiskMasterWallet\masterwallet.dat;DateTime Kind=Utc;To Full Path=True"
-              Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator"
-              xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation"
-              xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="masterwalletModel.Store" Provider="System.Data.SQLite.EF6" ProviderManifestToken="data source=C:\Users\info\AppData\Roaming\LiskMasterWallet\wallet.dat" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Accounts">
           <Key>
             <PropertyRef Name="Address" />
@@ -21,6 +17,7 @@
           <Property Name="LastUpdate" Type="datetime" Nullable="false" />
           <Property Name="PublicKey" Type="nvarchar" MaxLength="256" Nullable="false" />
           <Property Name="SecretHash" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="LastTransactionsUpdate" Type="datetime" Nullable="false" />
         </EntityType>
         <EntityType Name="Transactions">
           <Key>
@@ -47,31 +44,17 @@
           <EntitySet Name="Transactions" EntityType="Self.Transactions" store:Type="Tables" />
           <EntitySet Name="UserSettings" EntityType="Self.UserSettings" store:Type="Tables" />
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="masterwalletModel" Alias="Self" annotation:UseStrongSpatialTypes="false"
               xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation"
               xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation"
               xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityType Name="Account">
-          <Key>
-            <PropertyRef Name="Address" />
-          </Key>
-          <Property Name="Address" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Balance" Type="Decimal" Nullable="false" />
-          <Property Name="Block" Type="Int64" Nullable="false" />
-          <Property Name="FriendlyName" Type="String" MaxLength="64" FixedLength="false" Unicode="true"
-                    Nullable="false" />
-          <Property Name="LastUpdate" Type="DateTime" Nullable="false" />
-          <Property Name="PublicKey" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="SecretHash" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
-        </EntityType>
         <EntityContainer Name="masterwalletEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="Accounts" EntityType="Self.Account" />
           <EntitySet Name="Transactions" EntityType="masterwalletModel.Transaction" />
           <EntitySet Name="UserSettings" EntityType="masterwalletModel.UserSetting" />
+          <EntitySet Name="Accounts" EntityType="masterwalletModel.Account" />
         </EntityContainer>
         <EntityType Name="Transaction">
           <Key>
@@ -94,6 +77,19 @@
                     Unicode="true" />
           <Property Name="CBCVector" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
         </EntityType>
+        <EntityType Name="Account">
+          <Key>
+            <PropertyRef Name="Address" />
+          </Key>
+          <Property Name="Address" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="Balance" Type="Decimal" Nullable="false" Precision="53" Scale="0" />
+          <Property Name="Block" Type="Int64" Nullable="false" />
+          <Property Name="FriendlyName" Type="String" Nullable="false" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="LastUpdate" Type="DateTime" Nullable="false" />
+          <Property Name="PublicKey" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="SecretHash" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="LastTransactionsUpdate" Type="DateTime" Nullable="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -101,19 +97,6 @@
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="masterwalletModelStoreContainer"
                                 CdmEntityContainer="masterwalletEntities">
-          <EntitySetMapping Name="Accounts">
-            <EntityTypeMapping TypeName="masterwalletModel.Account">
-              <MappingFragment StoreEntitySet="Accounts">
-                <ScalarProperty Name="Address" ColumnName="Address" />
-                <ScalarProperty Name="Balance" ColumnName="Balance" />
-                <ScalarProperty Name="Block" ColumnName="Block" />
-                <ScalarProperty Name="FriendlyName" ColumnName="FriendlyName" />
-                <ScalarProperty Name="LastUpdate" ColumnName="LastUpdate" />
-                <ScalarProperty Name="PublicKey" ColumnName="PublicKey" />
-                <ScalarProperty Name="SecretHash" ColumnName="SecretHash" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Transactions">
             <EntityTypeMapping TypeName="masterwalletModel.Transaction">
               <MappingFragment StoreEntitySet="Transactions">
@@ -133,6 +116,20 @@
               <MappingFragment StoreEntitySet="UserSettings">
                 <ScalarProperty Name="CBCVector" ColumnName="CBCVector" />
                 <ScalarProperty Name="MasterPasswordHash" ColumnName="MasterPasswordHash" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Accounts">
+            <EntityTypeMapping TypeName="masterwalletModel.Account">
+              <MappingFragment StoreEntitySet="Accounts">
+                <ScalarProperty Name="LastTransactionsUpdate" ColumnName="LastTransactionsUpdate" />
+                <ScalarProperty Name="SecretHash" ColumnName="SecretHash" />
+                <ScalarProperty Name="PublicKey" ColumnName="PublicKey" />
+                <ScalarProperty Name="LastUpdate" ColumnName="LastUpdate" />
+                <ScalarProperty Name="FriendlyName" ColumnName="FriendlyName" />
+                <ScalarProperty Name="Block" ColumnName="Block" />
+                <ScalarProperty Name="Balance" ColumnName="Balance" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

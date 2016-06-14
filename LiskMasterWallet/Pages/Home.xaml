@@ -43,9 +43,6 @@
         </mui:ModernButton>
         <ScrollViewer Grid.Row="1" Grid.Column="1" Grid.RowSpan="2" Margin="{StaticResource SplitRight}">
             <ItemsControl ItemsSource="{Binding TransactionsViewModel.RecentTransactions, Delay=4000}">
-                <ItemsControl.DataContext>
-                    <vmodels:AppViewModel />
-                </ItemsControl.DataContext>
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <StackPanel Orientation="Vertical" />

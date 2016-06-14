@@ -39,40 +39,41 @@ namespace LiskMasterWallet.ViewModels
             RaisePropertyChanged("RecentTransactions");
         }
 
-        public async Task AddTransactionAsync(Transaction transaction)
+        public static async Task AddTransactionAsync(Transaction transaction)
         {
             Globals.DbContext.Transactions.Add(transaction);
             await Globals.DbContext.SaveChangesAsync();
-            Transactions = new ObservableCollection<Transaction>(Globals.DbContext.Transactions);
-            RecentTransactions = new ObservableCollection<Transaction>((from t in Transactions
+            Globals.AppViewModel.TransactionsViewModel.Transactions = new ObservableCollection<Transaction>(Globals.DbContext.Transactions);
+            Globals.AppViewModel.TransactionsViewModel.RecentTransactions = new ObservableCollection<Transaction>((from t in Globals.DbContext.Transactions
                 orderby t.Created descending
                 select t).Take(20));
-            RaisePropertyChanged("Transactions");
-            RaisePropertyChanged("RecentTransactions");
+            Globals.AppViewModel.TransactionsViewModel.RaisePropertyChanged("Transactions");
+            Globals.AppViewModel.TransactionsViewModel.RaisePropertyChanged("RecentTransactions");
         }
 
-        public async Task RemoveTransactionAsync(string id)
+        public static async Task RemoveTransactionAsync(string id)
         {
-            var transaction = (from a in Transactions
+            var transaction = (from a in Globals.DbContext.Transactions
                 where a.Id == id
                 select a).FirstOrDefault();
             if (transaction == null)
                 return;
             Globals.DbContext.Transactions.Remove(transaction);
             await Globals.DbContext.SaveChangesAsync();
-            Transactions = new ObservableCollection<Transaction>(Globals.DbContext.Transactions);
-            RecentTransactions = new ObservableCollection<Transaction>((from t in Transactions
+            Globals.AppViewModel.TransactionsViewModel.Transactions = new ObservableCollection<Transaction>(Globals.DbContext.Transactions);
+            Globals.AppViewModel.TransactionsViewModel.RecentTransactions = new ObservableCollection<Transaction>((from t in Globals.DbContext.Transactions
                 orderby t.Created descending
                 select t).Take(20));
-            RaisePropertyChanged("Transactions");
-            RaisePropertyChanged("RecentTransactions");
+            Globals.AppViewModel.TransactionsViewModel.RaisePropertyChanged("Transactions");
+            Globals.AppViewModel.TransactionsViewModel.RaisePropertyChanged("RecentTransactions");
         }
 
-        public async Task UpdateTransactions()
+        public static async Task UpdateTransactions()
         {
             try
             {
-                var accounts = from a in Globals.DbContext.Accounts select a.Address;
+                var cdt = DateTime.UtcNow.AddMinutes(-2);
+                var accounts = (from a in Globals.DbContext.Accounts where a.LastTransactionsUpdate < cdt select a.Address).Take(20);
                 if (!accounts.Any())
                     return;
                 foreach (var a in accounts)
@@ -89,8 +90,8 @@ namespace LiskMasterWallet.ViewModels
                     var newtrans = from t in trans select t;
                     foreach (var t in newtrans)
                     {
-                        Transactions = new ObservableCollection<Transaction>(Globals.DbContext.Transactions);
-                        if ((from c in Transactions where c.Id == t.id select c).Any())
+                        Globals.AppViewModel.TransactionsViewModel.Transactions = new ObservableCollection<Transaction>(Globals.DbContext.Transactions);
+                        if ((from c in Globals.DbContext.Transactions where c.Id == t.id select c).Any())
                             continue;
                         var ni = new Transaction
                         {
@@ -107,8 +108,8 @@ namespace LiskMasterWallet.ViewModels
                             ni.Receiver = "";
                         try
                         {
-                            Transactions = new ObservableCollection<Transaction>(Globals.DbContext.Transactions);
-                            if ((from r in Transactions where r.Id == ni.Id select r).Any())
+                            Globals.AppViewModel.TransactionsViewModel.Transactions = new ObservableCollection<Transaction>(Globals.DbContext.Transactions);
+                            if ((from r in Globals.DbContext.Transactions where r.Id == ni.Id select r).Any())
                                 continue;
                             await AddTransactionAsync(ni);
                         }
@@ -118,6 +119,10 @@ namespace LiskMasterWallet.ViewModels
                                               crap.Message);
                         }
                     }
+                    var act =
+                        (from c in Globals.DbContext.Accounts where c.Address == a select c).First();
+                    act.LastTransactionsUpdate = DateTime.UtcNow;
+                    await Globals.DbContext.SaveChangesAsync();
                 }
             }
             catch (Exception crap)
@@ -128,12 +133,12 @@ namespace LiskMasterWallet.ViewModels
 
             try
             {
-                Transactions = new ObservableCollection<Transaction>(Globals.DbContext.Transactions);
-                RecentTransactions = new ObservableCollection<Transaction>((from t in Transactions
+                Globals.AppViewModel.TransactionsViewModel.Transactions = new ObservableCollection<Transaction>(Globals.DbContext.Transactions);
+                Globals.AppViewModel.TransactionsViewModel.RecentTransactions = new ObservableCollection<Transaction>((from t in Globals.DbContext.Transactions
                     orderby t.Created descending
                     select t).Take(20));
-                RaisePropertyChanged("Transactions");
-                RaisePropertyChanged("RecentTransactions");
+                Globals.AppViewModel.TransactionsViewModel.RaisePropertyChanged("Transactions");
+                Globals.AppViewModel.TransactionsViewModel.RaisePropertyChanged("RecentTransactions");
             }
             catch (Exception crap)
             {
