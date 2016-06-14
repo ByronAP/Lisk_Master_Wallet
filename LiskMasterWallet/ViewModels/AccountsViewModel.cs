@@ -41,7 +41,7 @@ namespace LiskMasterWallet.ViewModels
                     var actinf = await Globals.API.Accounts_GetAccount(a.Address);
                     if (actinf?.account == null || !actinf.success)
                         continue;
-                    a.Balance = Globals.API.LSKLongToDecimal(actinf.account.balance);
+                    a.Balance = Lisk.API.LiskAPI.LSKLongToDecimal(actinf.account.balance);
                     if (!string.IsNullOrEmpty(actinf.account.username))
                         a.FriendlyName = actinf.account.username;
                     //a.FriendlyName = DateTime.Now.ToString();

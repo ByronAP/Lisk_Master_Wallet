@@ -81,7 +81,7 @@ namespace LiskMasterWallet.Pages.Accounts
                 if (rmpw.DialogResult == null || rmpw.DialogResult == false || string.IsNullOrEmpty(avm.Password))
                     return;
                 var actsec = AppHelpers.DecryptString(act.SecretHash, avm.Password);
-                res = await Globals.API.Transactions_Send(actsec, (long) Globals.API.LSKDecimalToLong(iamount),
+                res = await Globals.API.Transactions_Send(actsec, (long) Lisk.API.LiskAPI.LSKDecimalToLong(iamount),
                     ToAddressTextBox.Text.Trim(), act.PublicKey, "");
             }
             if (res == null || !res.success || string.IsNullOrEmpty(res.transactionId))
@@ -93,12 +93,11 @@ namespace LiskMasterWallet.Pages.Accounts
             }
             else
             {
-                Console.WriteLine("Send transaction id " + res.transactionId + " sent " + iamount + " LSK from " +
-                                  act.FriendlyName + " to " + ToAddressTextBox.Text.Trim());
+                Console.WriteLine("Send transaction id " + res.transactionId + " sent " + iamount + " LSK from " + act.FriendlyName + " to " + ToAddressTextBox.Text.Trim());
                 await Globals.AppViewModel.TransactionsViewModel.UpdateTransactions();
                 await Globals.AppViewModel.AccountsViewModel.UpdateAccounts();
-                MessageBox.Show("Sent " + iamount + " LSK from " + act.FriendlyName + " to " +
-                                ToAddressTextBox.Text.Trim());
+                var nd = new NoticeDialog("Send LSK", "Sent " + iamount + " LSK from " + act.FriendlyName + " to " + ToAddressTextBox.Text.Trim());
+                nd.ShowDialog();
                 try
                 {
                     Send_OnLoaded(null, null);
@@ -165,8 +164,10 @@ namespace LiskMasterWallet.Pages.Accounts
                 var ttl = iamount + Properties.Settings.Default.SendFee;
                 TotalAmountTextBox.Text = ttl.ToString("F8");
                 if (ttl > act.Balance)
-                    MessageBox.Show("Total amount exceeds available balance.", "Invalid Amount", MessageBoxButton.OK,
-                        MessageBoxImage.Warning);
+                {
+                    var nd = new NoticeDialog("Invalid Amount", "Total amount exceeds available balance.");
+                    nd.ShowDialog();
+                }
             }
             catch
             {

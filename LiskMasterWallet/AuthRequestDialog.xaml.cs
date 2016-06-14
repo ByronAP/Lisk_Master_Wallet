@@ -27,8 +27,8 @@ namespace LiskMasterWallet
             var vpr = AppHelpers.ValidateHash(MasterPasswordTextBox.Password.Trim(), pwh);
             if (!vpr)
             {
-                MessageBox.Show("Incorrect master password.\r\nPlease try again.", "Master Password",
-                    MessageBoxButton.OK, MessageBoxImage.Warning);
+                var nd = new NoticeDialog("Master Password", "Incorrect master password.\r\nPlease try again.");
+                nd.ShowDialog();
                 return;
             }
 

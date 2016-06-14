@@ -135,6 +135,9 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Compile Include="NoticeDialog.xaml.cs">
+      <DependentUpon>NoticeDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\AccountPage.xaml.cs">
       <DependentUpon>AccountPage.xaml</DependentUpon>
     </Compile>
@@ -197,6 +200,10 @@
     <Compile Include="Extensions.cs" />
     <Compile Include="Helpers\AppHelpers.cs" />
     <Compile Include="Helpers\DebugConsole.cs" />
+    <Page Include="NoticeDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Pages\AccountPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Specialized;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -11,7 +10,6 @@ using Lisk.API;
 using LiskMasterWallet.Helpers;
 using LiskMasterWallet.Properties;
 using Application = System.Windows.Application;
-using MessageBox = System.Windows.Forms.MessageBox;
 
 namespace LiskMasterWallet
 {
@@ -204,7 +202,7 @@ namespace LiskMasterWallet
                 {
                     Console.WriteLine("API system setup failed, could not find a valid server.");
                     if (
-                        MessageBox.Show("Error: Could not find a valid server node.", "Error",
+                        System.Windows.Forms.MessageBox.Show("Error: Could not find a valid server node.", "Error",
                             MessageBoxButtons.RetryCancel, MessageBoxIcon.Error) == DialogResult.Retry)
                         await SetupAPI();
                     else

@@ -96,12 +96,12 @@ namespace LiskMasterWallet.ViewModels
                         {
                             Id = t.id,
                             Created = AppHelpers.TimestampToDateTime(t.timestamp),
-                            Amount = Globals.API.LSKLongToDecimal(t.amount),
+                            Amount = Lisk.API.LiskAPI.LSKLongToDecimal(t.amount),
                             Block = (await Globals.API.Blocks_GetHeight()).height - long.Parse(t.confirmations),
                             Receiver = t.recipientId,
                             Sender = t.senderId,
                             TType = int.Parse(t.type),
-                            Fee = Globals.API.LSKLongToDecimal(t.fee)
+                            Fee = Lisk.API.LiskAPI.LSKLongToDecimal(t.fee)
                         };
                         if (string.IsNullOrEmpty(ni.Receiver))
                             ni.Receiver = "";
