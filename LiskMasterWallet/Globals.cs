@@ -44,9 +44,9 @@ namespace LiskMasterWallet
         public static void StartTimers()
         {
             Console.WriteLine("Starting timers");
-            Timer10Seconds = new Timer(Timer10Seconds_Tick, new AutoResetEvent(false), 0, 10000);
-            Timer30Seconds = new Timer(Timer30Seconds_Tick, new AutoResetEvent(false), 0, 30000);
-            Timer60Seconds = new Timer(Timer60Seconds_Tick, new AutoResetEvent(false), 0, 60000);
+            Timer10Seconds = new Timer(Timer10Seconds_Tick, new AutoResetEvent(false), 5, 10000);
+            Timer30Seconds = new Timer(Timer30Seconds_Tick, new AutoResetEvent(false), 10, 30000);
+            Timer60Seconds = new Timer(Timer60Seconds_Tick, new AutoResetEvent(false), 15, 60000);
         }
 
         private static void Timer60Seconds_Tick(object stateInfo)
