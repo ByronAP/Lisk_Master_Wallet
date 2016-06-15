@@ -121,13 +121,14 @@ namespace LiskMasterWallet.Pages
                         continue;
 
                     var ssece = AppHelpers.EncryptString(sec, avm.Password);
+                    var bal = Lisk.API.LiskAPI.LSKLongToDecimal(act.account.balance);
                     var ni = new Account
                     {
                         Address = act.account.address,
                         PublicKey = act.account.publicKey,
                         FriendlyName = act.account.address,
                         SecretHash = ssece,
-                        Balance = Lisk.API.LiskAPI.LSKLongToDecimal(act.account.balance),
+                        Balance = bal,
                         LastUpdate = DateTime.UtcNow
                     };
                     try
