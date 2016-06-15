@@ -5,7 +5,6 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Forms;
 using Lisk.API;
 using LiskMasterWallet.Helpers;
 using LiskMasterWallet.Properties;
@@ -40,13 +39,15 @@ namespace LiskMasterWallet
         {
             if (Settings.Default.ShowDebugConsole)
                 DebugConsole.ShowConsoleWindow();
-            Console.WriteLine("************* Lisk Master Wallet *************");
-            Console.WriteLine("*************         by         *************");
+            Console.WriteLine("************* Lisk Master Wallet ***************");
+            Console.WriteLine("*************         by         ***************");
             Console.WriteLine("       ______  ______  ____  _   ______ ");
             Console.WriteLine("      / __ ) \\/ / __ \\/ __ \\/ | / / __ \\");
             Console.WriteLine("     / __  |\\  / /_/ / / / /  |/ / /_/ /");
             Console.WriteLine("    / /_/ / / / _, _/ /_/ / /|  / ____/ ");
             Console.WriteLine("   /_____/ /_/_/ |_|\\____/_/ |_/_/   ");
+            Console.WriteLine("remember to vote byronp as a delegate, thank you");
+            Console.WriteLine("************************************************");
             Console.WriteLine(AppHelpers.GNUGPLNotice);
             Console.WriteLine(AppHelpers.CopyrightNotice);
             Console.WriteLine("Version: " + Assembly.GetExecutingAssembly().GetName().Version);
@@ -134,7 +135,6 @@ namespace LiskMasterWallet
             try
             {
                 Current.Shutdown();
-                System.Windows.Forms.Application.Exit();
                 Environment.Exit(0);
             }
             catch
@@ -204,9 +204,8 @@ namespace LiskMasterWallet
                 else
                 {
                     Console.WriteLine("API system setup failed, could not find a valid server.");
-                    if (
-                        System.Windows.Forms.MessageBox.Show("Error: Could not find a valid server node.", "Error",
-                            MessageBoxButtons.RetryCancel, MessageBoxIcon.Error) == DialogResult.Retry)
+                    var mbr = MessageBox.Show("Error: Could not find a valid server node.\r\nWould you like retry?", "Server Error", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                    if (mbr == MessageBoxResult.Yes)
                         await SetupAPI();
                     else
                         ForceExit();
