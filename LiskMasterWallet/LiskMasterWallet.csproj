@@ -100,8 +100,8 @@
       <HintPath>..\packages\ModernUI.WPF.1.0.9\lib\net45\FirstFloor.ModernUI.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Lisk.API, Version=0.4.6010.18004, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Lisk.API.0.4.6010.18004\lib\portable45-net45+win8\Lisk.API.dll</HintPath>
+    <Reference Include="Lisk.API, Version=0.4.6010.33123, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Lisk.API.0.4.6010.33123\lib\portable45-net45+win8\Lisk.API.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
