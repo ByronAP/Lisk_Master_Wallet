@@ -108,8 +108,14 @@ namespace LiskMasterWallet.Pages
                 if (rmpw.DialogResult == null || rmpw.DialogResult == false || string.IsNullOrEmpty(avm.Password))
                     return;
                 int i = 0;
+                int ii = 0;
+                var pd = new ProcessingDialog("Importing Accounts",
+                    "Please wait while your accounts are imported. This may take some time depending on the number of accounts.");
+                pd.Show();
                 foreach (var sec in secrets)
                 {
+                    ii++;
+                    pd.ProgressTextBlock.Text = ii + " of " + secrets.Length;
                     var act = await Globals.API.Accounts_Open(sec);
                     if(!act.success)
                         continue;
@@ -141,6 +147,7 @@ namespace LiskMasterWallet.Pages
                         Console.WriteLine("Error saving imported account " + act.account.address + " | " + crap.Message);
                     }
                 }
+                pd.Hide();
                 var nd = new NoticeDialog("Bulk Account Import", "Bulk account import complete.\r\n" + i + " of " + secrets.Length + " accounts imported.");
                 nd.ShowDialog();
                 NavigationCommands.BrowseBack.Execute(null, null);
