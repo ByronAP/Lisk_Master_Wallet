@@ -19,6 +19,8 @@ namespace LiskMasterWallet
         {
             AppDomain.CurrentDomain.SetData("DataDirectory",
                 Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData));
+            var splashScreen = new Splash.Splash();
+            splashScreen.Show();
 
             SetupConsole();
 
@@ -32,6 +34,7 @@ namespace LiskMasterWallet
 
             Console.WriteLine("Starting application MainWindow");
             var mainWindow = new MainWindow();
+            mainWindow.Loaded += (sendername, args) => splashScreen.Close();
             mainWindow.Show();
         }
 

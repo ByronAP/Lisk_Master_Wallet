@@ -241,7 +241,9 @@
     <Compile Include="SetMasterPasswordWindow.xaml.cs">
       <DependentUpon>SetMasterPasswordWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SplashScreen\SplashWindow.cs" />
+    <Compile Include="Splash\Splash.xaml.cs">
+      <DependentUpon>Splash.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Transaction.cs">
       <DependentUpon>AccountsModel.tt</DependentUpon>
     </Compile>
@@ -341,6 +343,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Splash\Splash.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <EntityDeploy Include="AccountsModel.edmx">
@@ -384,6 +390,7 @@
       <LastGenOutput>AccountsModel.cs</LastGenOutput>
     </Content>
     <Content Include="Lisk-master-wallet.ico" />
+    <SplashScreen Include="Splash\StaticSplashScreen.png" />
     <None Include="Resources\lock_add.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
