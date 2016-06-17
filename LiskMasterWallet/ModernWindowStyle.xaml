@@ -207,6 +207,7 @@
                                             <ColumnDefinition />
                                             <ColumnDefinition />
                                         </Grid.ColumnDefinitions>
+                                        <!-- status footer -->
                                         <TextBlock x:Name="StatusTextBlock" VerticalAlignment="Bottom"
                                                    HorizontalAlignment="Left" Grid.Column="0"
                                                    Text="{Binding StatusText}" Margin="12,0,0,2" />

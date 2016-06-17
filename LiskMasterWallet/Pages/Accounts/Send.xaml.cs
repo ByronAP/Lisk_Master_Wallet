@@ -63,7 +63,11 @@ namespace LiskMasterWallet.Pages.Accounts
                 return;
             if (iamount + Properties.Settings.Default.SendFee > avail || iamount < 0.1m)
                 return;
-            //verify the toaddress is valid by checking the network
+            //verify the toaddress is valid by checking the length and format and a secondary network check
+            if (ToAddressTextBox.Text.Trim().Length < 20 || ToAddressTextBox.Text.Trim().Length > 21)
+                return;
+            if (!ToAddressTextBox.Text.Trim().EndsWith("L"))
+                return;
             var valresp = await Globals.API.Accounts_GetAccount(ToAddressTextBox.Text.Trim());
             if (!valresp.success || valresp.account == null)
                 return;

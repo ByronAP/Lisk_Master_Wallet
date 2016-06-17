@@ -3,7 +3,6 @@ using System.Windows;
 using System.Windows.Controls;
 using Devcorner.NIdenticon;
 using FirstFloor.ModernUI.Windows.Controls;
-using FirstFloor.ModernUI.Windows.Navigation;
 using LiskMasterWallet.Helpers;
 using LiskMasterWallet.ViewModels;
 using Size = System.Drawing.Size;
@@ -35,7 +34,7 @@ namespace LiskMasterWallet.Controls
             AppViewModel.SelectedAccountFriendlyName = FriendlyNameTextBlock.Text;
             var url = "/Pages/AccountPage.xaml";
             var bb = new BBCodeBlock();
-            bb.LinkNavigator.Navigate(new Uri(url, UriKind.Relative), this, NavigationHelper.FrameSelf);
+            bb.LinkNavigator.Navigate(new Uri(url, UriKind.Relative), this);
         }
     }
 }
