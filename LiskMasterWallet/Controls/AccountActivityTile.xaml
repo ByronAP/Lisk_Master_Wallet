@@ -17,19 +17,11 @@
                 </MultiBinding>
             </TextBox.Text>
         </TextBox>
-        <TextBox IsReadOnly="True" Background="Transparent" BorderThickness="0" TextWrapping="Wrap"
+        <TextBox x:Name="DescriptionTextBox" IsReadOnly="True" Background="Transparent" BorderThickness="0" TextWrapping="Wrap"
                  Foreground="{Binding Foreground, ElementName=textBlock}"
                  FontFamily="{Binding FontFamily, ElementName=textBlock}"
-                 FontSize="{Binding FontSize, ElementName=textBlock}">
-            <TextBox.Text>
-                <MultiBinding StringFormat="{}{0} sent {1} LSK to {2}">
-                    <Binding Path="Sender" />
-                    <Binding Path="Amount" />
-                    <Binding Path="Receiver" />
-                </MultiBinding>
-            </TextBox.Text>
-        </TextBox>
-        <TextBox IsReadOnly="True" Background="Transparent" BorderThickness="0" TextWrapping="Wrap"
+                 FontSize="{Binding FontSize, ElementName=textBlock}"/>
+            <TextBox IsReadOnly="True" Background="Transparent" BorderThickness="0" TextWrapping="Wrap"
                  Foreground="{Binding Foreground, ElementName=textBlock}"
                  FontFamily="{Binding FontFamily, ElementName=textBlock}"
                  FontSize="{Binding FontSize, ElementName=textBlock}">
