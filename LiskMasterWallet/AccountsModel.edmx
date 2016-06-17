@@ -5,7 +5,11 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="masterwalletModel.Store" Provider="System.Data.SQLite.EF6" ProviderManifestToken="data source=C:\Users\info\AppData\Roaming\LiskMasterWallet\wallet.dat" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="masterwalletModel.Store" Provider="System.Data.SQLite.EF6"
+              ProviderManifestToken="data source=C:\Users\info\AppData\Roaming\LiskMasterWallet\wallet.dat"
+              Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator"
+              xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation"
+              xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Accounts">
           <Key>
             <PropertyRef Name="Address" />
@@ -44,7 +48,8 @@
           <EntitySet Name="Transactions" EntityType="Self.Transactions" store:Type="Tables" />
           <EntitySet Name="UserSettings" EntityType="Self.UserSettings" store:Type="Tables" />
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="masterwalletModel" Alias="Self" annotation:UseStrongSpatialTypes="false"
@@ -84,7 +89,8 @@
           <Property Name="Address" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
           <Property Name="Balance" Type="Decimal" Nullable="false" Precision="53" Scale="0" />
           <Property Name="Block" Type="Int64" Nullable="false" />
-          <Property Name="FriendlyName" Type="String" Nullable="false" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="FriendlyName" Type="String" Nullable="false" MaxLength="64" FixedLength="false"
+                    Unicode="true" />
           <Property Name="LastUpdate" Type="DateTime" Nullable="false" />
           <Property Name="PublicKey" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
           <Property Name="SecretHash" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />

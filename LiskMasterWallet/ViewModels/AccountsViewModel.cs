@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
+using Lisk.API;
 
 namespace LiskMasterWallet.ViewModels
 {
@@ -34,7 +35,6 @@ namespace LiskMasterWallet.ViewModels
 
         public static async Task UpdateAccounts()
         {
-            
             var cdt = DateTime.UtcNow.AddMinutes(-2);
             var actstoupd = (from a in Globals.DbContext.Accounts where a.LastUpdate < cdt select a).Take(40);
             foreach (var a in actstoupd)
@@ -44,7 +44,7 @@ namespace LiskMasterWallet.ViewModels
                     var actinf = await Globals.API.Accounts_GetAccount(a.Address);
                     if (actinf == null || actinf.account == null || !actinf.success)
                         continue;
-                    a.Balance = Lisk.API.LiskAPI.LSKLongToDecimal(actinf.account.balance);
+                    a.Balance = LiskAPI.LSKLongToDecimal(actinf.account.balance);
                     a.LastUpdate = DateTime.UtcNow;
                     if (!string.IsNullOrEmpty(actinf.account.username))
                         a.FriendlyName = actinf.account.username;
@@ -68,7 +68,7 @@ namespace LiskMasterWallet.ViewModels
                 var actinf = await Globals.API.Accounts_GetAccount(acttoupd.Address);
                 if (actinf == null || actinf.account == null || !actinf.success)
                     return;
-                acttoupd.Balance = Lisk.API.LiskAPI.LSKLongToDecimal(actinf.account.balance);
+                acttoupd.Balance = LiskAPI.LSKLongToDecimal(actinf.account.balance);
                 acttoupd.LastUpdate = DateTime.UtcNow;
                 if (!string.IsNullOrEmpty(actinf.account.username))
                     acttoupd.FriendlyName = actinf.account.username;
@@ -87,7 +87,8 @@ namespace LiskMasterWallet.ViewModels
         {
             Globals.DbContext.Accounts.Add(account);
             await Globals.DbContext.SaveChangesAsync();
-            Globals.AppViewModel.AccountsViewModel.Accounts = new ObservableCollection<Account>(Globals.DbContext.Accounts);
+            Globals.AppViewModel.AccountsViewModel.Accounts =
+                new ObservableCollection<Account>(Globals.DbContext.Accounts);
             Globals.AppViewModel.AccountsViewModel.RaisePropertyChanged("Accounts");
             Globals.AppViewModel.AccountsViewModel.RaisePropertyChanged("TotalBalance");
             Globals.AppViewModel.AccountsViewModel.RaisePropertyChanged("TotalAccounts");
@@ -97,7 +98,8 @@ namespace LiskMasterWallet.ViewModels
         {
             Globals.DbContext.Accounts.Remove(account);
             await Globals.DbContext.SaveChangesAsync();
-            Globals.AppViewModel.AccountsViewModel.Accounts = new ObservableCollection<Account>(Globals.DbContext.Accounts);
+            Globals.AppViewModel.AccountsViewModel.Accounts =
+                new ObservableCollection<Account>(Globals.DbContext.Accounts);
             Globals.AppViewModel.AccountsViewModel.RaisePropertyChanged("Accounts");
             Globals.AppViewModel.AccountsViewModel.RaisePropertyChanged("TotalBalance");
             Globals.AppViewModel.AccountsViewModel.RaisePropertyChanged("TotalAccounts");
@@ -112,7 +114,8 @@ namespace LiskMasterWallet.ViewModels
                 return;
             Globals.DbContext.Accounts.Remove(account);
             await Globals.DbContext.SaveChangesAsync();
-            Globals.AppViewModel.AccountsViewModel.Accounts = new ObservableCollection<Account>(Globals.DbContext.Accounts);
+            Globals.AppViewModel.AccountsViewModel.Accounts =
+                new ObservableCollection<Account>(Globals.DbContext.Accounts);
             Globals.AppViewModel.AccountsViewModel.RaisePropertyChanged("Accounts");
             Globals.AppViewModel.AccountsViewModel.RaisePropertyChanged("TotalBalance");
             Globals.AppViewModel.AccountsViewModel.RaisePropertyChanged("TotalAccounts");

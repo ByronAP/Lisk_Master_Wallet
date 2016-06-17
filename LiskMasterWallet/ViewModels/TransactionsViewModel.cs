@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Lisk.API;
 using Lisk.API.Responses;
 using LiskMasterWallet.Helpers;
 
@@ -44,10 +45,12 @@ namespace LiskMasterWallet.ViewModels
         {
             Globals.DbContext.Transactions.Add(transaction);
             await Globals.DbContext.SaveChangesAsync();
-            Globals.AppViewModel.TransactionsViewModel.Transactions = new ObservableCollection<Transaction>(Globals.DbContext.Transactions);
-            Globals.AppViewModel.TransactionsViewModel.RecentTransactions = new ObservableCollection<Transaction>((from t in Globals.DbContext.Transactions
-                orderby t.Created descending
-                select t).Take(20));
+            Globals.AppViewModel.TransactionsViewModel.Transactions =
+                new ObservableCollection<Transaction>(Globals.DbContext.Transactions);
+            Globals.AppViewModel.TransactionsViewModel.RecentTransactions =
+                new ObservableCollection<Transaction>((from t in Globals.DbContext.Transactions
+                    orderby t.Created descending
+                    select t).Take(20));
             Globals.AppViewModel.TransactionsViewModel.RaisePropertyChanged("Transactions");
             Globals.AppViewModel.TransactionsViewModel.RaisePropertyChanged("RecentTransactions");
         }
@@ -61,10 +64,12 @@ namespace LiskMasterWallet.ViewModels
                 return;
             Globals.DbContext.Transactions.Remove(transaction);
             await Globals.DbContext.SaveChangesAsync();
-            Globals.AppViewModel.TransactionsViewModel.Transactions = new ObservableCollection<Transaction>(Globals.DbContext.Transactions);
-            Globals.AppViewModel.TransactionsViewModel.RecentTransactions = new ObservableCollection<Transaction>((from t in Globals.DbContext.Transactions
-                orderby t.Created descending
-                select t).Take(20));
+            Globals.AppViewModel.TransactionsViewModel.Transactions =
+                new ObservableCollection<Transaction>(Globals.DbContext.Transactions);
+            Globals.AppViewModel.TransactionsViewModel.RecentTransactions =
+                new ObservableCollection<Transaction>((from t in Globals.DbContext.Transactions
+                    orderby t.Created descending
+                    select t).Take(20));
             Globals.AppViewModel.TransactionsViewModel.RaisePropertyChanged("Transactions");
             Globals.AppViewModel.TransactionsViewModel.RaisePropertyChanged("RecentTransactions");
         }
@@ -74,7 +79,8 @@ namespace LiskMasterWallet.ViewModels
             try
             {
                 var cdt = DateTime.UtcNow.AddMinutes(-2);
-                var accounts = (from a in Globals.DbContext.Accounts where a.LastTransactionsUpdate < cdt select a.Address).Take(20);
+                var accounts =
+                    (from a in Globals.DbContext.Accounts where a.LastTransactionsUpdate < cdt select a.Address).Take(20);
                 if (!accounts.Any())
                     return;
                 foreach (var a in accounts)
@@ -91,25 +97,27 @@ namespace LiskMasterWallet.ViewModels
                     var newtrans = from t in trans select t;
                     foreach (var t in newtrans)
                     {
-                        Globals.AppViewModel.TransactionsViewModel.Transactions = new ObservableCollection<Transaction>(Globals.DbContext.Transactions);
+                        Globals.AppViewModel.TransactionsViewModel.Transactions =
+                            new ObservableCollection<Transaction>(Globals.DbContext.Transactions);
                         if ((from c in Globals.DbContext.Transactions where c.Id == t.id select c).Any())
                             continue;
                         var ni = new Transaction
                         {
                             Id = t.id,
                             Created = AppHelpers.TimestampToDateTime(t.timestamp),
-                            Amount = Lisk.API.LiskAPI.LSKLongToDecimal(t.amount),
+                            Amount = LiskAPI.LSKLongToDecimal(t.amount),
                             Block = (await Globals.API.Blocks_GetHeight()).height - long.Parse(t.confirmations),
                             Receiver = t.recipientId,
                             Sender = t.senderId,
                             TType = int.Parse(t.type),
-                            Fee = Lisk.API.LiskAPI.LSKLongToDecimal(t.fee)
+                            Fee = LiskAPI.LSKLongToDecimal(t.fee)
                         };
                         if (string.IsNullOrEmpty(ni.Receiver))
                             ni.Receiver = "";
                         try
                         {
-                            Globals.AppViewModel.TransactionsViewModel.Transactions = new ObservableCollection<Transaction>(Globals.DbContext.Transactions);
+                            Globals.AppViewModel.TransactionsViewModel.Transactions =
+                                new ObservableCollection<Transaction>(Globals.DbContext.Transactions);
                             if ((from r in Globals.DbContext.Transactions where r.Id == ni.Id select r).Any())
                                 continue;
                             await AddTransactionAsync(ni);
@@ -134,10 +142,12 @@ namespace LiskMasterWallet.ViewModels
 
             try
             {
-                Globals.AppViewModel.TransactionsViewModel.Transactions = new ObservableCollection<Transaction>(Globals.DbContext.Transactions);
-                Globals.AppViewModel.TransactionsViewModel.RecentTransactions = new ObservableCollection<Transaction>((from t in Globals.DbContext.Transactions
-                    orderby t.Created descending
-                    select t).Take(20));
+                Globals.AppViewModel.TransactionsViewModel.Transactions =
+                    new ObservableCollection<Transaction>(Globals.DbContext.Transactions);
+                Globals.AppViewModel.TransactionsViewModel.RecentTransactions =
+                    new ObservableCollection<Transaction>((from t in Globals.DbContext.Transactions
+                        orderby t.Created descending
+                        select t).Take(20));
                 Globals.AppViewModel.TransactionsViewModel.RaisePropertyChanged("Transactions");
                 Globals.AppViewModel.TransactionsViewModel.RaisePropertyChanged("RecentTransactions");
             }

@@ -19,7 +19,7 @@ namespace LiskMasterWallet.Pages
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
             var bpuri = new Uri("\\Pages\\Accounts\\Overview.xaml", UriKind.RelativeOrAbsolute);
-            if(ActModernTab.SelectedSource != bpuri)
+            if (ActModernTab.SelectedSource != bpuri)
                 ActModernTab.SelectedSource = bpuri;
             try
             {

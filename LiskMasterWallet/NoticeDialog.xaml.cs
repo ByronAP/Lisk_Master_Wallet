@@ -1,11 +1,11 @@
 ﻿using System.Windows;
-using FirstFloor.ModernUI.Windows.Controls;
 using System.Windows.Controls;
+using FirstFloor.ModernUI.Windows.Controls;
 
 namespace LiskMasterWallet
 {
     /// <summary>
-    /// Interaction logic for NoticeDialog.xaml
+    ///     Interaction logic for NoticeDialog.xaml
     /// </summary>
     public partial class NoticeDialog : ModernDialog
     {
@@ -14,7 +14,7 @@ namespace LiskMasterWallet
             InitializeComponent();
 
             // define the dialog buttons
-            this.Buttons = new Button[] {};
+            Buttons = new Button[] {};
             Title = title;
             MessageTextBlock.Text = message;
         }

@@ -31,11 +31,19 @@ namespace LiskMasterWallet
 
         private static bool Initializing = true;
 
-        private static masterwalletEntities _dbEntities = new masterwalletEntities();
-        internal static masterwalletEntities DbContext { get { return _dbEntities; } }
+        private static readonly masterwalletEntities _dbEntities = new masterwalletEntities();
 
-        private static AppViewModel _appView = new AppViewModel();
-        public static AppViewModel AppViewModel {get { return _appView; } }
+        private static readonly AppViewModel _appView = new AppViewModel();
+
+        internal static masterwalletEntities DbContext
+        {
+            get { return _dbEntities; }
+        }
+
+        public static AppViewModel AppViewModel
+        {
+            get { return _appView; }
+        }
 
         public static event DelegateTimerTick OnDelegate60SecondTimerTick;
         public static event DelegateTimerTick OnDelegate30SecondTimerTick;

@@ -7,32 +7,41 @@
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300" Loaded="UserControl_Loaded">
     <StackPanel Orientation="Vertical">
-        <TextBox IsReadOnly="True" Background="Transparent" BorderThickness="0" TextWrapping="Wrap" Foreground="{Binding Foreground, ElementName=textBlock}" FontFamily="{Binding FontFamily, ElementName=textBlock}" FontSize="{Binding FontSize, ElementName=textBlock}">
+        <TextBox IsReadOnly="True" Background="Transparent" BorderThickness="0" TextWrapping="Wrap"
+                 Foreground="{Binding Foreground, ElementName=textBlock}"
+                 FontFamily="{Binding FontFamily, ElementName=textBlock}"
+                 FontSize="{Binding FontSize, ElementName=textBlock}">
             <TextBox.Text>
                 <MultiBinding StringFormat="{}Transaction {0}">
-                    <Binding Path="Id"/>
+                    <Binding Path="Id" />
                 </MultiBinding>
             </TextBox.Text>
         </TextBox>
-        <TextBox IsReadOnly="True" Background="Transparent" BorderThickness="0" TextWrapping="Wrap" Foreground="{Binding Foreground, ElementName=textBlock}" FontFamily="{Binding FontFamily, ElementName=textBlock}" FontSize="{Binding FontSize, ElementName=textBlock}">
+        <TextBox IsReadOnly="True" Background="Transparent" BorderThickness="0" TextWrapping="Wrap"
+                 Foreground="{Binding Foreground, ElementName=textBlock}"
+                 FontFamily="{Binding FontFamily, ElementName=textBlock}"
+                 FontSize="{Binding FontSize, ElementName=textBlock}">
             <TextBox.Text>
                 <MultiBinding StringFormat="{}{0} sent {1} LSK to {2}">
-                    <Binding Path="Sender"/>
-                    <Binding Path="Amount"/>
-                    <Binding Path="Receiver"/>
+                    <Binding Path="Sender" />
+                    <Binding Path="Amount" />
+                    <Binding Path="Receiver" />
                 </MultiBinding>
             </TextBox.Text>
         </TextBox>
-        <TextBox IsReadOnly="True" Background="Transparent" BorderThickness="0" TextWrapping="Wrap" Foreground="{Binding Foreground, ElementName=textBlock}" FontFamily="{Binding FontFamily, ElementName=textBlock}" FontSize="{Binding FontSize, ElementName=textBlock}">
+        <TextBox IsReadOnly="True" Background="Transparent" BorderThickness="0" TextWrapping="Wrap"
+                 Foreground="{Binding Foreground, ElementName=textBlock}"
+                 FontFamily="{Binding FontFamily, ElementName=textBlock}"
+                 FontSize="{Binding FontSize, ElementName=textBlock}">
             <TextBox.Text>
                 <MultiBinding StringFormat="{}{0}    Fee {1} LSK">
-                    <Binding Path="Created"/>
-                    <Binding Path="Fee"/>
+                    <Binding Path="Created" />
+                    <Binding Path="Fee" />
                 </MultiBinding>
             </TextBox.Text>
         </TextBox>
         <!-- This element is not shown but we pull the style from it and apply it to the textboxes since textbox style is not what we want and I did not want to build a custom style for it just to implement mui styling -->
         <TextBlock x:Name="textBlock" Visibility="Collapsed" />
-        <Separator x:Name="ItemSeparator"/>
+        <Separator x:Name="ItemSeparator" />
     </StackPanel>
 </UserControl>

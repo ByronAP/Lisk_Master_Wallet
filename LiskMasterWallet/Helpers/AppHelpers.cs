@@ -17,7 +17,8 @@ namespace LiskMasterWallet.Helpers
         public const string CreatorNotice =
             "Created by Allen Byron Penner 🙆, Lisk delegate byronp, byronp@cryptomic.com";
 
-        public const string CopyrightNotice = "Copyright © 2016  Allen Byron Penner, Cryptomic\r\nCopyright © 2016  Lisk";
+        public const string CopyrightNotice =
+            "Copyright © 2016  Allen Byron Penner, Cryptomic\r\nCopyright © 2016  Lisk";
 
         public const string GNUGPLNotice =
             "This program is free software: you can redistribute it and/or modify\r\nit under the terms of the GNU General Public License as published by\r\nthe Free Software Foundation, either version 3 of the License, or\r\n(at your option) any later version.\r\n\r\nThis program is distributed in the hope that it will be useful,\r\nbut WITHOUT ANY WARRANTY; without even the implied warranty of\r\nMERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\r\nSee the GNU General Public License for more details.";

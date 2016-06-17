@@ -10,8 +10,8 @@ namespace LiskMasterWallet
     /// </summary>
     public partial class SetMasterPasswordWindow : ModernWindow
     {
-        internal string mpwdh = "";
         internal Brush DefaultCtrlBkgBrush;
+        internal string mpwdh = "";
 
         public SetMasterPasswordWindow()
         {

@@ -1,10 +1,7 @@
-﻿using System;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Windows;
 using FirstFloor.ModernUI.Windows.Controls;
 using LiskMasterWallet.Properties;
-using LiskMasterWallet.ViewModels;
-using FirstFloor.ModernUI.Presentation;
 
 namespace LiskMasterWallet
 {

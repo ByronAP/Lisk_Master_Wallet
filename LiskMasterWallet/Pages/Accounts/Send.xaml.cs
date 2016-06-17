@@ -4,6 +4,7 @@ using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using Lisk.API;
 using Lisk.API.Responses;
 using LiskMasterWallet.Helpers;
 using LiskMasterWallet.ViewModels;
@@ -81,7 +82,7 @@ namespace LiskMasterWallet.Pages.Accounts
                 if (rmpw.DialogResult == null || rmpw.DialogResult == false || string.IsNullOrEmpty(avm.Password))
                     return;
                 var actsec = AppHelpers.DecryptString(act.SecretHash, avm.Password);
-                res = await Globals.API.Transactions_Send(actsec, (long) Lisk.API.LiskAPI.LSKDecimalToLong(iamount),
+                res = await Globals.API.Transactions_Send(actsec, (long) LiskAPI.LSKDecimalToLong(iamount),
                     ToAddressTextBox.Text.Trim(), act.PublicKey, "");
             }
             if (res == null || !res.success || string.IsNullOrEmpty(res.transactionId))
@@ -93,10 +94,12 @@ namespace LiskMasterWallet.Pages.Accounts
             }
             else
             {
-                Console.WriteLine("Send transaction id " + res.transactionId + " sent " + iamount + " LSK from " + act.FriendlyName + " to " + ToAddressTextBox.Text.Trim());
+                Console.WriteLine("Send transaction id " + res.transactionId + " sent " + iamount + " LSK from " +
+                                  act.FriendlyName + " to " + ToAddressTextBox.Text.Trim());
                 await TransactionsViewModel.UpdateTransactions();
                 await AccountsViewModel.UpdateAccount(act.Address);
-                var nd = new NoticeDialog("Send LSK", "Sent " + iamount + " LSK from " + act.FriendlyName + " to " + ToAddressTextBox.Text.Trim());
+                var nd = new NoticeDialog("Send LSK",
+                    "Sent " + iamount + " LSK from " + act.FriendlyName + " to " + ToAddressTextBox.Text.Trim());
                 nd.ShowDialog();
                 try
                 {
@@ -114,7 +117,7 @@ namespace LiskMasterWallet.Pages.Accounts
             var act = (from a in Globals.AppViewModel.AccountsViewModel.Accounts
                 where a.FriendlyName == AppViewModel.SelectedAccountFriendlyName
                 select a).First();
-            var avail = (act.Balance - 0.000000005m);
+            var avail = act.Balance - 0.000000005m;
             if (avail < 0)
                 avail = 0;
             AvailableBalanceTextBox.Text = avail.ToString("F8");

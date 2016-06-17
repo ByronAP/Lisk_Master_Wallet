@@ -4,7 +4,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using BigMath.Utils;
+using Lisk.API;
 using LiskMasterWallet.Helpers;
 using LiskMasterWallet.ViewModels;
 using Microsoft.Win32;
@@ -34,7 +34,8 @@ namespace LiskMasterWallet.Pages
             var issecvalid = await AppHelpers.IsSecretValid(sec);
             if (!issecvalid)
             {
-                var nd = new NoticeDialog("Invalid Account Secret", "Invalid account secret.\r\nPlease correct and try again.");
+                var nd = new NoticeDialog("Invalid Account Secret",
+                    "Invalid account secret.\r\nPlease correct and try again.");
                 nd.ShowDialog();
                 return;
             }
@@ -50,7 +51,8 @@ namespace LiskMasterWallet.Pages
                 select a).Any();
             if (hasrecord)
             {
-                var nd = new NoticeDialog("Account Record Exists", "A record for this account secret or friendly name already exists.\r\nPlease use a different secret or friendly name and try again");
+                var nd = new NoticeDialog("Account Record Exists",
+                    "A record for this account secret or friendly name already exists.\r\nPlease use a different secret or friendly name and try again");
                 nd.ShowDialog();
                 return;
             }
@@ -71,7 +73,7 @@ namespace LiskMasterWallet.Pages
                     PublicKey = act.account.publicKey,
                     FriendlyName = fn,
                     SecretHash = ssece,
-                    Balance = Lisk.API.LiskAPI.LSKLongToDecimal(act.account.balance)
+                    Balance = LiskAPI.LSKLongToDecimal(act.account.balance)
                 };
                 await AccountsViewModel.AddAccountAsync(ni);
                 NavigationCommands.BrowseBack.Execute(null, null);
@@ -83,7 +85,7 @@ namespace LiskMasterWallet.Pages
             var fd = new OpenFileDialog();
             fd.Multiselect = false;
             fd.Filter = "CSV Files (*.csv)|*.csv|All Files (*.*)|*.*";
-            var res = (bool)fd.ShowDialog();
+            var res = (bool) fd.ShowDialog();
             if (!res || string.IsNullOrEmpty(fd.FileName) || !File.Exists(fd.FileName))
                 return;
 
@@ -94,12 +96,13 @@ namespace LiskMasterWallet.Pages
             }
             catch (Exception)
             {
-                var nd = new NoticeDialog("Bulk Account Import", "Error: CSV file could not be parsed.\r\nPlease correct the file and try again.");
+                var nd = new NoticeDialog("Bulk Account Import",
+                    "Error: CSV file could not be parsed.\r\nPlease correct the file and try again.");
                 nd.ShowDialog();
                 return;
             }
 
-            using (var avm = new AuthViewModel { ActionDescription = "Bulk Import Accounts " })
+            using (var avm = new AuthViewModel {ActionDescription = "Bulk Import Accounts "})
             {
                 var rmpw = new AuthRequestDialog(avm);
                 rmpw.ShowDialog();
@@ -107,8 +110,8 @@ namespace LiskMasterWallet.Pages
                     return;
                 if (rmpw.DialogResult == null || rmpw.DialogResult == false || string.IsNullOrEmpty(avm.Password))
                     return;
-                int i = 0;
-                int ii = 0;
+                var i = 0;
+                var ii = 0;
                 var pd = new ProcessingDialog("Importing Accounts",
                     "Please wait while your accounts are imported. This may take some time depending on the number of accounts.");
                 pd.Show();
@@ -117,17 +120,17 @@ namespace LiskMasterWallet.Pages
                     ii++;
                     pd.ProgressTextBlock.Text = ii + " of " + secrets.Length;
                     var act = await Globals.API.Accounts_Open(sec);
-                    if(!act.success)
+                    if (!act.success)
                         continue;
 
                     var hasrecord = (from a in Globals.AppViewModel.AccountsViewModel.Accounts
-                                     where a.Address == act.account.address
-                                     select a).Any();
+                        where a.Address == act.account.address
+                        select a).Any();
                     if (hasrecord)
                         continue;
 
                     var ssece = AppHelpers.EncryptString(sec, avm.Password);
-                    var bal = Lisk.API.LiskAPI.LSKLongToDecimal(act.account.balance);
+                    var bal = LiskAPI.LSKLongToDecimal(act.account.balance);
                     var ni = new Account
                     {
                         Address = act.account.address,
@@ -148,7 +151,8 @@ namespace LiskMasterWallet.Pages
                     }
                 }
                 pd.Hide();
-                var nd = new NoticeDialog("Bulk Account Import", "Bulk account import complete.\r\n" + i + " of " + secrets.Length + " accounts imported.");
+                var nd = new NoticeDialog("Bulk Account Import",
+                    "Bulk account import complete.\r\n" + i + " of " + secrets.Length + " accounts imported.");
                 nd.ShowDialog();
                 NavigationCommands.BrowseBack.Execute(null, null);
             }

@@ -1,5 +1,7 @@
 ﻿<?xml version='1.0' encoding='utf-8'?>
-<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="LiskMasterWallet.Properties" GeneratedClassName="Settings">
+
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)"
+              GeneratedClassNamespace="LiskMasterWallet.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
     <Setting Name="ShowDebugConsole" Roaming="true" Type="System.Boolean" Scope="User">
@@ -39,34 +41,43 @@
       <Value Profile="(Default)">0.1</Value>
     </Setting>
     <Setting Name="masterwalletConnectionString" Type="(Connection string)" Scope="Application">
-      <DesignTimeValue Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
-&lt;SerializableConnectionString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
-  &lt;ConnectionString&gt;page size=1024;data source=|DataDirectory|\LiskMasterWallet\wallet.dat;datetime kind=Utc;to full path=True&lt;/ConnectionString&gt;
-  &lt;ProviderName&gt;System.Data.SQLite.EF6&lt;/ProviderName&gt;
-&lt;/SerializableConnectionString&gt;</DesignTimeValue>
+      <DesignTimeValue Profile="(Default)">
+        &lt;?xml version="1.0" encoding="utf-16"?&gt;
+        &lt;SerializableConnectionString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
+        &lt;ConnectionString&gt;page size=1024;data source=|DataDirectory|\LiskMasterWallet\wallet.dat;datetime kind=Utc;to full path=True&lt;/ConnectionString&gt;
+        &lt;ProviderName&gt;System.Data.SQLite.EF6&lt;/ProviderName&gt;
+        &lt;/SerializableConnectionString&gt;
+      </DesignTimeValue>
       <Value Profile="(Default)">page size=1024;data source=|DataDirectory|\LiskMasterWallet\wallet.dat;datetime kind=Utc;to full path=True</Value>
     </Setting>
     <Setting Name="Servers" Roaming="true" Type="System.Collections.Specialized.StringCollection" Scope="User">
-      <Value Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
-&lt;ArrayOfString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
-  &lt;string&gt;https://www.liskwallet.info&lt;/string&gt;
-  &lt;string&gt;https://login.lisk.io&lt;/string&gt;
-  &lt;string&gt;https://login.lisk.guru&lt;/string&gt;
-&lt;/ArrayOfString&gt;</Value>
+      <Value Profile="(Default)">
+        &lt;?xml version="1.0" encoding="utf-16"?&gt;
+        &lt;ArrayOfString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
+        &lt;string&gt;https://www.liskwallet.info&lt;/string&gt;
+        &lt;string&gt;https://login.lisk.io&lt;/string&gt;
+        &lt;string&gt;https://login.lisk.guru&lt;/string&gt;
+        &lt;/ArrayOfString&gt;
+      </Value>
     </Setting>
-    <Setting Name="AddressBookEntries" Roaming="true" Type="System.Collections.Specialized.StringCollection" Scope="User">
-      <Value Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
-&lt;ArrayOfString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
-  &lt;string&gt;ByronP|5566846547481905162L&lt;/string&gt;
-&lt;/ArrayOfString&gt;</Value>
+    <Setting Name="AddressBookEntries" Roaming="true" Type="System.Collections.Specialized.StringCollection"
+             Scope="User">
+      <Value Profile="(Default)">
+        &lt;?xml version="1.0" encoding="utf-16"?&gt;
+        &lt;ArrayOfString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
+        &lt;string&gt;ByronP|5566846547481905162L&lt;/string&gt;
+        &lt;/ArrayOfString&gt;
+      </Value>
     </Setting>
     <Setting Name="TestnetServers" Roaming="true" Type="System.Collections.Specialized.StringCollection" Scope="User">
-      <Value Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
-&lt;ArrayOfString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
-  &lt;string&gt;https://testnet.liskwallet.info&lt;/string&gt;
-  &lt;string&gt;https://testnet.lisk.io&lt;/string&gt;
-  &lt;string&gt;https://testnet.lisk.guru&lt;/string&gt;
-&lt;/ArrayOfString&gt;</Value>
+      <Value Profile="(Default)">
+        &lt;?xml version="1.0" encoding="utf-16"?&gt;
+        &lt;ArrayOfString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
+        &lt;string&gt;https://testnet.liskwallet.info&lt;/string&gt;
+        &lt;string&gt;https://testnet.lisk.io&lt;/string&gt;
+        &lt;string&gt;https://testnet.lisk.guru&lt;/string&gt;
+        &lt;/ArrayOfString&gt;
+      </Value>
     </Setting>
     <Setting Name="Testnet" Roaming="true" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>

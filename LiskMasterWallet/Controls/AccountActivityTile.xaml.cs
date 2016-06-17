@@ -1,4 +1,5 @@
-﻿using System.Windows.Controls;
+﻿using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media;
 
 namespace LiskMasterWallet.Controls
@@ -13,9 +14,9 @@ namespace LiskMasterWallet.Controls
             InitializeComponent();
         }
 
-        private void UserControl_Loaded(object sender, System.Windows.RoutedEventArgs e)
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
-            ItemSeparator.Background = new SolidColorBrush((Color)FindResource("AccentColor"));
+            ItemSeparator.Background = new SolidColorBrush((Color) FindResource("AccentColor"));
         }
     }
 }

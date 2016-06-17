@@ -3,15 +3,15 @@
 namespace LiskMasterWallet.Splash
 {
     /// <summary>
-    /// Interaction logic for Splash.xaml
+    ///     Interaction logic for Splash.xaml
     /// </summary>
     public partial class Splash : ModernDialog
     {
         public Splash()
         {
             Buttons = null;
-            this.Width = 300;
-            this.Height = 500;
+            Width = 300;
+            Height = 500;
             InitializeComponent();
         }
     }

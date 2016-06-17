@@ -9,7 +9,6 @@ using FirstFloor.ModernUI.Presentation;
 using Lisk.API;
 using LiskMasterWallet.Helpers;
 using LiskMasterWallet.Properties;
-using Application = System.Windows.Application;
 
 namespace LiskMasterWallet
 {
@@ -17,6 +16,7 @@ namespace LiskMasterWallet
     public partial class App : Application
     {
         private static Splash.Splash splashScreen;
+
         private async void App_Startup(object sender, StartupEventArgs e)
         {
             AppDomain.CurrentDomain.SetData("DataDirectory",
@@ -49,13 +49,13 @@ namespace LiskMasterWallet
             switch (fs)
             {
                 case "large":
-                    AppearanceManager.Current.FontSize = FirstFloor.ModernUI.Presentation.FontSize.Large;
+                    AppearanceManager.Current.FontSize = FontSize.Large;
                     break;
                 case "small":
-                    AppearanceManager.Current.FontSize = FirstFloor.ModernUI.Presentation.FontSize.Small;
+                    AppearanceManager.Current.FontSize = FontSize.Small;
                     break;
                 default:
-                    AppearanceManager.Current.FontSize = FirstFloor.ModernUI.Presentation.FontSize.Large;
+                    AppearanceManager.Current.FontSize = FontSize.Large;
                     break;
             }
             AppearanceManager.Current.AccentColor = Settings.Default.AccentColor;
@@ -105,7 +105,6 @@ namespace LiskMasterWallet
             {
                 if (!File.Exists(wfilloc))
                 {
-                    
                     WriteLine("Creating new wallet");
                     _dbcontext.Database.ExecuteSqlCommand(Globals.CreateAccountsTableSQL);
                     _dbcontext.Database.ExecuteSqlCommand(Globals.CreateTransactionsTableSQL);
@@ -178,7 +177,7 @@ namespace LiskMasterWallet
         internal static async Task SetupAPI()
         {
             WriteLine("Setting up API system");
-            if(Settings.Default.Testnet)
+            if (Settings.Default.Testnet)
                 Console.WriteLine("USING TESTNET");
             // find the fastest server
             var fastserver = "";
@@ -231,7 +230,8 @@ namespace LiskMasterWallet
                 else
                 {
                     WriteLine("API system setup failed, could not find a valid server.");
-                    var mbr = MessageBox.Show("Error: Could not find a valid server node.\r\nWould you like retry?", "Server Error", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                    var mbr = MessageBox.Show("Error: Could not find a valid server node.\r\nWould you like retry?",
+                        "Server Error", MessageBoxButton.YesNo, MessageBoxImage.Question);
                     if (mbr == MessageBoxResult.Yes)
                         await SetupAPI();
                     else
@@ -242,7 +242,7 @@ namespace LiskMasterWallet
             {
                 fastservertime = AppHelpers.GetServerResponseTime(Settings.Default.Servers[0]);
                 WriteLine("Selected first server " + Settings.Default.Servers[0] + " response time " +
-                                  fastservertime + " ms");
+                          fastservertime + " ms");
                 if (fastservertime <= 0)
                     WriteLine("API server did not respond to ping request, status unknown, attempting test call");
                 Globals.API = new LiskAPI(Settings.Default.Servers[0]);

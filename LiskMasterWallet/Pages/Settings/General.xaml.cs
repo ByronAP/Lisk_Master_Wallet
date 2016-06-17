@@ -31,14 +31,18 @@ namespace LiskMasterWallet.Pages.Settings
                 return;
             if (!serverurl.StartsWith("https://"))
             {
-                var nd = new NoticeDialog("Server Address Error", "Error: Server must start with \"https://\".\r\nPlease correct the address and try again.");
-                nd.ShowDialog();;
+                var nd = new NoticeDialog("Server Address Error",
+                    "Error: Server must start with \"https://\".\r\nPlease correct the address and try again.");
+                nd.ShowDialog();
+                ;
                 return;
             }
             var pingtime = AppHelpers.GetServerResponseTime(serverurl);
             if (pingtime <= 0 || pingtime > 120)
             {
-                var nd = new NoticeDialog("Server Connection Error", "Error: Server connection failed or did not respond fast enough (" + pingtime + " ms).\r\nPlease try a different server.");
+                var nd = new NoticeDialog("Server Connection Error",
+                    "Error: Server connection failed or did not respond fast enough (" + pingtime +
+                    " ms).\r\nPlease try a different server.");
                 nd.ShowDialog();
                 return;
             }
@@ -49,14 +53,16 @@ namespace LiskMasterWallet.Pages.Settings
                 var ss = await _api.Loader_Status();
                 if (!ss.loaded)
                 {
-                    var nd = new NoticeDialog("Server Sync Error", "Error: Server failed sync status test.\r\nPlease try a different server.");
+                    var nd = new NoticeDialog("Server Sync Error",
+                        "Error: Server failed sync status test.\r\nPlease try a different server.");
                     nd.ShowDialog();
                     return;
                 }
             }
             catch
             {
-                var nd = new NoticeDialog("Server API Error", "Error: Server failed api test.\r\nPlease try a different server.");
+                var nd = new NoticeDialog("Server API Error",
+                    "Error: Server failed api test.\r\nPlease try a different server.");
                 nd.ShowDialog();
                 return;
             }

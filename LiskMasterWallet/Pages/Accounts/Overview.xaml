@@ -23,13 +23,24 @@
                         <RowDefinition />
                     </Grid.RowDefinitions>
                     <TextBlock Grid.Column="0" Text="Address:" VerticalAlignment="Top" Margin="0,0,16,4" />
-                    <TextBox Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" Margin="0,0,0,4" IsReadOnly="True" Text="{Binding Address}" Foreground="{Binding Foreground, ElementName=textBlock}" FontFamily="{Binding FontFamily, ElementName=textBlock}" FontSize="{Binding FontSize, ElementName=textBlock}" />
+                    <TextBox Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" Margin="0,0,0,4" IsReadOnly="True"
+                             Text="{Binding Address}" Foreground="{Binding Foreground, ElementName=textBlock}"
+                             FontFamily="{Binding FontFamily, ElementName=textBlock}"
+                             FontSize="{Binding FontSize, ElementName=textBlock}" />
 
-                    <TextBlock Grid.Row="1" Grid.Column="0" Text="Public Key:" VerticalAlignment="Top" Margin="0,0,16,4" />
-                    <TextBox Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" Margin="0,0,0,4" IsReadOnly="True" Text="{Binding PublicKey}" Foreground="{Binding Foreground, ElementName=textBlock}" FontFamily="{Binding FontFamily, ElementName=textBlock}" FontSize="{Binding FontSize, ElementName=textBlock}"/>
+                    <TextBlock Grid.Row="1" Grid.Column="0" Text="Public Key:" VerticalAlignment="Top"
+                               Margin="0,0,16,4" />
+                    <TextBox Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" Margin="0,0,0,4" IsReadOnly="True"
+                             Text="{Binding PublicKey}" Foreground="{Binding Foreground, ElementName=textBlock}"
+                             FontFamily="{Binding FontFamily, ElementName=textBlock}"
+                             FontSize="{Binding FontSize, ElementName=textBlock}" />
 
-                    <TextBlock Grid.Row="2" Grid.Column="0" Text="LSK Balance:" VerticalAlignment="Top" Margin="0,0,16,4" />
-                    <TextBox Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" Margin="0,0,0,4" IsReadOnly="True" Text="{Binding Balance}" Foreground="{Binding Foreground, ElementName=textBlock}" FontFamily="{Binding FontFamily, ElementName=textBlock}" FontSize="{Binding FontSize, ElementName=textBlock}"/>
+                    <TextBlock Grid.Row="2" Grid.Column="0" Text="LSK Balance:" VerticalAlignment="Top"
+                               Margin="0,0,16,4" />
+                    <TextBox Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" Margin="0,0,0,4" IsReadOnly="True"
+                             Text="{Binding Balance}" Foreground="{Binding Foreground, ElementName=textBlock}"
+                             FontFamily="{Binding FontFamily, ElementName=textBlock}"
+                             FontSize="{Binding FontSize, ElementName=textBlock}" />
 
 
                 </Grid>
