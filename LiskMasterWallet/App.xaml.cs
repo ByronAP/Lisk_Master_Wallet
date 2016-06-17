@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows;
+using FirstFloor.ModernUI.Presentation;
 using Lisk.API;
 using LiskMasterWallet.Helpers;
 using LiskMasterWallet.Properties;
@@ -15,11 +16,15 @@ namespace LiskMasterWallet
     //TODO: get rid of all the magic strings
     public partial class App : Application
     {
+        private static Splash.Splash splashScreen;
         private async void App_Startup(object sender, StartupEventArgs e)
         {
             AppDomain.CurrentDomain.SetData("DataDirectory",
                 Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData));
-            var splashScreen = new Splash.Splash();
+
+            SetupEnv();
+
+            splashScreen = new Splash.Splash();
             splashScreen.Show();
 
             SetupConsole();
@@ -32,10 +37,29 @@ namespace LiskMasterWallet
 
             Globals.StartTimers();
 
-            Console.WriteLine("Starting application MainWindow");
+            WriteLine("Starting application MainWindow");
             var mainWindow = new MainWindow();
             mainWindow.Loaded += (sendername, args) => splashScreen.Close();
             mainWindow.Show();
+        }
+
+        private static void SetupEnv()
+        {
+            var fs = Settings.Default.FontSize;
+            switch (fs)
+            {
+                case "large":
+                    AppearanceManager.Current.FontSize = FirstFloor.ModernUI.Presentation.FontSize.Large;
+                    break;
+                case "small":
+                    AppearanceManager.Current.FontSize = FirstFloor.ModernUI.Presentation.FontSize.Small;
+                    break;
+                default:
+                    AppearanceManager.Current.FontSize = FirstFloor.ModernUI.Presentation.FontSize.Large;
+                    break;
+            }
+            AppearanceManager.Current.AccentColor = Settings.Default.AccentColor;
+            AppearanceManager.Current.ThemeSource = Settings.Default.Theme;
         }
 
         private static void SetupConsole()
@@ -64,11 +88,11 @@ namespace LiskMasterWallet
         {
             if (Settings.Default.UpgradeRequired)
             {
-                Console.WriteLine("Upgrading settings to new app version.");
+                WriteLine("Upgrading settings to new app version.");
                 Settings.Default.Upgrade();
                 Settings.Default.UpgradeRequired = false;
                 Settings.Default.Save();
-                Console.WriteLine("Settings upgrade success.");
+                WriteLine("Settings upgrade success.");
             }
         }
 
@@ -82,19 +106,19 @@ namespace LiskMasterWallet
                 if (!File.Exists(wfilloc))
                 {
                     
-                    Console.WriteLine("Creating new wallet");
+                    WriteLine("Creating new wallet");
                     _dbcontext.Database.ExecuteSqlCommand(Globals.CreateAccountsTableSQL);
                     _dbcontext.Database.ExecuteSqlCommand(Globals.CreateTransactionsTableSQL);
                     _dbcontext.Database.ExecuteSqlCommand(Globals.CreateUserSettingsTableSQL);
-                    Console.WriteLine("New wallet created");
+                    WriteLine("New wallet created");
                 }
             }
             RETRY:
             var nv = AppHelpers.GetNewCBCVector();
             if (!(from s in _dbcontext.UserSettings select s).Any())
             {
-                Console.WriteLine("Initializing user settings");
-                Console.WriteLine("Creating new CBCVector");
+                WriteLine("Initializing user settings");
+                WriteLine("Creating new CBCVector");
                 var ni = new UserSetting
                 {
                     CBCVector = nv,
@@ -102,15 +126,15 @@ namespace LiskMasterWallet
                 };
                 _dbcontext.UserSettings.Add(ni);
                 _dbcontext.SaveChanges();
-                Console.WriteLine("CBCVector creation success");
-                Console.WriteLine("User settings update success");
-                Console.WriteLine("Restarting Lisk Master Wallet");
+                WriteLine("CBCVector creation success");
+                WriteLine("User settings update success");
+                WriteLine("Restarting Lisk Master Wallet");
                 ForceRestart();
             }
             if (!(from s in _dbcontext.UserSettings select s).Any())
             {
-                Console.WriteLine("User settings initialization failed");
-                Console.WriteLine("Retrying user settings initialization");
+                WriteLine("User settings initialization failed");
+                WriteLine("Retrying user settings initialization");
                 goto RETRY;
             }
             _dbcontext.Dispose();
@@ -118,7 +142,7 @@ namespace LiskMasterWallet
 
         private static string RequestCreatMasterPassword()
         {
-            Console.WriteLine("Requesting master password creation");
+            WriteLine("Requesting master password creation");
             // set a new master password
             var cmpw = new SetMasterPasswordWindow();
 
@@ -126,10 +150,10 @@ namespace LiskMasterWallet
             var mpwdh = cmpw.mpwdh;
             if (string.IsNullOrEmpty(mpwdh))
             {
-                Console.WriteLine("Quiting no master password");
+                WriteLine("Quiting no master password");
                 ForceExit();
             }
-            Console.WriteLine("Master password creation success");
+            WriteLine("Master password creation success");
             return mpwdh;
         }
 
@@ -153,7 +177,7 @@ namespace LiskMasterWallet
 
         internal static async Task SetupAPI()
         {
-            Console.WriteLine("Setting up API system");
+            WriteLine("Setting up API system");
             if(Settings.Default.Testnet)
                 Console.WriteLine("USING TESTNET");
             // find the fastest server
@@ -161,7 +185,7 @@ namespace LiskMasterWallet
             var fastservertime = 0L;
             if (Settings.Default.AutoFindServer)
             {
-                Console.WriteLine("Finding best node");
+                WriteLine("Finding best node");
                 var servers = Settings.Default.Testnet ? Settings.Default.TestnetServers : Settings.Default.Servers;
                 foreach (var s in servers)
                 {
@@ -175,13 +199,13 @@ namespace LiskMasterWallet
                             // check that the server is synced
                             var _api = new LiskAPI(s);
                             var ls = await _api.Loader_Status();
-                            if (ls == null || !ls.loaded)
+                            if (ls == null || !ls.success || !ls.loaded || ls.blocksCount != 0)
                             {
                                 Console.WriteLine("server " + s + " is not synced, skipping");
                                 continue;
                             }
                             var ss = await _api.Loader_SyncStatus();
-                            if (ss == null || ss.syncing)
+                            if (ss == null || !ss.success || ss.syncing || ss.blocks != 0)
                             {
                                 Console.WriteLine("server " + s + " is not synced, skipping");
                                 continue;
@@ -202,11 +226,11 @@ namespace LiskMasterWallet
                     Globals.API = new LiskAPI(fastserver);
                     Globals.CurrentBlockHeight = (await Globals.API.Blocks_GetHeight()).height;
                     Console.WriteLine("API Server block height " + Globals.CurrentBlockHeight);
-                    Console.WriteLine("API system setup complete");
+                    WriteLine("API system setup complete");
                 }
                 else
                 {
-                    Console.WriteLine("API system setup failed, could not find a valid server.");
+                    WriteLine("API system setup failed, could not find a valid server.");
                     var mbr = MessageBox.Show("Error: Could not find a valid server node.\r\nWould you like retry?", "Server Error", MessageBoxButton.YesNo, MessageBoxImage.Question);
                     if (mbr == MessageBoxResult.Yes)
                         await SetupAPI();
@@ -217,17 +241,17 @@ namespace LiskMasterWallet
             else
             {
                 fastservertime = AppHelpers.GetServerResponseTime(Settings.Default.Servers[0]);
-                Console.WriteLine("Selected first server " + Settings.Default.Servers[0] + " response time " +
+                WriteLine("Selected first server " + Settings.Default.Servers[0] + " response time " +
                                   fastservertime + " ms");
                 if (fastservertime <= 0)
-                    Console.WriteLine("API server did not respond to ping request, status unknown, attempting test call");
+                    WriteLine("API server did not respond to ping request, status unknown, attempting test call");
                 Globals.API = new LiskAPI(Settings.Default.Servers[0]);
                 try
                 {
                     var res = await Globals.API.Loader_Status();
                     if (res == null || !res.loaded)
                     {
-                        Console.WriteLine("API server failed to respond, fatal exiting");
+                        WriteLine("API server failed to respond, fatal exiting");
                         Console.WriteLine("Press any key to quit");
                         Console.ReadLine();
                         ForceExit();
@@ -235,15 +259,22 @@ namespace LiskMasterWallet
                 }
                 catch (Exception crap)
                 {
-                    Console.WriteLine("Error: " + crap.Message);
+                    WriteLine("Error: " + crap.Message);
                     Console.WriteLine("Press any key to quit");
                     Console.ReadLine();
                     ForceExit();
                 }
                 Globals.CurrentBlockHeight = (await Globals.API.Blocks_GetHeight()).height;
                 Console.WriteLine("API Server block height " + Globals.CurrentBlockHeight);
-                Console.WriteLine("API system setup complete");
+                WriteLine("API system setup complete");
             }
+        }
+
+        internal static void WriteLine(string txt)
+        {
+            Console.WriteLine(txt);
+            if (splashScreen != null)
+                splashScreen.MessageTextBlock.Text = txt;
         }
     }
 }

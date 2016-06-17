@@ -73,23 +73,6 @@ namespace LiskMasterWallet
                     Height = Settings.Default.MWSize.Height;
                 }
             }
-
-            var fs = Settings.Default.FontSize;
-            switch (fs)
-            {
-                case "large":
-                    AppearanceManager.Current.FontSize = FirstFloor.ModernUI.Presentation.FontSize.Large;
-                    break;
-                case "small":
-                    AppearanceManager.Current.FontSize = FirstFloor.ModernUI.Presentation.FontSize.Small;
-                    break;
-                default:
-                    AppearanceManager.Current.FontSize = FirstFloor.ModernUI.Presentation.FontSize.Large;
-                    break;
-            }
-            AppearanceManager.Current.AccentColor = Settings.Default.AccentColor;
-            AppearanceManager.Current.ThemeSource = Settings.Default.Theme;
-
         }
     }
 }

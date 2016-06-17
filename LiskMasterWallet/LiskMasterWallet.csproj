@@ -390,7 +390,6 @@
       <LastGenOutput>AccountsModel.cs</LastGenOutput>
     </Content>
     <Content Include="Lisk-master-wallet.ico" />
-    <SplashScreen Include="Splash\StaticSplashScreen.png" />
     <None Include="Resources\lock_add.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
