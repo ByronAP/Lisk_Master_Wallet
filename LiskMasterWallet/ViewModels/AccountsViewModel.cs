@@ -46,8 +46,10 @@ namespace LiskMasterWallet.ViewModels
                         continue;
                     a.Balance = LiskAPI.LSKLongToDecimal(actinf.account.balance);
                     a.LastUpdate = DateTime.UtcNow;
-                    if (!string.IsNullOrEmpty(actinf.account.username))
-                        a.FriendlyName = actinf.account.username;
+                    var dg = await Globals.API.Delegates_Get(a.PublicKey);
+                    if (dg != null && dg.success && dg.@delegate != null && !string.IsNullOrEmpty(dg.@delegate.username))
+                        a.FriendlyName = dg.@delegate.username;
+
                     await Globals.DbContext.SaveChangesAsync();
 
                     Globals.AppViewModel.AccountsViewModel.RaisePropertyChanged("Accounts");
@@ -70,8 +72,9 @@ namespace LiskMasterWallet.ViewModels
                     return;
                 acttoupd.Balance = LiskAPI.LSKLongToDecimal(actinf.account.balance);
                 acttoupd.LastUpdate = DateTime.UtcNow;
-                if (!string.IsNullOrEmpty(actinf.account.username))
-                    acttoupd.FriendlyName = actinf.account.username;
+                var dg = await Globals.API.Delegates_Get(acttoupd.PublicKey);
+                if (dg != null && dg.success && dg.@delegate != null && !string.IsNullOrEmpty(dg.@delegate.username))
+                    acttoupd.FriendlyName = dg.@delegate.username;
                 await Globals.DbContext.SaveChangesAsync();
 
                 Globals.AppViewModel.AccountsViewModel.RaisePropertyChanged("Accounts");

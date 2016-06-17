@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Data.Entity.Infrastructure;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -10,6 +12,7 @@ namespace LiskMasterWallet.Controls
     /// </summary>
     public partial class AccountActivityTile : UserControl
     {
+        private bool loaded = false;
         public AccountActivityTile()
         {
             InitializeComponent();
@@ -17,6 +20,8 @@ namespace LiskMasterWallet.Controls
 
         private async void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
+            if (loaded)
+                return;
             ItemSeparator.Background = new SolidColorBrush((Color)FindResource("AccentColor"));
             var dc = (Transaction)DataContext;
             var ttype = dc.TType;
@@ -42,7 +47,32 @@ namespace LiskMasterWallet.Controls
                     DescriptionTextBox.Text = senderfn + " created new signature";
                     break;
                 case 2:
-                    DescriptionTextBox.Text = senderfn + " registered as a delegate";
+                    RETRY:
+                    try
+                    {
+                        var pk = await Globals.API.Accounts_GetAccount(dc.Sender);
+                        if (pk != null && pk.success && pk.account != null &&
+                            !string.IsNullOrEmpty(pk.account.publicKey))
+                        {
+                            var un = await Globals.API.Delegates_Get(pk.account.publicKey);
+                            if (un != null && un.success && un.@delegate != null &&
+                                !string.IsNullOrEmpty(un.@delegate.username))
+                                DescriptionTextBox.Text = senderfn + " registered as a delegate " + un.@delegate.username;
+                            else
+                            {
+                                DescriptionTextBox.Text = senderfn + " registered as a delegate";
+                            }
+                        }
+                        else
+                        {
+                            DescriptionTextBox.Text = senderfn + " registered as a delegate";
+                        }
+                    }
+                    catch
+                    {
+                        goto RETRY;
+                    }
+                    
                     break;
                 case 3:
                     DescriptionTextBox.Text = senderfn + " voted for delegates";
@@ -62,6 +92,7 @@ namespace LiskMasterWallet.Controls
                 default:
                     break;
             }
+            loaded = true;
         }
     }
 }

@@ -44,7 +44,11 @@ namespace LiskMasterWallet.Pages
             var fn = AccountFriendlyNameTextBox.Text.Trim();
             AccountFriendlyNameTextBox.Text = "";
             if (string.IsNullOrEmpty(fn))
-                fn = !string.IsNullOrEmpty(act.account.username) ? act.account.username : act.account.address;
+            {
+                var dg = await Globals.API.Delegates_Get(act.account.publicKey);
+                if (dg != null && dg.success && dg.@delegate != null && !string.IsNullOrEmpty(dg.@delegate.username))
+                    fn = dg.@delegate.username;
+            }
 
             var hasrecord = (from a in Globals.AppViewModel.AccountsViewModel.Accounts
                 where a.Address == act.account.address || a.FriendlyName == fn
