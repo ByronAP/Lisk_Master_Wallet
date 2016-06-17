@@ -6,7 +6,7 @@
              xmlns:mui="http://firstfloorsoftware.com/ModernUI"
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300" Loaded="UserControl_Loaded">
-    <StackPanel Style="{StaticResource ContentRoot}">
+    <Grid Style="{StaticResource ContentRoot}">
         <TextBox x:Name="HeaderTextBlock" Text="FriendlyName | Address" IsReadOnly="True" Margin="0,-28,0,0"
                  Foreground="{Binding Foreground, ElementName=textBlock0}"
                  FontFamily="{Binding FontFamily, ElementName=textBlock0}"
@@ -22,5 +22,5 @@
         </mui:ModernTab>
         <!-- This element is not shown but we pull the style from it and apply it to the textboxes since textbox style is not what we want and I did not want to build a custom style for it just to implement mui styling -->
         <TextBlock x:Name="textBlock0" Visibility="Collapsed" Style="{StaticResource Heading2}" />
-    </StackPanel>
+    </Grid>
 </UserControl>
