@@ -91,10 +91,22 @@ namespace LiskMasterWallet.Pages.Accounts
             }
             if (res == null || !res.success || string.IsNullOrEmpty(res.transactionId))
             {
-                if (!string.IsNullOrEmpty(res.error))
+                if (res != null && !string.IsNullOrEmpty(res.error))
+                {
                     Console.WriteLine("Send transaction failed or did not return a transaction id, " + res.error);
+                    var nd = new NoticeDialog("Send LSK Failed",
+                        "Sending of " + iamount + " LSK from " + act.FriendlyName + " to " +
+                        ToAddressTextBox.Text.Trim() + " failed.\r\nError: " + res.error);
+                    nd.ShowDialog();
+                }
                 else
+                {
                     Console.WriteLine("Send transaction failed or did not return a transaction id, no additional data");
+                    var nd = new NoticeDialog("Send LSK Failed",
+                        "Sending of " + iamount + " LSK from " + act.FriendlyName + " to " +
+                        ToAddressTextBox.Text.Trim() + " failed.\r\nError: no error data available.");
+                    nd.ShowDialog();
+                }
             }
             else
             {
@@ -105,13 +117,13 @@ namespace LiskMasterWallet.Pages.Accounts
                 var nd = new NoticeDialog("Send LSK",
                     "Sent " + iamount + " LSK from " + act.FriendlyName + " to " + ToAddressTextBox.Text.Trim());
                 nd.ShowDialog();
-                try
-                {
-                    Send_OnLoaded(null, null);
-                }
-                catch
-                {
-                }
+            }
+            try
+            {
+                Send_OnLoaded(null, null);
+            }
+            catch
+            {
             }
         }
 
@@ -162,7 +174,7 @@ namespace LiskMasterWallet.Pages.Accounts
                 decimal iamount;
                 if (!decimal.TryParse(SendAmountTextBox.Text.Trim(), out iamount))
                     return;
-                if (iamount < 0.1m)
+                if (iamount < 0)
                     SendAmountTextBox.Text = "0.1";
                 var act = (from a in Globals.AppViewModel.AccountsViewModel.Accounts
                     where a.FriendlyName == AppViewModel.SelectedAccountFriendlyName
