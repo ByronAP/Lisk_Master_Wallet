@@ -26,6 +26,24 @@ namespace LiskMasterWallet.ViewModels
         public ObservableCollection<Transaction> Transactions { get; set; }
         public ObservableCollection<Transaction> RecentTransactions { get; private set; }
 
+        public ObservableCollection<Transaction> CurrentAccountTransactions
+        {
+            get
+            {
+                var addy =
+                    (from a in Globals.DbContext.Accounts
+                        where a.FriendlyName == AppViewModel.SelectedAccountFriendlyName
+                        select a.Address).First();
+                var trans = (from t in Globals.DbContext.Transactions where t.Sender == addy || t.Receiver == addy orderby t.Created descending select t);
+                var result = new ObservableCollection<Transaction>();
+                foreach (var t in trans)
+                {
+                    result.Add(t);
+                }
+                return result;
+            }
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         public void RaisePropertyChanged(string prop)

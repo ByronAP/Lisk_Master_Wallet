@@ -9,6 +9,7 @@
         <ScrollViewer>
             <StackPanel MinWidth="200">
                 <TextBlock Text="Account Overview" Style="{StaticResource Heading2}" />
+                <Image x:Name="QRCodeImage" Width="128" Margin="0,24,0,48" />
                 <Grid HorizontalAlignment="Center">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />

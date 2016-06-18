@@ -2,13 +2,13 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              mc:Ignorable="d" 
              Loaded="AccountHistoryItem_OnLoaded"
              d:DesignHeight="100" d:DesignWidth="400">
     <StackPanel Orientation="Vertical">
         <StackPanel Orientation="Horizontal">
-            <Image Source="../Lisk-master-wallet.ico" />
+            <Image x:Name="ItemImage" Source="{DynamicResource AppbarAdd}" MinWidth="60" Margin="0,0,16,0" />
             <StackPanel Orientation="Vertical">
                 <TextBox IsReadOnly="True" Background="Transparent" BorderThickness="0" TextWrapping="Wrap"
                  Foreground="{Binding Foreground, ElementName=textBlock}"

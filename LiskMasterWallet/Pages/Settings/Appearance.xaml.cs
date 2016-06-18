@@ -1,4 +1,7 @@
-﻿using System.Windows.Controls;
+﻿using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media;
+using FirstFloor.ModernUI.Presentation;
 using LiskMasterWallet.ViewModels;
 
 namespace LiskMasterWallet.Pages.Settings
@@ -14,6 +17,12 @@ namespace LiskMasterWallet.Pages.Settings
 
             // create and assign the appearance view model
             DataContext = new AppearanceViewModel();
+        }
+
+        private void Appearance_OnLoaded(object sender, RoutedEventArgs e)
+        {
+            var acb = (SolidColorBrush) FindResource("AccentColorBrush");
+            acb.Color = AppearanceManager.Current.AccentColor;
         }
     }
 }
