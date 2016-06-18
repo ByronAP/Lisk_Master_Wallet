@@ -9,6 +9,6 @@ IN_TRANSFER: 6,
 OUT_TRANSFER: 7
 
 TODO:
-recent activity needs to show what type of transaction it was and substitute friendly names in place of the address where posible
+add images for each type of transaction to display in AccountActivityItem
 voting
 multisig

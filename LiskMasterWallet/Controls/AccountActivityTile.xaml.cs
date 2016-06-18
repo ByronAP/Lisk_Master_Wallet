@@ -20,9 +20,11 @@ namespace LiskMasterWallet.Controls
 
         private async void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
+            ItemSeparator.Background = new SolidColorBrush((Color)FindResource("AccentColor"));
+
             if (loaded)
                 return;
-            ItemSeparator.Background = new SolidColorBrush((Color)FindResource("AccentColor"));
+            
             var dc = (Transaction)DataContext;
             var ttype = dc.TType;
             var hassenderfn = (from u in Globals.DbContext.Accounts where u.Address == dc.Sender select u.FriendlyName).Any();

@@ -1,0 +1,45 @@
+﻿<UserControl x:Class="LiskMasterWallet.Controls.AccountHistoryItem"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             Loaded="AccountHistoryItem_OnLoaded"
+             d:DesignHeight="100" d:DesignWidth="400">
+    <StackPanel Orientation="Vertical">
+        <StackPanel Orientation="Horizontal">
+            <Image Source="../Lisk-master-wallet.ico" />
+            <StackPanel Orientation="Vertical">
+                <TextBox IsReadOnly="True" Background="Transparent" BorderThickness="0" TextWrapping="Wrap"
+                 Foreground="{Binding Foreground, ElementName=textBlock}"
+                 FontFamily="{Binding FontFamily, ElementName=textBlock}"
+                 FontSize="{Binding FontSize, ElementName=textBlock}">
+                    <TextBox.Text>
+                        <MultiBinding StringFormat="{}Transaction {0}    Block {1}">
+                            <Binding Path="Id" />
+                            <Binding Path="Block" />
+                        </MultiBinding>
+                    </TextBox.Text>
+                </TextBox>
+                <TextBox x:Name="DescriptionTextBox" IsReadOnly="True" Background="Transparent" BorderThickness="0" TextWrapping="Wrap"
+                 Foreground="{Binding Foreground, ElementName=textBlock}"
+                 FontFamily="{Binding FontFamily, ElementName=textBlock}"
+                 FontSize="{Binding FontSize, ElementName=textBlock}"/>
+                <TextBox IsReadOnly="True" Background="Transparent" BorderThickness="0" TextWrapping="Wrap"
+                 Foreground="{Binding Foreground, ElementName=textBlock}"
+                 FontFamily="{Binding FontFamily, ElementName=textBlock}"
+                 FontSize="{Binding FontSize, ElementName=textBlock}">
+                    <TextBox.Text>
+                        <MultiBinding StringFormat="{}{0}    Fee {1} LSK">
+                            <Binding Path="Created" />
+                            <Binding Path="Fee" />
+                        </MultiBinding>
+                    </TextBox.Text>
+                </TextBox>
+                <!-- This element is not shown but we pull the style from it and apply it to the textboxes since textbox style is not what we want and I did not want to build a custom style for it just to implement mui styling -->
+                <TextBlock x:Name="textBlock" Visibility="Collapsed" />
+            </StackPanel>
+        </StackPanel>
+        <Separator x:Name="ItemSeparator" />
+    </StackPanel>
+</UserControl>

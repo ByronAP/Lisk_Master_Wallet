@@ -176,6 +176,9 @@
     <Compile Include="Controls\AccountActivityTile.xaml.cs">
       <DependentUpon>AccountActivityTile.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\AccountHistoryItem.xaml.cs">
+      <DependentUpon>AccountHistoryItem.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\AccountTile.xaml.cs">
       <DependentUpon>AccountTile.xaml</DependentUpon>
     </Compile>
@@ -184,6 +187,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
     <Page Include="AuthRequestDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\AccountHistoryItem.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
