@@ -6,7 +6,7 @@
                   xmlns:mui="http://firstfloorsoftware.com/ModernUI"
                   mc:Ignorable="d"
                   d:DesignHeight="175" d:DesignWidth="300"
-                  Title="Notice">
+                  Title="Notice" WindowStartupLocation="CenterOwner">
     <StackPanel>
         <TextBlock x:Name="MessageTextBlock" TextWrapping="Wrap" Margin="32" />
         <mui:ModernButton x:Name="OKButton" HorizontalAlignment="Center" Content="OK"

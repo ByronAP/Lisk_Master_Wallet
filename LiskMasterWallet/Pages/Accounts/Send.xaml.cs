@@ -60,17 +60,21 @@ namespace LiskMasterWallet.Pages.Accounts
             var avail = act.Balance;
             decimal iamount;
             if (!decimal.TryParse(SendAmountTextBox.Text.Trim(), out iamount))
+            {
+                ShowNotice("Send LSK", "Please enter a valid send amount and try again.");
                 return;
+            }
             if (iamount + Properties.Settings.Default.SendFee > avail || iamount < 0.1m)
+            {
+                ShowNotice("Send LSK", "Sorry the amount specified exceeds your available balance.\r\nPlease enter a valid send amount and try again.");
                 return;
-            //verify the toaddress is valid by checking the length and format and a secondary network check
-            if (ToAddressTextBox.Text.Trim().Length < 20 || ToAddressTextBox.Text.Trim().Length > 21)
+            }
+            //verify the toaddress is valid by checking the length and format
+            if (ToAddressTextBox.Text.Trim().Length < 20 || ToAddressTextBox.Text.Trim().Length > 21 || !ToAddressTextBox.Text.Trim().EndsWith("l"))
+            {
+                ShowNotice("Send LSK", "Sorry the address specified does not apear to be valid.\r\nPlease check the address for errors and try again.");
                 return;
-            if (!ToAddressTextBox.Text.Trim().EndsWith("L"))
-                return;
-            var valresp = await Globals.API.Accounts_GetAccount(ToAddressTextBox.Text.Trim());
-            if (!valresp.success || valresp.account == null)
-                return;
+            }
             transactions_send_response res;
             using (
                 var avm = new AuthViewModel
@@ -198,6 +202,12 @@ namespace LiskMasterWallet.Pages.Accounts
             var availbal = decimal.Parse(AvailableBalanceTextBox.Text);
             var sttl = availbal - Properties.Settings.Default.SendFee;
             SendAmountTextBox.Text = sttl.ToString("F8");
+        }
+
+        private bool? ShowNotice(string title, string message)
+        {
+            var nd = new NoticeDialog(title, message);
+            return nd.ShowDialog();
         }
     }
 }

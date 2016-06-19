@@ -6,7 +6,7 @@
                   xmlns:mui="http://firstfloorsoftware.com/ModernUI"
                   mc:Ignorable="d"
                   d:DesignHeight="175" d:DesignWidth="300"
-                  Title="Processing Please Wait" Topmost="True">
+                  Title="Processing Please Wait" Topmost="True" WindowStartupLocation="CenterOwner">
     <StackPanel>
         <TextBlock x:Name="MessageTextBlock" TextWrapping="Wrap" Margin="32" />
         <mui:ModernProgressRing x:Name="ProcessingProgressRing" IsActive="True" />
