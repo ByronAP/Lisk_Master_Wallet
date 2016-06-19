@@ -31,10 +31,15 @@ namespace LiskMasterWallet.Controls
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            AppViewModel.SelectedAccountFriendlyName = FriendlyNameTextBlock.Text;
-            var url = "/Pages/AccountPage.xaml";
-            var bb = new BBCodeBlock();
-            bb.LinkNavigator.Navigate(new Uri(url, UriKind.Relative), this);
+            try
+            {
+                AppViewModel.SelectedAccountFriendlyName = FriendlyNameTextBlock.Text;
+                var url = "/Pages/AccountPage.xaml";
+                var bb = new BBCodeBlock();
+                bb.LinkNavigator.Navigate(new Uri(url, UriKind.Relative), this);
+            }
+            catch {}
+            
         }
     }
 }

@@ -195,6 +195,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Compile Include="Helpers\APIDataTypeHelperClasses.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
@@ -220,8 +221,8 @@
     <Compile Include="Pages\Accounts\Forging\Forging.xaml.cs">
       <DependentUpon>Forging.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\Accounts\Forging\Votes.xaml.cs">
-      <DependentUpon>Votes.xaml</DependentUpon>
+    <Compile Include="Pages\Accounts\Forging\MyVotes.xaml.cs">
+      <DependentUpon>MyVotes.xaml</DependentUpon>
     </Compile>
     <Compile Include="ProcessingDialog.xaml.cs">
       <DependentUpon>ProcessingDialog.xaml</DependentUpon>
@@ -302,7 +303,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pages\Accounts\Forging\Votes.xaml">
+    <Page Include="Pages\Accounts\Forging\MyVotes.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
