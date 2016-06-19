@@ -18,8 +18,8 @@ namespace LiskMasterWallet.ViewModels
         {
             Color.FromRgb(0xa4, 0xc4, 0x00), // lime
             Color.FromRgb(0x60, 0xa9, 0x17), // green
+            Color.FromRgb(0x33, 0x99, 0x33), // green 2
             Color.FromRgb(0x00, 0x8a, 0x00), // emerald
-            Color.FromRgb(0x33, 0x99, 0x33), // green
             Color.FromRgb(0x00, 0xab, 0xa9), // teal
             Color.FromRgb(0x1b, 0xa1, 0xe2), // cyan
             Color.FromRgb(0x33, 0x99, 0xff), // blue
