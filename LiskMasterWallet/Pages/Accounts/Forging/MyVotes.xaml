@@ -3,13 +3,18 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:controls="clr-namespace:LiskMasterWallet.Controls"
              mc:Ignorable="d"
              Loaded="MyVotes_OnLoaded"
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid Style="{StaticResource ContentRoot}">
-        <ScrollViewer>
-            <StackPanel MinWidth="200">
-                <TextBlock Text="Votes From Me" Style="{StaticResource Heading2}" />
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <TextBlock Text="Votes From Me" Style="{StaticResource Heading2}" />
+        <ScrollViewer Grid.Row="1">
+            <StackPanel MinWidth="300">
                 <ScrollViewer x:Name="TopScrollViewer" Margin="{StaticResource SplitRight}">
                     <ItemsControl x:Name="VotesFromMeItemsControl">
                         <ItemsControl.ItemsPanel>
@@ -19,7 +24,7 @@
                         </ItemsControl.ItemsPanel>
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding Username}" MinWidth="200" MinHeight="23"/>
+                                <controls:DelegateTile/>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>

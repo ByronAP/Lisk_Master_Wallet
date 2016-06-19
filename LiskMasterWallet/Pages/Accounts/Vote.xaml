@@ -12,6 +12,7 @@
                 <mui:Link DisplayName="My Votes" Source="/Pages/Accounts/Forging/MyVotes.xaml" />
                 <mui:Link DisplayName="Votes For Me" Source="/Pages/Accounts/Forging/VotesForMe.xaml" />
                 <mui:Link DisplayName="Delegates" Source="/Pages/Accounts/Forging/Delegates.xaml" />
+                <mui:Link DisplayName="Pending Votes" Source="/Pages/Accounts/Forging/PendingVotes.xaml" />
                 <mui:Link DisplayName="Forging" Source="/Pages/Accounts/Forging/Forging.xaml" />
             </mui:ModernTab.Links>
         </mui:ModernTab>

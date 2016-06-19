@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
 using LiskMasterWallet.Properties;
+using QRCoder;
 
 namespace LiskMasterWallet.Helpers
 {
@@ -43,6 +44,20 @@ namespace LiskMasterWallet.Helpers
                 bitmapimage.EndInit();
 
                 return bitmapimage;
+            }
+        }
+
+        internal static BitmapImage GenerateQRCodeBMP(string data, string hexlightcolor = "#FFFFFF", string hexdarkcolor = "#000000")
+        {
+            using (var qrGenerator = new QRCodeGenerator())
+            {
+                using (var qrCodeData = qrGenerator.CreateQrCode(data, QRCodeGenerator.ECCLevel.Q))
+                {
+                    using (var qrCode = new QRCode(qrCodeData))
+                    {
+                        return BitmapToImageSource(qrCode.GetGraphic(64, "#000000", "#FFFFFF"));
+                    }
+                }
             }
         }
 

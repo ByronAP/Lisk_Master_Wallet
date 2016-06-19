@@ -190,7 +190,14 @@
     <Compile Include="Controls\AccountTile.xaml.cs">
       <DependentUpon>AccountTile.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\DelegateTile.xaml.cs">
+      <DependentUpon>DelegateTile.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Globals.cs" />
+    <Page Include="Controls\DelegateTile.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="ImageResourceDictionary.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
