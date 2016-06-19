@@ -55,7 +55,15 @@ namespace LiskMasterWallet.Helpers
                 {
                     using (var qrCode = new QRCode(qrCodeData))
                     {
-                        return BitmapToImageSource(qrCode.GetGraphic(64, "#000000", "#FFFFFF"));
+                        try
+                        {
+                            return BitmapToImageSource(qrCode.GetGraphic(64, hexdarkcolor, hexlightcolor));
+                        }
+                        catch (Exception crap)
+                        {
+                            Console.WriteLine("Error generating QR image | " + crap.Message);
+                            return new BitmapImage();
+                        }
                     }
                 }
             }

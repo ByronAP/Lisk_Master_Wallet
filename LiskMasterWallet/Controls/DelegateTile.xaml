@@ -3,18 +3,42 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mui="http://firstfloorsoftware.com/ModernUI"
              mc:Ignorable="d" 
              Loaded="DelegateTile_OnLoaded"
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="120" d:DesignWidth="500">
     <StackPanel Orientation="Horizontal">
         <StackPanel Orientation="Vertical">
             <Image x:Name="AddressQR" Width="110" Height="110" />
         </StackPanel>
         <StackPanel Orientation="Vertical">
-                        <TextBox Text="{Binding Address}" IsReadOnly="True" Background="Transparent" BorderThickness="0" TextWrapping="Wrap"
-                     MinWidth="10" MinHeight="23"
-                     Foreground="{Binding Foreground, ElementName=textBlock}" FontFamily="{Binding FontFamily, ElementName=textBlock}"
-                     FontSize="{Binding FontSize, ElementName=textBlock}"/>
+            <TextBox IsReadOnly="True" Background="Transparent" BorderThickness="0" TextWrapping="Wrap"
+                 Foreground="{Binding Foreground, ElementName=textBlock}"
+                 FontFamily="{Binding FontFamily, ElementName=textBlock}"
+                 FontSize="{Binding FontSize, ElementName=textBlock}" Margin="0,8,0,0">
+                <TextBox.Text>
+                    <MultiBinding StringFormat="{}{0} Address {1}">
+                        <Binding Path="Username" />
+                        <Binding Path="Address" />
+                    </MultiBinding>
+                </TextBox.Text>
+            </TextBox>
+            <TextBox IsReadOnly="True" Background="Transparent" BorderThickness="0" TextWrapping="Wrap"
+                 Foreground="{Binding Foreground, ElementName=textBlock}"
+                 FontFamily="{Binding FontFamily, ElementName=textBlock}"
+                 FontSize="{Binding FontSize, ElementName=textBlock}">
+                <TextBox.Text>
+                    <MultiBinding StringFormat="{}Rank #{0}    Approval {1}%    Productivity {2}%">
+                        <Binding Path="Rate" />
+                        <Binding Path="Approval" />
+                        <Binding Path="Productivity"/>
+                    </MultiBinding>
+                </TextBox.Text>
+            </TextBox>
+        </StackPanel>
+        <StackPanel Orientation="Vertical">
+            <TextBlock Text="Buttons Here" />
+            <mui:ModernButton Content="Test Button" />
         </StackPanel>
         <!-- This element is not shown but we pull the style from it and apply it to the textboxes since textbox style is not what we want and I did not want to build a custom style for it just to implement mui styling -->
         <TextBlock x:Name="textBlock" Visibility="Collapsed" />

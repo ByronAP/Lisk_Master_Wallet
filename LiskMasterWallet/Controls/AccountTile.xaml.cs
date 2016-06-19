@@ -25,8 +25,6 @@ namespace LiskMasterWallet.Controls
             AccountIdentImage.Source =
                 AppHelpers.BitmapToImageSource(g.Create(FriendlyNameTextBlock.Text,
                     new Size((int) AccountIdentImage.Width, (int) AccountIdentImage.Height)));
-            var dc = (Account) DataContext;
-            Console.WriteLine(dc.FriendlyName);
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
