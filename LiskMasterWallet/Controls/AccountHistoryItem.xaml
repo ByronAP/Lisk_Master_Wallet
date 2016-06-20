@@ -8,7 +8,7 @@
              d:DesignHeight="100" d:DesignWidth="400">
     <StackPanel Orientation="Vertical">
         <StackPanel Orientation="Horizontal">
-            <Image x:Name="ItemImage" Source="{DynamicResource AppbarAdd}" MinWidth="60" Margin="0,0,16,0" />
+            <Image x:Name="ItemImage" Source="{StaticResource AppbarAdd}" MinWidth="60" Margin="0,0,16,0" />
             <StackPanel Orientation="Vertical">
                 <TextBox IsReadOnly="True" Background="Transparent" BorderThickness="0" TextWrapping="Wrap"
                  Foreground="{Binding Foreground, ElementName=textBlock}"

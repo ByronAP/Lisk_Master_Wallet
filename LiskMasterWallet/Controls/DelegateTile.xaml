@@ -38,7 +38,7 @@
         </StackPanel>
         <StackPanel Orientation="Vertical">
             <TextBlock Text="Buttons Here" />
-            <mui:ModernButton Content="Test Button" />
+            <mui:ModernToggleButton Content="Vote" IconData="{StaticResource CheckMark}" />
         </StackPanel>
         <!-- This element is not shown but we pull the style from it and apply it to the textboxes since textbox style is not what we want and I did not want to build a custom style for it just to implement mui styling -->
         <TextBlock x:Name="textBlock" Visibility="Collapsed" />

@@ -22,6 +22,8 @@ namespace LiskMasterWallet.Pages.Accounts
                 where a.FriendlyName == AppViewModel.SelectedAccountFriendlyName
                 select a).First();
             var act = (Account) DataContext;
+            if (act == null)
+                return;
             QRCodeImage.Source = AppHelpers.GenerateQRCodeBMP(act.Address);
         }
     }

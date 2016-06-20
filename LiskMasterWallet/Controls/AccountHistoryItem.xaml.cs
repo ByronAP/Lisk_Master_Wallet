@@ -22,7 +22,9 @@ namespace LiskMasterWallet.Controls
             ItemSeparator.Background = new SolidColorBrush((Color)FindResource("AccentColor"));
             if (loaded)
                 return;
-            var dc = (Transaction)DataContext;
+            var dc = DataContext as Transaction;
+            if (dc == null)
+                return;
             var ttype = dc.TType;
             var hassenderfn = (from u in Globals.DbContext.Accounts where u.Address == dc.Sender select u.FriendlyName).Any();
             var hasreceiverfn = (from u in Globals.DbContext.Accounts where u.Address == dc.Receiver select u.FriendlyName).Any();

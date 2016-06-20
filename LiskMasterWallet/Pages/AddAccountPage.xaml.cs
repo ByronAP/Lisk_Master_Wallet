@@ -89,7 +89,8 @@ namespace LiskMasterWallet.Pages
             var fd = new OpenFileDialog();
             fd.Multiselect = false;
             fd.Filter = "CSV Files (*.csv)|*.csv|All Files (*.*)|*.*";
-            var res = (bool) fd.ShowDialog();
+            var showDialog = fd.ShowDialog();
+            var res = showDialog != null && (bool) showDialog;
             if (!res || string.IsNullOrEmpty(fd.FileName) || !File.Exists(fd.FileName))
                 return;
 

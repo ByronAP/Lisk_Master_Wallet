@@ -49,8 +49,8 @@ namespace LiskMasterWallet.Pages.Settings
 
             try
             {
-                var _api = new LiskAPI(serverurl);
-                var ss = await _api.Loader_Status();
+                var api = new LiskAPI(serverurl);
+                var ss = await api.Loader_Status();
                 if (!ss.loaded)
                 {
                     var nd = new NoticeDialog("Server Sync Error",

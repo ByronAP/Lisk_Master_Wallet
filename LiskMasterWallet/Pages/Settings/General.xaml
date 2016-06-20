@@ -36,7 +36,7 @@
                     <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="1" MaxHeight="26">
                         <TextBox Name="NewServerTextBox" Width="200" Margin="0,0,6,0" MaxLines="1" MaxLength="64" />
                         <mui:ModernButton Name="AddServerButton"
-                                          IconData="F1 M 35,19L 41,19L 41,35L 57,35L 57,41L 41,41L 41,57L 35,57L 35,41L 19,41L 19,35L 35,35L 35,19 Z"
+                                          IconData="{StaticResource PlusSign}"
                                           Content="Add" Click="AddServerButton_Click" />
                     </StackPanel>
 
@@ -51,7 +51,7 @@
                            Text="Disabling 'Auto Server' is not recomended, when disabled only the first server in the list will be used.&#10;Close and restart the application for these settings to take effect."
                            TextWrapping="Wrap" />
                 <mui:ModernButton Name="SaveRestartButton" Content="Save &amp; Restart"
-                                  IconData="F1 M 23.7501,33.25L 34.8334,44.3333L 52.2499,22.1668L 56.9999,26.9168L 34.8334,53.8333L 19.0001,38L 23.7501,33.25 Z"
+                                  IconData="{StaticResource CheckMark}"
                                   HorizontalAlignment="Right" Margin="0,18,18,0" Click="SaveRestartButton_Click" />
             </StackPanel>
         </ScrollViewer>
