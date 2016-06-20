@@ -14,6 +14,7 @@
     <FileAlignment>512</FileAlignment>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -26,7 +27,6 @@
     <MapFileExtensions>true</MapFileExtensions>
     <ApplicationRevision>0</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
@@ -203,6 +203,8 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Compile Include="Helpers\APIDataTypeHelperClasses.cs" />
+    <Compile Include="Helpers\GridUtils.cs" />
+    <Compile Include="LinqToVisualTree.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
@@ -231,6 +233,7 @@
     <Compile Include="Pages\Accounts\Forging\MyVotes.xaml.cs">
       <DependentUpon>MyVotes.xaml</DependentUpon>
     </Compile>
+    <Compile Include="PiePiece.cs" />
     <Compile Include="ProcessingDialog.xaml.cs">
       <DependentUpon>ProcessingDialog.xaml</DependentUpon>
     </Compile>
@@ -286,6 +289,7 @@
     <Compile Include="ViewModels\AccountsViewModel.cs" />
     <Compile Include="ViewModels\AppViewModel.cs" />
     <Compile Include="ViewModels\AuthViewModel.cs" />
+    <Compile Include="ViewModels\CircularProgressBarViewModel.cs" />
     <Compile Include="ViewModels\TransactionsViewModel.cs" />
     <Page Include="Controls\AccountActivityTile.xaml">
       <SubType>Designer</SubType>

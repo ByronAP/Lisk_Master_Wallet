@@ -31,6 +31,28 @@ namespace LiskMasterWallet.Helpers
         private const int SALT_BYTE_SIZE = 16;
         private const int SALT_INDEX = 1;
 
+        /// <summary>
+        /// Converts a coordinate from the polar coordinate system to the cartesian coordinate system.
+        /// </summary>
+        /// <param name="angle"></param>
+        /// <param name="radius"></param>
+        /// <returns></returns>
+        public static System.Windows.Point ComputeCartesianCoordinate(double angle, double radius)
+        {
+            // convert to radians
+            var angleRad = (Math.PI / 180.0) * (angle - 90);
+
+            var x = radius * Math.Cos(angleRad);
+            var y = radius * Math.Sin(angleRad);
+
+            return new System.Windows.Point(x, y);
+        }
+
+        public static System.Windows.Point Offset(this System.Windows.Point point, double x, double y)
+        {
+            return new System.Windows.Point(point.X + x, point.Y + y);
+        }
+
         internal static BitmapImage BitmapToImageSource(Bitmap bitmap)
         {
             using (var memory = new MemoryStream())

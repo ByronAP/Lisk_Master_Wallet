@@ -4,9 +4,50 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mui="http://firstfloorsoftware.com/ModernUI"
+             xmlns:viewModels="clr-namespace:LiskMasterWallet.ViewModels"
              mc:Ignorable="d" 
+             xmlns:local="clr-namespace:LiskMasterWallet"
+             xmlns:helpers="clr-namespace:LiskMasterWallet.Helpers"
              Loaded="DelegateTile_OnLoaded"
              d:DesignHeight="120" d:DesignWidth="500">
+    <UserControl.Resources>
+        <Style TargetType="ProgressBar" x:Key="CircularProgressBarStyle">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ProgressBar">
+                        <Grid x:Name="LayoutRoot">
+                            <!-- attach the view model -->
+                            <viewModels:CircularProgressBarViewModel.Attach>
+                                <viewModels:CircularProgressBarViewModel HoleSizeFactor="0.75"/>
+                            </viewModels:CircularProgressBarViewModel.Attach>
+
+
+                            <Ellipse Width="{Binding Diameter}" Height="{Binding Diameter}"
+                       HorizontalAlignment="Center" VerticalAlignment="Center"
+                       Stroke="{Binding Foreground, ElementName=textBlock}" Opacity="1" Fill="Transparent"
+                       StrokeThickness="10">
+                            </Ellipse>
+
+                            <local:PiePiece CentreX="{Binding CentreX}" CentreY="{Binding CentreY}"
+                              RotationAngle="0" WedgeAngle="{Binding Angle}"
+                              Radius="{Binding Radius}" InnerRadius="{Binding InnerRadius}"
+                              Fill="{StaticResource AccentColorBrush}" Opacity="1"/>
+
+                            <Grid helpers:GridUtils.RowDefinitions="*,2*,*"
+                    helpers:GridUtils.ColumnDefinitions="*,2*,*">
+                                <Viewbox Grid.Row="1" Grid.Column="1">
+                                    <TextBlock Text="{Binding Percent, StringFormat=0%}"
+                             Foreground="{Binding Foreground, ElementName=textBlock}"
+                             FontWeight="Bold"
+                             VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                </Viewbox>
+                            </Grid>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
     <StackPanel Orientation="Horizontal">
         <StackPanel Orientation="Vertical">
             <Image x:Name="AddressQR" Width="110" Height="110" />
@@ -36,6 +77,9 @@
                 </TextBox.Text>
             </TextBox>
         </StackPanel>
+        <ProgressBar Value="{Binding Productivity}" 
+                 Width="80" Height="80" 
+                 Style="{StaticResource CircularProgressBarStyle}" />
         <StackPanel Orientation="Vertical">
             <TextBlock Text="Buttons Here" />
             <mui:ModernToggleButton Content="Vote" IconData="{StaticResource CheckMark}" />
@@ -44,3 +88,4 @@
         <TextBlock x:Name="textBlock" Visibility="Collapsed" />
     </StackPanel>
 </UserControl>
+
