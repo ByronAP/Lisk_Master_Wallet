@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Threading;
 using FirstFloor.ModernUI.Presentation;
 using Lisk.API;
 using LiskMasterWallet.Helpers;
@@ -19,6 +20,8 @@ namespace LiskMasterWallet
 
         private async void App_Startup(object sender, StartupEventArgs e)
         {
+            AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
+              
             AppDomain.CurrentDomain.SetData("DataDirectory",
                 Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData));
 
@@ -41,6 +44,35 @@ namespace LiskMasterWallet
             var mainWindow = new MainWindow();
             mainWindow.Loaded += (sendername, args) => splashScreen.Close();
             mainWindow.Show();
+        }
+
+        private void App_OnDispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
+        {
+            if (!Debugger.IsAttached)
+            {
+                e.Handled = true;
+                Console.WriteLine("Error: " + e.Exception.Message + " | " + e.Exception.Source);
+                MessageBox.Show(
+                    "Error: " + e.Exception.Message + "\r\n in " + e.Exception.Source +
+                    "\r\nApplication will now close.", "Application Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                ForceExit();
+            }
+        }
+
+        private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            if (!Debugger.IsAttached)
+            {
+                var ex = e.ExceptionObject as Exception;
+                if (ex != null)
+                {
+                    Console.WriteLine("Error: " + ex.Message + " | " + ex.Source);
+                    MessageBox.Show(
+                        "Error: " + ex.Message + "\r\n in " + ex.Source +
+                        "\r\nApplication will now close.", "Application Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    ForceExit();
+                }
+            }
         }
 
         private static void SetupEnv()
