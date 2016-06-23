@@ -204,6 +204,7 @@
     </Page>
     <Compile Include="Helpers\APIDataTypeHelperClasses.cs" />
     <Compile Include="Helpers\GridUtils.cs" />
+    <Compile Include="Helpers\MarginConverters.cs" />
     <Compile Include="LinqToVisualTree.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>

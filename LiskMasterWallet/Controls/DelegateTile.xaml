@@ -3,14 +3,15 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:mui="http://firstfloorsoftware.com/ModernUI"
              xmlns:viewModels="clr-namespace:LiskMasterWallet.ViewModels"
              mc:Ignorable="d" 
-             xmlns:local="clr-namespace:LiskMasterWallet"
              xmlns:helpers="clr-namespace:LiskMasterWallet.Helpers"
+             xmlns:liskMasterWallet="clr-namespace:LiskMasterWallet" 
+             xmlns:mui="http://firstfloorsoftware.com/ModernUI"
              Loaded="DelegateTile_OnLoaded"
-             d:DesignHeight="120" d:DesignWidth="500">
+             d:DesignHeight="130" d:DesignWidth="500">
     <UserControl.Resources>
+        <helpers:RightMarginConverter x:Key="MyRightMarginConverter"/>
         <Style TargetType="ProgressBar" x:Key="CircularProgressBarStyle">
             <Setter Property="Template">
                 <Setter.Value>
@@ -28,7 +29,7 @@
                        StrokeThickness="10">
                             </Ellipse>
 
-                            <local:PiePiece CentreX="{Binding CentreX}" CentreY="{Binding CentreY}"
+                            <liskMasterWallet:PiePiece CentreX="{Binding CentreX}" CentreY="{Binding CentreY}"
                               RotationAngle="0" WedgeAngle="{Binding Angle}"
                               Radius="{Binding Radius}" InnerRadius="{Binding InnerRadius}"
                               Fill="{StaticResource AccentColorBrush}" Opacity="1"/>
@@ -36,7 +37,7 @@
                             <Grid helpers:GridUtils.RowDefinitions="*,2*,*"
                     helpers:GridUtils.ColumnDefinitions="*,2*,*">
                                 <Viewbox Grid.Row="1" Grid.Column="1">
-                                    <TextBlock Text="{Binding Percent, StringFormat=0%}"
+                                    <TextBlock Text="{Binding Percent, StringFormat=0.00%}"
                              Foreground="{Binding Foreground, ElementName=textBlock}"
                              FontWeight="Bold"
                              VerticalAlignment="Center" HorizontalAlignment="Center"/>
@@ -48,44 +49,55 @@
             </Setter>
         </Style>
     </UserControl.Resources>
-    <StackPanel Orientation="Horizontal">
-        <StackPanel Orientation="Vertical">
-            <Image x:Name="AddressQR" Width="110" Height="110" />
-        </StackPanel>
-        <StackPanel Orientation="Vertical">
-            <TextBox IsReadOnly="True" Background="Transparent" BorderThickness="0" TextWrapping="Wrap"
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Image x:Name="AddressQR" Grid.Column="0" Grid.Row="1" Width="98" Height="98" />
+        <TextBox x:Name="AddressTextBox" Grid.Column="0" Grid.Row="0" IsReadOnly="True" Background="Transparent" BorderThickness="0" TextWrapping="Wrap"
                  Foreground="{Binding Foreground, ElementName=textBlock}"
                  FontFamily="{Binding FontFamily, ElementName=textBlock}"
-                 FontSize="{Binding FontSize, ElementName=textBlock}" Margin="0,8,0,0">
-                <TextBox.Text>
-                    <MultiBinding StringFormat="{}{0} Address {1}">
-                        <Binding Path="Username" />
-                        <Binding Path="Address" />
-                    </MultiBinding>
-                </TextBox.Text>
-            </TextBox>
-            <TextBox IsReadOnly="True" Background="Transparent" BorderThickness="0" TextWrapping="Wrap"
-                 Foreground="{Binding Foreground, ElementName=textBlock}"
+                 Text="{Binding Address}" TextAlignment="Center" />
+        <TextBox Grid.Column="1" Grid.Row="0" IsReadOnly="True" Background="Transparent" BorderThickness="0" TextWrapping="Wrap"
+                 Foreground="{DynamicResource AccentColorBrush}" Margin="{Binding ElementName=AddressTextBox, Path=Width, Converter={StaticResource MyRightMarginConverter}}"
                  FontFamily="{Binding FontFamily, ElementName=textBlock}"
-                 FontSize="{Binding FontSize, ElementName=textBlock}">
-                <TextBox.Text>
-                    <MultiBinding StringFormat="{}Rank #{0}    Approval {1}%    Productivity {2}%">
-                        <Binding Path="Rate" />
-                        <Binding Path="Approval" />
-                        <Binding Path="Productivity"/>
-                    </MultiBinding>
-                </TextBox.Text>
-            </TextBox>
-        </StackPanel>
-        <ProgressBar Value="{Binding Productivity}" 
-                 Width="80" Height="80" 
-                 Style="{StaticResource CircularProgressBarStyle}" />
-        <StackPanel Orientation="Vertical">
-            <TextBlock Text="Buttons Here" />
-            <mui:ModernToggleButton Content="Vote" IconData="{StaticResource CheckMark}" />
-        </StackPanel>
+                 FontSize="16" FontWeight="Bold" Text="{Binding Username}" TextAlignment="Center" />
+        <Grid Grid.Row="1" Grid.Column="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="0" Margin="8,0,0,0">
+                <TextBlock Text="Rate" FontWeight="Bold" FontSize="14" TextAlignment="Center" />
+                <ProgressBar HorizontalAlignment="Center" Value="{Binding Rank}" Width="80" Height="80" Style="{StaticResource CircularProgressBarStyle}" />
+            </StackPanel>
+            <StackPanel Grid.Column="1" Margin="8,0,0,0">
+                <TextBlock Text="Productivity" FontWeight="Bold" FontSize="14" TextAlignment="Center" />
+                <ProgressBar HorizontalAlignment="Center" Value="{Binding Productivity}" Width="80" Height="80" Style="{StaticResource CircularProgressBarStyle}" />
+            </StackPanel>
+            <StackPanel Grid.Column="2" Margin="8,0,0,0">
+                <TextBlock Text="Approval" FontWeight="Bold" FontSize="14" TextAlignment="Center" />
+                <ProgressBar HorizontalAlignment="Center" Value="{Binding Approval}" Width="80" Height="80" Style="{StaticResource CircularProgressBarStyle}" />
+            </StackPanel>
+            <StackPanel Grid.Column="3" Margin="8,0,0,0" Orientation="Vertical">
+                <TextBlock HorizontalAlignment="Center" Text="Buttons Here" />
+                <mui:ModernToggleButton HorizontalAlignment="Center" Content="Vote" IconData="{StaticResource CheckMark}" />
+            </StackPanel>
+        </Grid>
+        <Separator Background="{DynamicResource AccentColorBrush}" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" />
         <!-- This element is not shown but we pull the style from it and apply it to the textboxes since textbox style is not what we want and I did not want to build a custom style for it just to implement mui styling -->
-        <TextBlock x:Name="textBlock" Visibility="Collapsed" />
-    </StackPanel>
+        <TextBlock x:Name="textBlock" Visibility="Collapsed" Margin="0,2,0,8"/>
+    </Grid>
 </UserControl>
+
+
 
