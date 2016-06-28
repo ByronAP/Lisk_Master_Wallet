@@ -19,7 +19,7 @@ namespace LiskMasterWallet.Controls
             var dc = DataContext as Delegate_Class;
             if (dc == null)
                 return;
-            this.AddressQR.Source = AppHelpers.GenerateQRCodeBMP(dc.Address);
+            //this.AddressQR.Source = AppHelpers.GenerateQRCodeBMP(dc.Address);
 
         }
     }

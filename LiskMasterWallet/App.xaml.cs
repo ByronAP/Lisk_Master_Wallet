@@ -96,7 +96,7 @@ namespace LiskMasterWallet
 
         private static void SetupConsole()
         {
-            if (Settings.Default.ShowDebugConsole)
+            if (Settings.Default.ShowDebugConsole || Debugger.IsAttached)
                 DebugConsole.ShowConsoleWindow();
             Console.WriteLine("************* Lisk Master Wallet ***************");
             Console.WriteLine("*************         by         ***************");
@@ -230,7 +230,7 @@ namespace LiskMasterWallet
                             // check that the server is synced
                             var _api = new LiskAPI(s);
                             var ls = await _api.Loader_Status();
-                            if (ls == null || !ls.success || !ls.loaded || ls.blocksCount != 0)
+                            if (ls == null || !ls.success || !ls.loaded)
                             {
                                 Console.WriteLine("server " + s + " is not synced, skipping");
                                 continue;

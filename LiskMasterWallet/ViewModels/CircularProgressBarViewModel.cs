@@ -5,6 +5,7 @@ using LinqToVisualTree;
 using System.Windows.Data;
 using System.ComponentModel;
 using System;
+using System.Reflection;
 
 namespace LiskMasterWallet.ViewModels
 {
@@ -185,7 +186,6 @@ namespace LiskMasterWallet.ViewModels
                     typeof(object),
                     typeof(UserControl),
                     new PropertyMetadata(callback));
-
                 element.SetBinding(prop, b);
             }
             catch{}

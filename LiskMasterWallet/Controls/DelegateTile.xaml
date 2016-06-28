@@ -12,6 +12,7 @@
              d:DesignHeight="130" d:DesignWidth="500">
     <UserControl.Resources>
         <helpers:RightMarginConverter x:Key="MyRightMarginConverter"/>
+        <helpers:PercentageConverter x:Key="MyPercentageConverter"/>
         <Style TargetType="ProgressBar" x:Key="CircularProgressBarStyle">
             <Setter Property="Template">
                 <Setter.Value>
@@ -39,8 +40,43 @@
                                 <Viewbox Grid.Row="1" Grid.Column="1">
                                     <TextBlock Text="{Binding Percent, StringFormat=0.00%}"
                              Foreground="{Binding Foreground, ElementName=textBlock}"
-                             FontWeight="Bold"
+                             FontWeight="Bold" FontSize="64"
                              VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                </Viewbox>
+                            </Grid>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style TargetType="ProgressBar" x:Key="CircularProgressBarStyle2">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ProgressBar">
+                        <Grid x:Name="LayoutRoot">
+                            <!-- attach the view model -->
+                            <viewModels:CircularProgressBarViewModel.Attach>
+                                <viewModels:CircularProgressBarViewModel HoleSizeFactor="0.75"/>
+                            </viewModels:CircularProgressBarViewModel.Attach>
+
+
+                            <Ellipse Width="{Binding Diameter}" Height="{Binding Diameter}"
+                       HorizontalAlignment="Center" VerticalAlignment="Center"
+                       Stroke="{DynamicResource AccentColorBrush}" Opacity="1" Fill="Transparent"
+                       StrokeThickness="10">
+                            </Ellipse>
+
+                            <liskMasterWallet:PiePiece CentreX="{Binding CentreX}" CentreY="{Binding CentreY}"
+                              RotationAngle="0" WedgeAngle="{Binding Angle}"
+                              Radius="{Binding Radius}" InnerRadius="{Binding InnerRadius}"
+                              Fill="Red" Opacity="1"/>
+
+                            <Grid helpers:GridUtils.RowDefinitions="*,2*,*"
+                    helpers:GridUtils.ColumnDefinitions="*,2*,*">
+                                <Viewbox Grid.Row="1" Grid.Column="1">
+                                    <TextBlock Text="{Binding Percent, Converter={StaticResource MyPercentageConverter}, StringFormat='{}#{0}'}"
+                             Foreground="{Binding Foreground, ElementName=textBlock}"
+                             FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="64"/>
                                 </Viewbox>
                             </Grid>
                         </Grid>
@@ -56,20 +92,21 @@
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <Image x:Name="AddressQR" Grid.Column="0" Grid.Row="1" Width="98" Height="98" />
-        <TextBox x:Name="AddressTextBox" Grid.Column="0" Grid.Row="0" IsReadOnly="True" Background="Transparent" BorderThickness="0" TextWrapping="Wrap"
+        <StackPanel Grid.Row="0" Grid.Column="0" MinWidth="120">
+            <TextBox x:Name="AddressTextBox" IsReadOnly="True" Background="Transparent" BorderThickness="0" TextWrapping="Wrap"
                  Foreground="{Binding Foreground, ElementName=textBlock}"
                  FontFamily="{Binding FontFamily, ElementName=textBlock}"
                  Text="{Binding Address}" TextAlignment="Center" />
-        <TextBox Grid.Column="1" Grid.Row="0" IsReadOnly="True" Background="Transparent" BorderThickness="0" TextWrapping="Wrap"
-                 Foreground="{DynamicResource AccentColorBrush}" Margin="{Binding ElementName=AddressTextBox, Path=Width, Converter={StaticResource MyRightMarginConverter}}"
+        <TextBox IsReadOnly="True" Background="Transparent" BorderThickness="0" TextWrapping="Wrap"
+                 Foreground="{DynamicResource AccentColorBrush}" HorizontalAlignment="Center" VerticalAlignment="Center"
                  FontFamily="{Binding FontFamily, ElementName=textBlock}"
                  FontSize="16" FontWeight="Bold" Text="{Binding Username}" TextAlignment="Center" />
-        <Grid Grid.Row="1" Grid.Column="1">
+        </StackPanel>
+        
+        <Grid Grid.Row="0" Grid.Column="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
@@ -77,8 +114,8 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <StackPanel Grid.Column="0" Margin="8,0,0,0">
-                <TextBlock Text="Rate" FontWeight="Bold" FontSize="14" TextAlignment="Center" />
-                <ProgressBar HorizontalAlignment="Center" Value="{Binding Rank}" Width="80" Height="80" Style="{StaticResource CircularProgressBarStyle}" />
+                <TextBlock Text="Rank" FontWeight="Bold" FontSize="14" TextAlignment="Center" />
+                <ProgressBar HorizontalAlignment="Center" Value="{Binding Rate}" Width="80" Height="80" Style="{StaticResource CircularProgressBarStyle2}" />
             </StackPanel>
             <StackPanel Grid.Column="1" Margin="8,0,0,0">
                 <TextBlock Text="Productivity" FontWeight="Bold" FontSize="14" TextAlignment="Center" />
@@ -93,7 +130,7 @@
                 <mui:ModernToggleButton HorizontalAlignment="Center" Content="Vote" IconData="{StaticResource CheckMark}" />
             </StackPanel>
         </Grid>
-        <Separator Background="{DynamicResource AccentColorBrush}" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" />
+        <Separator Background="{DynamicResource AccentColorBrush}" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" />
         <!-- This element is not shown but we pull the style from it and apply it to the textboxes since textbox style is not what we want and I did not want to build a custom style for it just to implement mui styling -->
         <TextBlock x:Name="textBlock" Visibility="Collapsed" Margin="0,2,0,8"/>
     </Grid>
