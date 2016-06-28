@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using Lisk.API;
+using Lisk.API.Responses;
 using LiskMasterWallet.ViewModels;
 using Newtonsoft.Json;
 
@@ -12,11 +13,8 @@ namespace LiskMasterWallet
     public static class Globals
     {
         public delegate void DelegateTimerTick();
-
         public delegate void NewBlockReceived(Lisk.API.Responses.Block_Object block);
-
         public delegate void NewTransactionsReceived(Lisk.API.Responses.Transaction_Object[] transactions);
-
         public delegate void MasterPasswordReceived(SecureString masterpassword);
 
         internal const string CreateTransactionsTableSQL =
@@ -30,10 +28,11 @@ namespace LiskMasterWallet
 
         internal static LiskAPI API;
         internal static WebSocketSharp.WebSocket WS;
-        //internal static string PSecret = "";
+
         internal static Timer Timer60Seconds;
         internal static Timer Timer30Seconds;
         internal static Timer Timer10Seconds;
+
         internal static long CurrentBlockHeight;
 
         private static bool Initializing = true;
@@ -121,6 +120,7 @@ namespace LiskMasterWallet
             if (res.messageType == "newBlock")
             {
                 var block = JsonConvert.DeserializeObject<Lisk.API.Responses.Block_Object>(res.payload.ToString());
+                CurrentBlockHeight = block.height;
                 if (OnNewBlockReceived != null)
                     OnNewBlockReceived(block);
             }

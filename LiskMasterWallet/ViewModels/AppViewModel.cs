@@ -13,11 +13,19 @@ namespace LiskMasterWallet.ViewModels
         {
             _accountsViewModel = new AccountsViewModel();
             _transactionsViewModel = new TransactionsViewModel();
-            Globals.OnDelegate10SecondTimerTick += Globals_OnDelegate10SecondTimerTick;
+            Globals.OnNewBlockReceived += Globals_OnNewBlockReceived;
             Globals.OnDelegate60SecondTimerTick += Globals_OnDelegate60SecondTimerTick;
             _statustext = "Loading...";
             _accountsViewModel.PropertyChanged += ViewModel_PropertyChanged;
             _transactionsViewModel.PropertyChanged += ViewModel_PropertyChanged;
+        }
+
+        private void Globals_OnNewBlockReceived(Lisk.API.Responses.Block_Object block)
+        {
+            StatusText = "Blocks " + Globals.CurrentBlockHeight + "    Server " +
+                         Globals.API.Server_Url.ToLower().Replace("https://", "") + "    " + TotalBalance + " LSK in " +
+                         TotalAccounts + " accounts";
+            RaisePropertyChanged("CurrentBlockHeight");
         }
 
         public AccountsViewModel AccountsViewModel
@@ -107,14 +115,6 @@ namespace LiskMasterWallet.ViewModels
         {
             if (PropertyChanged != null)
                 PropertyChanged.Invoke(this, new PropertyChangedEventArgs(prop));
-        }
-
-        private void Globals_OnDelegate10SecondTimerTick()
-        {
-            StatusText = "Blocks " + Globals.CurrentBlockHeight + "    Server " +
-                         Globals.API.Server_Url.ToLower().Replace("https://", "") + "    " + TotalBalance + " LSK in " +
-                         TotalAccounts + " accounts";
-            RaisePropertyChanged("CurrentBlockHeight");
         }
 
         private async void Globals_OnDelegate60SecondTimerTick()
