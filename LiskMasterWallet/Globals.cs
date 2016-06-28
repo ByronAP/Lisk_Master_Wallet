@@ -1,15 +1,21 @@
 ﻿using System;
 using System.Security;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using Lisk.API;
 using LiskMasterWallet.ViewModels;
+using Newtonsoft.Json;
 
 namespace LiskMasterWallet
 {
     public static class Globals
     {
         public delegate void DelegateTimerTick();
+
+        public delegate void NewBlockReceived(Lisk.API.Responses.Block_Object block);
+
+        public delegate void NewTransactionsReceived(Lisk.API.Responses.Transaction_Object[] transactions);
 
         public delegate void MasterPasswordReceived(SecureString masterpassword);
 
@@ -23,6 +29,7 @@ namespace LiskMasterWallet
             "CREATE TABLE [UserSettings] ([MasterPasswordHash] nvarchar(256) PRIMARY KEY NOT NULL,[CBCVector] nvarchar(256) NOT NULL);";
 
         internal static LiskAPI API;
+        internal static WebSocketSharp.WebSocket WS;
         //internal static string PSecret = "";
         internal static Timer Timer60Seconds;
         internal static Timer Timer30Seconds;
@@ -48,6 +55,8 @@ namespace LiskMasterWallet
         public static event DelegateTimerTick OnDelegate60SecondTimerTick;
         public static event DelegateTimerTick OnDelegate30SecondTimerTick;
         public static event DelegateTimerTick OnDelegate10SecondTimerTick;
+        public static event NewBlockReceived OnNewBlockReceived;
+        public static event NewTransactionsReceived OnNewTransactionsReceived;
 
         public static void StartTimers()
         {
@@ -91,6 +100,36 @@ namespace LiskMasterWallet
                         OnDelegate60SecondTimerTick.Invoke();
                 }
             }));
+        }
+
+        internal static async Task On_WS_Open()
+        {
+            Console.WriteLine("WebSocket Opened");
+        }
+
+        internal static async Task On_WS_Close(WebSocketSharp.CloseEventArgs args)
+        {
+            Console.WriteLine("WebSocket Closed");
+            await WS.Connect();
+        }
+
+        internal static async Task On_WS_Message(WebSocketSharp.MessageEventArgs args)
+        {
+            var json = args.Text.ReadToEnd();
+            Console.WriteLine("New WS Message " + json);
+            var res = JsonConvert.DeserializeObject<Types.WSMessage>(json);
+            if (res.messageType == "newBlock")
+            {
+                var block = JsonConvert.DeserializeObject<Lisk.API.Responses.Block_Object>(res.payload.ToString());
+                if (OnNewBlockReceived != null)
+                    OnNewBlockReceived(block);
+            }
+            else if (res.messageType == "newTransactions")
+            {
+                var txs = JsonConvert.DeserializeObject<Lisk.API.Responses.Transaction_Object[]>(res.payload.ToString());
+                if (OnNewTransactionsReceived != null)
+                    OnNewTransactionsReceived(txs);
+            }
         }
     }
 }

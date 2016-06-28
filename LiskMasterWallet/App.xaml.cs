@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
@@ -35,6 +36,8 @@ namespace LiskMasterWallet
             CheckSettings();
 
             CheckUserSettings();
+
+            await SetupWebSocket();
 
             await SetupAPI();
 
@@ -300,6 +303,18 @@ namespace LiskMasterWallet
                 Console.WriteLine("API Server block height " + Globals.CurrentBlockHeight);
                 WriteLine("API system setup complete");
             }
+        }
+
+        internal static async Task SetupWebSocket()
+        {
+            WriteLine("Initializing WebSocket Service");
+            if(Settings.Default.Testnet)
+                Globals.WS = new WebSocketSharp.WebSocket("ws://lisksocket.com/LiskTestnet", CancellationToken.None, 102392, Globals.On_WS_Open, Globals.On_WS_Close, Globals.On_WS_Message);
+            else
+                Globals.WS = new WebSocketSharp.WebSocket("ws://lisksocket.com/Lisk", CancellationToken.None, 102392, Globals.On_WS_Open, Globals.On_WS_Close, Globals.On_WS_Message);
+            
+            await Globals.WS.Connect();
+            WriteLine("WebSocket Service Connected");
         }
 
         internal static void WriteLine(string txt)
