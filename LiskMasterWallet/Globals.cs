@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Security;
-using System.Threading;
 using System.Threading.Tasks;
-using System.Windows;
 using Lisk.API;
 using Lisk.API.Responses;
 using LiskMasterWallet.ViewModels;
@@ -13,8 +11,8 @@ namespace LiskMasterWallet
     public static class Globals
     {
         public delegate void DelegateTimerTick();
-        public delegate void NewBlockReceived(Lisk.API.Responses.Block_Object block);
-        public delegate void NewTransactionsReceived(Lisk.API.Responses.Transaction_Object[] transactions);
+        public delegate void NewBlockReceived(Block_Object block);
+        public delegate void NewTransactionsReceived(Transaction_Object[] transactions);
         public delegate void MasterPasswordReceived(SecureString masterpassword);
 
         internal const string CreateTransactionsTableSQL =
@@ -29,13 +27,7 @@ namespace LiskMasterWallet
         internal static LiskAPI API;
         internal static WebSocketSharp.WebSocket WS;
 
-        internal static Timer Timer60Seconds;
-        internal static Timer Timer30Seconds;
-        internal static Timer Timer10Seconds;
-
         internal static long CurrentBlockHeight;
-
-        private static bool Initializing = true;
 
         private static readonly masterwalletEntities _dbEntities = new masterwalletEntities();
 
@@ -51,57 +43,12 @@ namespace LiskMasterWallet
             get { return _appView; }
         }
 
-        public static event DelegateTimerTick OnDelegate60SecondTimerTick;
-        public static event DelegateTimerTick OnDelegate30SecondTimerTick;
-        public static event DelegateTimerTick OnDelegate10SecondTimerTick;
         public static event NewBlockReceived OnNewBlockReceived;
         public static event NewTransactionsReceived OnNewTransactionsReceived;
 
-        public static void StartTimers()
-        {
-            Console.WriteLine("Starting timers");
-            Timer10Seconds = new Timer(Timer10Seconds_Tick, new AutoResetEvent(false), 5, 10000);
-            Timer30Seconds = new Timer(Timer30Seconds_Tick, new AutoResetEvent(false), 10, 30000);
-            Timer60Seconds = new Timer(Timer60Seconds_Tick, new AutoResetEvent(false), 15, 60000);
-        }
-
-        private static void Timer60Seconds_Tick(object stateInfo)
-        {
-            Application.Current.Dispatcher.Invoke(() =>
-            {
-                if (OnDelegate60SecondTimerTick != null)
-                    OnDelegate60SecondTimerTick.Invoke();
-            });
-        }
-
-        private static void Timer30Seconds_Tick(object stateInfo)
-        {
-            Application.Current.Dispatcher.Invoke(() =>
-            {
-                if (OnDelegate30SecondTimerTick != null)
-                    OnDelegate30SecondTimerTick.Invoke();
-            });
-        }
-
-        private static void Timer10Seconds_Tick(object stateInfo)
-        {
-            Application.Current.Dispatcher.Invoke(new Action(async () =>
-            {
-                CurrentBlockHeight = (await API.Blocks_GetHeight()).height;
-                if (OnDelegate10SecondTimerTick != null)
-                    OnDelegate10SecondTimerTick.Invoke();
-                if (Initializing)
-                {
-                    Initializing = false;
-                    if (OnDelegate30SecondTimerTick != null)
-                        OnDelegate30SecondTimerTick.Invoke();
-                    if (OnDelegate60SecondTimerTick != null)
-                        OnDelegate60SecondTimerTick.Invoke();
-                }
-            }));
-        }
-
+#pragma warning disable 1998
         internal static async Task On_WS_Open()
+#pragma warning restore 1998
         {
             Console.WriteLine("WebSocket Opened");
         }
@@ -114,21 +61,27 @@ namespace LiskMasterWallet
 
         internal static async Task On_WS_Message(WebSocketSharp.MessageEventArgs args)
         {
-            var json = args.Text.ReadToEnd();
-            Console.WriteLine("New WS Message " + json);
+            var json = await args.Text.ReadToEndAsync();
             var res = JsonConvert.DeserializeObject<Types.WSMessage>(json);
-            if (res.messageType == "newBlock")
+            switch (res.messageType)
             {
-                var block = JsonConvert.DeserializeObject<Lisk.API.Responses.Block_Object>(res.payload.ToString());
-                CurrentBlockHeight = block.height;
-                if (OnNewBlockReceived != null)
-                    OnNewBlockReceived(block);
-            }
-            else if (res.messageType == "newTransactions")
-            {
-                var txs = JsonConvert.DeserializeObject<Lisk.API.Responses.Transaction_Object[]>(res.payload.ToString());
-                if (OnNewTransactionsReceived != null)
-                    OnNewTransactionsReceived(txs);
+                case "newUnconfirmedTransactions":
+                    return;
+                case "newBlock":
+                    Console.WriteLine("New WS Block " + json);
+                    var block = JsonConvert.DeserializeObject<Block_Object>(res.payload.ToString());
+                    CurrentBlockHeight = block.height;
+                    if (OnNewBlockReceived != null)
+                        OnNewBlockReceived(block);
+                    break;
+                case "newTransactions":
+                    Console.WriteLine("New WS Transactions " + json);
+                    var txs = JsonConvert.DeserializeObject<Transaction_Object[]>(res.payload.ToString());
+                    if (OnNewTransactionsReceived != null)
+                        OnNewTransactionsReceived(txs);
+                    break;
+                default:
+                    return;
             }
         }
     }

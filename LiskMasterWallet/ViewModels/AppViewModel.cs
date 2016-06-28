@@ -14,7 +14,6 @@ namespace LiskMasterWallet.ViewModels
             _accountsViewModel = new AccountsViewModel();
             _transactionsViewModel = new TransactionsViewModel();
             Globals.OnNewBlockReceived += Globals_OnNewBlockReceived;
-            Globals.OnDelegate60SecondTimerTick += Globals_OnDelegate60SecondTimerTick;
             _statustext = "Loading...";
             _accountsViewModel.PropertyChanged += ViewModel_PropertyChanged;
             _transactionsViewModel.PropertyChanged += ViewModel_PropertyChanged;
@@ -115,15 +114,6 @@ namespace LiskMasterWallet.ViewModels
         {
             if (PropertyChanged != null)
                 PropertyChanged.Invoke(this, new PropertyChangedEventArgs(prop));
-        }
-
-        private async void Globals_OnDelegate60SecondTimerTick()
-        {
-            await AccountsViewModel.UpdateAccounts();
-            RaisePropertyChanged("AccountsViewModel");
-
-            await TransactionsViewModel.UpdateTransactions();
-            RaisePropertyChanged("TransactionsViewModel");
         }
     }
 }

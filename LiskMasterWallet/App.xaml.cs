@@ -41,8 +41,6 @@ namespace LiskMasterWallet
 
             await SetupAPI();
 
-            Globals.StartTimers();
-
             WriteLine("Starting application MainWindow");
             var mainWindow = new MainWindow();
             mainWindow.Loaded += (sendername, args) => splashScreen.Close();
