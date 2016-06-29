@@ -11,6 +11,7 @@ using FirstFloor.ModernUI.Presentation;
 using Lisk.API;
 using LiskMasterWallet.Helpers;
 using LiskMasterWallet.Properties;
+using WebSocketSharp;
 
 namespace LiskMasterWallet
 {
@@ -22,7 +23,7 @@ namespace LiskMasterWallet
         private async void App_Startup(object sender, StartupEventArgs e)
         {
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
-              
+
             AppDomain.CurrentDomain.SetData("DataDirectory",
                 Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData));
 
@@ -40,6 +41,10 @@ namespace LiskMasterWallet
             await SetupWebSocket();
 
             await SetupAPI();
+
+            WriteLine("Updating Accounts");
+            await Globals.AppViewModel.TransactionsViewModel.UpdateTransactionsAsync();
+            WriteLine("Completed Updating Accounts");
 
             WriteLine("Starting application MainWindow");
             var mainWindow = new MainWindow();
@@ -70,7 +75,8 @@ namespace LiskMasterWallet
                     Console.WriteLine("Error: " + ex.Message + " | " + ex.Source);
                     MessageBox.Show(
                         "Error: " + ex.Message + "\r\n in " + ex.Source +
-                        "\r\nApplication will now close.", "Application Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                        "\r\nApplication will now close.", "Application Error", MessageBoxButton.OK,
+                        MessageBoxImage.Error);
                     ForceExit();
                 }
             }
@@ -306,11 +312,13 @@ namespace LiskMasterWallet
         internal static async Task SetupWebSocket()
         {
             WriteLine("Initializing WebSocket Service");
-            if(Settings.Default.Testnet)
-                Globals.WS = new WebSocketSharp.WebSocket("ws://lisksocket.com/LiskTestnet", CancellationToken.None, 102392, Globals.On_WS_Open, Globals.On_WS_Close, Globals.On_WS_Message);
+            if (Settings.Default.Testnet)
+                Globals.WS = new WebSocket("ws://lisksocket.com/LiskTestnet", CancellationToken.None, 102392,
+                    Globals.On_WS_Open, Globals.On_WS_Close, Globals.On_WS_Message);
             else
-                Globals.WS = new WebSocketSharp.WebSocket("ws://lisksocket.com/Lisk", CancellationToken.None, 102392, Globals.On_WS_Open, Globals.On_WS_Close, Globals.On_WS_Message);
-            
+                Globals.WS = new WebSocket("ws://lisksocket.com/Lisk", CancellationToken.None, 102392,
+                    Globals.On_WS_Open, Globals.On_WS_Close, Globals.On_WS_Message);
+
             await Globals.WS.Connect();
             WriteLine("WebSocket Service Connected");
         }

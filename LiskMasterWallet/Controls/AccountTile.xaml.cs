@@ -36,8 +36,9 @@ namespace LiskMasterWallet.Controls
                 var bb = new BBCodeBlock();
                 bb.LinkNavigator.Navigate(new Uri(url, UriKind.Relative), this);
             }
-            catch {}
-            
+            catch
+            {
+            }
         }
     }
 }

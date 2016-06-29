@@ -17,11 +17,12 @@
                 </MultiBinding>
             </TextBox.Text>
         </TextBox>
-        <TextBox x:Name="DescriptionTextBox" IsReadOnly="True" Background="Transparent" BorderThickness="0" TextWrapping="Wrap"
+        <TextBox x:Name="DescriptionTextBox" IsReadOnly="True" Background="Transparent" BorderThickness="0"
+                 TextWrapping="Wrap"
                  Foreground="{Binding Foreground, ElementName=textBlock}"
                  FontFamily="{Binding FontFamily, ElementName=textBlock}"
-                 FontSize="{Binding FontSize, ElementName=textBlock}"/>
-            <TextBox IsReadOnly="True" Background="Transparent" BorderThickness="0" TextWrapping="Wrap"
+                 FontSize="{Binding FontSize, ElementName=textBlock}" />
+        <TextBox IsReadOnly="True" Background="Transparent" BorderThickness="0" TextWrapping="Wrap"
                  Foreground="{Binding Foreground, ElementName=textBlock}"
                  FontFamily="{Binding FontFamily, ElementName=textBlock}"
                  FontSize="{Binding FontSize, ElementName=textBlock}">

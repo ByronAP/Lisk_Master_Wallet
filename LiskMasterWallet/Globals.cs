@@ -3,17 +3,22 @@ using System.Security;
 using System.Threading.Tasks;
 using Lisk.API;
 using Lisk.API.Responses;
+using LiskMasterWallet.Types;
 using LiskMasterWallet.ViewModels;
 using Newtonsoft.Json;
+using WebSocketSharp;
 
 namespace LiskMasterWallet
 {
     public static class Globals
     {
         public delegate void DelegateTimerTick();
-        public delegate void NewBlockReceived(Block_Object block);
-        public delegate void NewTransactionsReceived(Transaction_Object[] transactions);
+
         public delegate void MasterPasswordReceived(SecureString masterpassword);
+
+        public delegate void NewBlockReceived(Block_Object block);
+
+        public delegate void NewTransactionsReceived(Transaction_Object[] transactions);
 
         internal const string CreateTransactionsTableSQL =
             "CREATE TABLE [Transactions] ([Id] nvarchar(256) PRIMARY KEY NOT NULL,[Block] bigint NOT NULL,[Sender] nvarchar(256) NOT NULL,[Receiver] nvarchar(256) NOT NULL,[Amount] decimal NOT NULL,[TType] int NOT NULL,[Created] datetime NOT NULL,[Fee] decimal NOT NULL);";
@@ -25,7 +30,7 @@ namespace LiskMasterWallet
             "CREATE TABLE [UserSettings] ([MasterPasswordHash] nvarchar(256) PRIMARY KEY NOT NULL,[CBCVector] nvarchar(256) NOT NULL);";
 
         internal static LiskAPI API;
-        internal static WebSocketSharp.WebSocket WS;
+        internal static WebSocket WS;
 
         internal static long CurrentBlockHeight;
 
@@ -53,16 +58,16 @@ namespace LiskMasterWallet
             Console.WriteLine("WebSocket Opened");
         }
 
-        internal static async Task On_WS_Close(WebSocketSharp.CloseEventArgs args)
+        internal static async Task On_WS_Close(CloseEventArgs args)
         {
             Console.WriteLine("WebSocket Closed");
             await WS.Connect();
         }
 
-        internal static async Task On_WS_Message(WebSocketSharp.MessageEventArgs args)
+        internal static async Task On_WS_Message(MessageEventArgs args)
         {
             var json = await args.Text.ReadToEndAsync();
-            var res = JsonConvert.DeserializeObject<Types.WSMessage>(json);
+            var res = JsonConvert.DeserializeObject<WSMessage>(json);
             switch (res.messageType)
             {
                 case "newUnconfirmedTransactions":

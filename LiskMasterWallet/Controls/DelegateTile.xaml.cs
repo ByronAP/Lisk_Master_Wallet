@@ -5,7 +5,7 @@ using LiskMasterWallet.Helpers;
 namespace LiskMasterWallet.Controls
 {
     /// <summary>
-    /// Interaction logic for DelegateTile.xaml
+    ///     Interaction logic for DelegateTile.xaml
     /// </summary>
     public partial class DelegateTile : UserControl
     {
@@ -20,7 +20,6 @@ namespace LiskMasterWallet.Controls
             if (dc == null)
                 return;
             //this.AddressQR.Source = AppHelpers.GenerateQRCodeBMP(dc.Address);
-
         }
     }
 }

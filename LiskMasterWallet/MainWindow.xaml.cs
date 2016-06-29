@@ -3,7 +3,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using FirstFloor.ModernUI.Windows.Controls;
-using FirstFloor.ModernUI.Windows.Media;
 using LiskMasterWallet.Properties;
 
 namespace LiskMasterWallet
@@ -75,11 +74,10 @@ namespace LiskMasterWallet
             }
             if (Settings.Default.Testnet)
             {
-                var tm = this.Template;
+                var tm = Template;
                 var stb = (TextBlock) tm.FindName("StatusTextBlock", this);
                 stb.Foreground = new SolidColorBrush(Colors.Red);
             }
-
-    }
+        }
     }
 }

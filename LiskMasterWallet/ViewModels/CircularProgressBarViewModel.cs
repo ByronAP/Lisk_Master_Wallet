@@ -1,29 +1,81 @@
-﻿using System.Linq;
+﻿using System;
+using System.ComponentModel;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using LinqToVisualTree;
 using System.Windows.Data;
-using System.ComponentModel;
-using System;
-using System.Reflection;
+using LinqToVisualTree;
 
 namespace LiskMasterWallet.ViewModels
 {
     /// <summary>
-    /// An attached view model that adapts a ProgressBar control to provide properties
-    /// that assist in the creation of a circular template
+    ///     An attached view model that adapts a ProgressBar control to provide properties
+    ///     that assist in the creation of a circular template
     /// </summary>
     public class CircularProgressBarViewModel : FrameworkElement, INotifyPropertyChanged
     {
+        /// <summary>
+        ///     Re-computes the various properties that the elements in the template bind to.
+        /// </summary>
+        protected virtual void ComputeViewModelProperties()
+        {
+            if (_progressBar == null)
+                return;
+
+            Angle = (_progressBar.Value - _progressBar.Minimum)*360/(_progressBar.Maximum - _progressBar.Minimum);
+            CentreX = _progressBar.ActualWidth/2;
+            CentreY = _progressBar.ActualHeight/2;
+            Radius = Math.Min(CentreX, CentreY);
+            Diameter = Radius*2;
+            InnerRadius = Radius*HoleSizeFactor;
+            Percent = Angle/360;
+        }
+
+        /// <summary>
+        ///     Add handlers for the updates on various properties of the ProgressBar
+        /// </summary>
+        private void SetProgressBar(ProgressBar progressBar)
+        {
+            _progressBar = progressBar;
+            _progressBar.SizeChanged += (s, e) => ComputeViewModelProperties();
+            RegisterForNotification("Value", progressBar, (d, e) => ComputeViewModelProperties());
+            RegisterForNotification("Maximum", progressBar, (d, e) => ComputeViewModelProperties());
+            RegisterForNotification("Minimum", progressBar, (d, e) => ComputeViewModelProperties());
+
+            ComputeViewModelProperties();
+        }
+
+
+        /// Add a handler for a DP change
+        /// see: http://amazedsaint.blogspot.com/2009/12/silverlight-listening-to-dependency.html
+        private void RegisterForNotification(string propertyName, FrameworkElement element,
+            PropertyChangedCallback callback)
+        {
+            try
+            {
+                //Bind to a dependency property  
+                var b = new Binding(propertyName) {Source = element};
+                var prop = DependencyProperty.RegisterAttached(
+                    "ListenAttached" + propertyName,
+                    typeof(object),
+                    typeof(UserControl),
+                    new PropertyMetadata(callback));
+                element.SetBinding(prop, b);
+            }
+            catch
+            {
+            }
+        }
+
         #region Attach attached property
 
         public static readonly DependencyProperty AttachProperty =
             DependencyProperty.RegisterAttached("Attach", typeof(object), typeof(CircularProgressBarViewModel),
-                new PropertyMetadata(null, new PropertyChangedCallback(OnAttachChanged)));
+                new PropertyMetadata(null, OnAttachChanged));
 
         public static CircularProgressBarViewModel GetAttach(DependencyObject d)
         {
-            return (CircularProgressBarViewModel)d.GetValue(AttachProperty);
+            return (CircularProgressBarViewModel) d.GetValue(AttachProperty);
         }
 
         public static void SetAttach(DependencyObject d, CircularProgressBarViewModel value)
@@ -32,38 +84,35 @@ namespace LiskMasterWallet.ViewModels
         }
 
         /// <summary>
-        /// Change handler for the Attach property
+        ///     Change handler for the Attach property
         /// </summary>
         private static void OnAttachChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             // set the view model as the DataContext for the rest of the template
-            FrameworkElement targetElement = d as FrameworkElement;
-            CircularProgressBarViewModel viewModel = e.NewValue as CircularProgressBarViewModel;
+            var targetElement = d as FrameworkElement;
+            var viewModel = e.NewValue as CircularProgressBarViewModel;
             targetElement.DataContext = viewModel;
 
             // handle the loaded event
-            targetElement.Loaded += new RoutedEventHandler(Element_Loaded);
+            targetElement.Loaded += Element_Loaded;
         }
 
         /// <summary>
-        /// Handle the Loaded event of the element to which this view model is attached
-        /// in order to enable the attached
-        /// view model to bind to properties of the parent element
+        ///     Handle the Loaded event of the element to which this view model is attached
+        ///     in order to enable the attached
+        ///     view model to bind to properties of the parent element
         /// </summary>
-        static void Element_Loaded(object sender, RoutedEventArgs e)
+        private static void Element_Loaded(object sender, RoutedEventArgs e)
         {
-            FrameworkElement targetElement = sender as FrameworkElement;
-            CircularProgressBarViewModel attachedModel = GetAttach(targetElement);
+            var targetElement = sender as FrameworkElement;
+            var attachedModel = GetAttach(targetElement);
 
             // find the ProgressBar and associated it with the view model
             var progressBar = targetElement.Ancestors<ProgressBar>().Single() as ProgressBar;
             attachedModel.SetProgressBar(progressBar);
         }
 
-
-
         #endregion
-
 
         #region fields
 
@@ -81,7 +130,7 @@ namespace LiskMasterWallet.ViewModels
 
         private double _percent;
 
-        private double _holeSizeFactor = 0.0;
+        private double _holeSizeFactor;
 
         protected ProgressBar _progressBar;
 
@@ -92,105 +141,84 @@ namespace LiskMasterWallet.ViewModels
         public double Percent
         {
             get { return _percent; }
-            set { _percent = value; OnPropertyChanged("Percent"); }
+            set
+            {
+                _percent = value;
+                OnPropertyChanged("Percent");
+            }
         }
 
         public double Diameter
         {
             get { return _diameter; }
-            set { _diameter = value; OnPropertyChanged("Diameter"); }
+            set
+            {
+                _diameter = value;
+                OnPropertyChanged("Diameter");
+            }
         }
 
         public double Radius
         {
             get { return _radius; }
-            set { _radius = value; OnPropertyChanged("Radius"); }
+            set
+            {
+                _radius = value;
+                OnPropertyChanged("Radius");
+            }
         }
 
         public double InnerRadius
         {
             get { return _innerRadius; }
-            set { _innerRadius = value; OnPropertyChanged("InnerRadius"); }
+            set
+            {
+                _innerRadius = value;
+                OnPropertyChanged("InnerRadius");
+            }
         }
 
         public double CentreX
         {
             get { return _centreX; }
-            set { _centreX = value; OnPropertyChanged("CentreX"); }
+            set
+            {
+                _centreX = value;
+                OnPropertyChanged("CentreX");
+            }
         }
 
         public double CentreY
         {
             get { return _centreY; }
-            set { _centreY = value; OnPropertyChanged("CentreY"); }
+            set
+            {
+                _centreY = value;
+                OnPropertyChanged("CentreY");
+            }
         }
 
         public double Angle
         {
             get { return _angle; }
-            set { _angle = value; OnPropertyChanged("Angle"); }
+            set
+            {
+                _angle = value;
+                OnPropertyChanged("Angle");
+            }
         }
 
         public double HoleSizeFactor
         {
             get { return _holeSizeFactor; }
-            set { _holeSizeFactor = value; ComputeViewModelProperties(); }
+            set
+            {
+                _holeSizeFactor = value;
+                ComputeViewModelProperties();
+            }
         }
 
         #endregion
-
-
-        /// <summary>
-        /// Re-computes the various properties that the elements in the template bind to.
-        /// </summary>
-        protected virtual void ComputeViewModelProperties()
-        {
-            if (_progressBar == null)
-                return;
-
-            Angle = (_progressBar.Value - _progressBar.Minimum) * 360 / (_progressBar.Maximum - _progressBar.Minimum);
-            CentreX = _progressBar.ActualWidth / 2;
-            CentreY = _progressBar.ActualHeight / 2;
-            Radius = Math.Min(CentreX, CentreY);
-            Diameter = Radius * 2;
-            InnerRadius = Radius * HoleSizeFactor;
-            Percent = Angle / 360;
-        }
-
-        /// <summary>
-        /// Add handlers for the updates on various properties of the ProgressBar
-        /// </summary>
-        private void SetProgressBar(ProgressBar progressBar)
-        {
-            _progressBar = progressBar;
-            _progressBar.SizeChanged += (s, e) => ComputeViewModelProperties();
-            RegisterForNotification("Value", progressBar, (d, e) => ComputeViewModelProperties());
-            RegisterForNotification("Maximum", progressBar, (d, e) => ComputeViewModelProperties());
-            RegisterForNotification("Minimum", progressBar, (d, e) => ComputeViewModelProperties());
-
-            ComputeViewModelProperties();
-        }
-
-
-        /// Add a handler for a DP change
-        /// see: http://amazedsaint.blogspot.com/2009/12/silverlight-listening-to-dependency.html
-        private void RegisterForNotification(string propertyName, FrameworkElement element, PropertyChangedCallback callback)
-        {
-
-            try
-            {
-                //Bind to a dependency property  
-                Binding b = new Binding(propertyName) {Source = element};
-                var prop = System.Windows.DependencyProperty.RegisterAttached(
-                    "ListenAttached" + propertyName,
-                    typeof(object),
-                    typeof(UserControl),
-                    new PropertyMetadata(callback));
-                element.SetBinding(prop, b);
-            }
-            catch{}
-
-        }
 
         #region INotifyPropertyChanged
 

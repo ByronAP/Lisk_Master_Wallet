@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
 using LiskMasterWallet.Properties;
 using QRCoder;
+using Point = System.Windows.Point;
 
 namespace LiskMasterWallet.Helpers
 {
@@ -32,25 +33,25 @@ namespace LiskMasterWallet.Helpers
         private const int SALT_INDEX = 1;
 
         /// <summary>
-        /// Converts a coordinate from the polar coordinate system to the cartesian coordinate system.
+        ///     Converts a coordinate from the polar coordinate system to the cartesian coordinate system.
         /// </summary>
         /// <param name="angle"></param>
         /// <param name="radius"></param>
         /// <returns></returns>
-        public static System.Windows.Point ComputeCartesianCoordinate(double angle, double radius)
+        public static Point ComputeCartesianCoordinate(double angle, double radius)
         {
             // convert to radians
-            var angleRad = (Math.PI / 180.0) * (angle - 90);
+            var angleRad = Math.PI/180.0*(angle - 90);
 
-            var x = radius * Math.Cos(angleRad);
-            var y = radius * Math.Sin(angleRad);
+            var x = radius*Math.Cos(angleRad);
+            var y = radius*Math.Sin(angleRad);
 
-            return new System.Windows.Point(x, y);
+            return new Point(x, y);
         }
 
-        public static System.Windows.Point Offset(this System.Windows.Point point, double x, double y)
+        public static Point Offset(this Point point, double x, double y)
         {
-            return new System.Windows.Point(point.X + x, point.Y + y);
+            return new Point(point.X + x, point.Y + y);
         }
 
         internal static BitmapImage BitmapToImageSource(Bitmap bitmap)
@@ -69,7 +70,8 @@ namespace LiskMasterWallet.Helpers
             }
         }
 
-        internal static BitmapImage GenerateQRCodeBMP(string data, string hexlightcolor = "#FFFFFF", string hexdarkcolor = "#000000")
+        internal static BitmapImage GenerateQRCodeBMP(string data, string hexlightcolor = "#FFFFFF",
+            string hexdarkcolor = "#000000")
         {
             using (var qrGenerator = new QRCodeGenerator())
             {

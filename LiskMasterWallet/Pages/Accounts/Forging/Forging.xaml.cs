@@ -4,7 +4,7 @@ using System.Windows.Controls;
 namespace LiskMasterWallet.Pages.Accounts.Forging
 {
     /// <summary>
-    /// Interaction logic for ForgingStatus.xaml
+    ///     Interaction logic for ForgingStatus.xaml
     /// </summary>
     public partial class Forging : UserControl
     {
@@ -15,7 +15,6 @@ namespace LiskMasterWallet.Pages.Accounts.Forging
 
         private void Forging_OnLoaded(object sender, RoutedEventArgs e)
         {
-            
         }
     }
 }

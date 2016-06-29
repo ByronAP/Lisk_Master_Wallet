@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Linq;
+using Lisk.API.Responses;
 
 namespace LiskMasterWallet.ViewModels
 {
@@ -17,14 +18,6 @@ namespace LiskMasterWallet.ViewModels
             _statustext = "Loading...";
             _accountsViewModel.PropertyChanged += ViewModel_PropertyChanged;
             _transactionsViewModel.PropertyChanged += ViewModel_PropertyChanged;
-        }
-
-        private void Globals_OnNewBlockReceived(Lisk.API.Responses.Block_Object block)
-        {
-            StatusText = "Blocks " + Globals.CurrentBlockHeight + "    Server " +
-                         Globals.API.Server_Url.ToLower().Replace("https://", "") + "    " + TotalBalance + " LSK in " +
-                         TotalAccounts + " accounts";
-            RaisePropertyChanged("CurrentBlockHeight");
         }
 
         public AccountsViewModel AccountsViewModel
@@ -104,6 +97,14 @@ namespace LiskMasterWallet.ViewModels
 
         public static string SelectedAccountFriendlyName { get; set; }
         public event PropertyChangedEventHandler PropertyChanged;
+
+        private void Globals_OnNewBlockReceived(Block_Object block)
+        {
+            StatusText = "Blocks " + Globals.CurrentBlockHeight + "    Server " +
+                         Globals.API.Server_Url.ToLower().Replace("https://", "") + "    " + TotalBalance + " LSK in " +
+                         TotalAccounts + " accounts";
+            RaisePropertyChanged("CurrentBlockHeight");
+        }
 
         private void ViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {

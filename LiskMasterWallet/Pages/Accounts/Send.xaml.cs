@@ -66,13 +66,16 @@ namespace LiskMasterWallet.Pages.Accounts
             }
             if (iamount + Properties.Settings.Default.SendFee > avail || iamount < 0.1m)
             {
-                ShowNotice("Send LSK", "Sorry the amount specified exceeds your available balance.\r\nPlease enter a valid send amount and try again.");
+                ShowNotice("Send LSK",
+                    "Sorry the amount specified exceeds your available balance.\r\nPlease enter a valid send amount and try again.");
                 return;
             }
             //verify the toaddress is valid by checking the length and format
-            if (ToAddressTextBox.Text.Trim().Length < 20 || ToAddressTextBox.Text.Trim().Length > 21 || !ToAddressTextBox.Text.Trim().EndsWith("l"))
+            if (ToAddressTextBox.Text.Trim().Length < 20 || ToAddressTextBox.Text.Trim().Length > 21 ||
+                !ToAddressTextBox.Text.Trim().EndsWith("l"))
             {
-                ShowNotice("Send LSK", "Sorry the address specified does not apear to be valid.\r\nPlease check the address for errors and try again.");
+                ShowNotice("Send LSK",
+                    "Sorry the address specified does not apear to be valid.\r\nPlease check the address for errors and try again.");
                 return;
             }
             transactions_send_response res;
@@ -116,8 +119,6 @@ namespace LiskMasterWallet.Pages.Accounts
             {
                 Console.WriteLine("Send transaction id " + res.transactionId + " sent " + iamount + " LSK from " +
                                   act.FriendlyName + " to " + ToAddressTextBox.Text.Trim());
-                await TransactionsViewModel.UpdateTransactions();
-                await AccountsViewModel.UpdateAccount(act.Address);
                 var nd = new NoticeDialog("Send LSK",
                     "Sent " + iamount + " LSK from " + act.FriendlyName + " to " + ToAddressTextBox.Text.Trim());
                 nd.ShowDialog();

@@ -1,18 +1,18 @@
 ﻿using System;
-using System.Linq;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using System.Windows.Media;
 
 namespace LinqToVisualTree
 {
     /// <summary>
-    /// Adapts a DependencyObject to provide methods required for generate
-    /// a Linq To Tree API
+    ///     Adapts a DependencyObject to provide methods required for generate
+    ///     a Linq To Tree API
     /// </summary>
     public class VisualTreeAdapter : ILinqTree<DependencyObject>
     {
-        private DependencyObject _item;
+        private readonly DependencyObject _item;
 
         public VisualTreeAdapter(DependencyObject item)
         {
@@ -21,8 +21,8 @@ namespace LinqToVisualTree
 
         public IEnumerable<DependencyObject> Children()
         {
-            int childrenCount = VisualTreeHelper.GetChildrenCount(_item);
-            for (int i = 0; i < childrenCount; i++)
+            var childrenCount = VisualTreeHelper.GetChildrenCount(_item);
+            for (var i = 0; i < childrenCount; i++)
             {
                 yield return VisualTreeHelper.GetChild(_item, i);
             }
@@ -30,10 +30,7 @@ namespace LinqToVisualTree
 
         public DependencyObject Parent
         {
-            get
-            {
-                return VisualTreeHelper.GetParent(_item);
-            }
+            get { return VisualTreeHelper.GetParent(_item); }
         }
     }
 }
@@ -41,20 +38,19 @@ namespace LinqToVisualTree
 namespace LinqToVisualTree
 {
     /// <summary>
-    /// Defines an interface that must be implemented to generate the LinqToTree methods
+    ///     Defines an interface that must be implemented to generate the LinqToTree methods
     /// </summary>
     /// <typeparam name="T"></typeparam>
     public interface ILinqTree<T>
     {
-        IEnumerable<T> Children();
-
         T Parent { get; }
+        IEnumerable<T> Children();
     }
 
     public static class TreeExtensions
     {
         /// <summary>
-        /// Returns a collection of descendant elements.
+        ///     Returns a collection of descendant elements.
         /// </summary>
         public static IEnumerable<DependencyObject> Descendants(this DependencyObject item)
         {
@@ -71,7 +67,7 @@ namespace LinqToVisualTree
         }
 
         /// <summary>
-        /// Returns a collection containing this element and all descendant elements.
+        ///     Returns a collection containing this element and all descendant elements.
         /// </summary>
         public static IEnumerable<DependencyObject> DescendantsAndSelf(this DependencyObject item)
         {
@@ -84,7 +80,7 @@ namespace LinqToVisualTree
         }
 
         /// <summary>
-        /// Returns a collection of ancestor elements.
+        ///     Returns a collection of ancestor elements.
         /// </summary>
         public static IEnumerable<DependencyObject> Ancestors(this DependencyObject item)
         {
@@ -100,7 +96,7 @@ namespace LinqToVisualTree
         }
 
         /// <summary>
-        /// Returns a collection containing this element and all ancestor elements.
+        ///     Returns a collection containing this element and all ancestor elements.
         /// </summary>
         public static IEnumerable<DependencyObject> AncestorsAndSelf(this DependencyObject item)
         {
@@ -113,7 +109,7 @@ namespace LinqToVisualTree
         }
 
         /// <summary>
-        /// Returns a collection of child elements.
+        ///     Returns a collection of child elements.
         /// </summary>
         public static IEnumerable<DependencyObject> Elements(this DependencyObject item)
         {
@@ -125,7 +121,7 @@ namespace LinqToVisualTree
         }
 
         /// <summary>
-        /// Returns a collection of the sibling elements before this node, in document order.
+        ///     Returns a collection of the sibling elements before this node, in document order.
         /// </summary>
         public static IEnumerable<DependencyObject> ElementsBeforeSelf(this DependencyObject item)
         {
@@ -140,13 +136,13 @@ namespace LinqToVisualTree
         }
 
         /// <summary>
-        /// Returns a collection of the after elements after this node, in document order.
+        ///     Returns a collection of the after elements after this node, in document order.
         /// </summary>
         public static IEnumerable<DependencyObject> ElementsAfterSelf(this DependencyObject item)
         {
             if (item.Ancestors().FirstOrDefault() == null)
                 yield break;
-            bool afterSelf = false;
+            var afterSelf = false;
             foreach (var child in item.Ancestors().First().Elements())
             {
                 if (afterSelf)
@@ -158,7 +154,7 @@ namespace LinqToVisualTree
         }
 
         /// <summary>
-        /// Returns a collection containing this element and all child elements.
+        ///     Returns a collection containing this element and all child elements.
         /// </summary>
         public static IEnumerable<DependencyObject> ElementsAndSelf(this DependencyObject item)
         {
@@ -171,7 +167,7 @@ namespace LinqToVisualTree
         }
 
         /// <summary>
-        /// Returns a collection of descendant elements which match the given type.
+        ///     Returns a collection of descendant elements which match the given type.
         /// </summary>
         public static IEnumerable<DependencyObject> Descendants<T>(this DependencyObject item)
         {
@@ -179,8 +175,8 @@ namespace LinqToVisualTree
         }
 
         /// <summary>
-        /// Returns a collection of the sibling elements before this node, in document order
-        /// which match the given type.
+        ///     Returns a collection of the sibling elements before this node, in document order
+        ///     which match the given type.
         /// </summary>
         public static IEnumerable<DependencyObject> ElementsBeforeSelf<T>(this DependencyObject item)
         {
@@ -188,8 +184,8 @@ namespace LinqToVisualTree
         }
 
         /// <summary>
-        /// Returns a collection of the after elements after this node, in document order
-        /// which match the given type.
+        ///     Returns a collection of the after elements after this node, in document order
+        ///     which match the given type.
         /// </summary>
         public static IEnumerable<DependencyObject> ElementsAfterSelf<T>(this DependencyObject item)
         {
@@ -197,8 +193,8 @@ namespace LinqToVisualTree
         }
 
         /// <summary>
-        /// Returns a collection containing this element and all descendant elements
-        /// which match the given type.
+        ///     Returns a collection containing this element and all descendant elements
+        ///     which match the given type.
         /// </summary>
         public static IEnumerable<DependencyObject> DescendantsAndSelf<T>(this DependencyObject item)
         {
@@ -206,7 +202,7 @@ namespace LinqToVisualTree
         }
 
         /// <summary>
-        /// Returns a collection of ancestor elements which match the given type.
+        ///     Returns a collection of ancestor elements which match the given type.
         /// </summary>
         public static IEnumerable<DependencyObject> Ancestors<T>(this DependencyObject item)
         {
@@ -214,8 +210,8 @@ namespace LinqToVisualTree
         }
 
         /// <summary>
-        /// Returns a collection containing this element and all ancestor elements
-        /// which match the given type.
+        ///     Returns a collection containing this element and all ancestor elements
+        ///     which match the given type.
         /// </summary>
         public static IEnumerable<DependencyObject> AncestorsAndSelf<T>(this DependencyObject item)
         {
@@ -223,7 +219,7 @@ namespace LinqToVisualTree
         }
 
         /// <summary>
-        /// Returns a collection of child elements which match the given type.
+        ///     Returns a collection of child elements which match the given type.
         /// </summary>
         public static IEnumerable<DependencyObject> Elements<T>(this DependencyObject item)
         {
@@ -231,21 +227,20 @@ namespace LinqToVisualTree
         }
 
         /// <summary>
-        /// Returns a collection containing this element and all child elements.
-        /// which match the given type.
+        ///     Returns a collection containing this element and all child elements.
+        ///     which match the given type.
         /// </summary>
         public static IEnumerable<DependencyObject> ElementsAndSelf<T>(this DependencyObject item)
         {
             return item.ElementsAndSelf().Where(i => i is T).Cast<DependencyObject>();
         }
-
     }
 
     public static class EnumerableTreeExtensions
     {
         /// <summary>
-        /// Applies the given function to each of the items in the supplied
-        /// IEnumerable.
+        ///     Applies the given function to each of the items in the supplied
+        ///     IEnumerable.
         /// </summary>
         private static IEnumerable<DependencyObject> DrillDown(this IEnumerable<DependencyObject> items,
             Func<DependencyObject, IEnumerable<DependencyObject>> function)
@@ -260,8 +255,8 @@ namespace LinqToVisualTree
         }
 
         /// <summary>
-        /// Applies the given function to each of the items in the supplied
-        /// IEnumerable, which match the given type.
+        ///     Applies the given function to each of the items in the supplied
+        ///     IEnumerable, which match the given type.
         /// </summary>
         public static IEnumerable<DependencyObject> DrillDown<T>(this IEnumerable<DependencyObject> items,
             Func<DependencyObject, IEnumerable<DependencyObject>> function)
@@ -273,14 +268,14 @@ namespace LinqToVisualTree
                 {
                     if (itemChild is T)
                     {
-                        yield return (T)itemChild;
+                        yield return (T) itemChild;
                     }
                 }
             }
         }
 
         /// <summary>
-        /// Returns a collection of descendant elements.
+        ///     Returns a collection of descendant elements.
         /// </summary>
         public static IEnumerable<DependencyObject> Descendants(this IEnumerable<DependencyObject> items)
         {
@@ -288,7 +283,7 @@ namespace LinqToVisualTree
         }
 
         /// <summary>
-        /// Returns a collection containing this element and all descendant elements.
+        ///     Returns a collection containing this element and all descendant elements.
         /// </summary>
         public static IEnumerable<DependencyObject> DescendantsAndSelf(this IEnumerable<DependencyObject> items)
         {
@@ -296,7 +291,7 @@ namespace LinqToVisualTree
         }
 
         /// <summary>
-        /// Returns a collection of ancestor elements.
+        ///     Returns a collection of ancestor elements.
         /// </summary>
         public static IEnumerable<DependencyObject> Ancestors(this IEnumerable<DependencyObject> items)
         {
@@ -304,7 +299,7 @@ namespace LinqToVisualTree
         }
 
         /// <summary>
-        /// Returns a collection containing this element and all ancestor elements.
+        ///     Returns a collection containing this element and all ancestor elements.
         /// </summary>
         public static IEnumerable<DependencyObject> AncestorsAndSelf(this IEnumerable<DependencyObject> items)
         {
@@ -312,7 +307,7 @@ namespace LinqToVisualTree
         }
 
         /// <summary>
-        /// Returns a collection of child elements.
+        ///     Returns a collection of child elements.
         /// </summary>
         public static IEnumerable<DependencyObject> Elements(this IEnumerable<DependencyObject> items)
         {
@@ -320,7 +315,7 @@ namespace LinqToVisualTree
         }
 
         /// <summary>
-        /// Returns a collection containing this element and all child elements.
+        ///     Returns a collection containing this element and all child elements.
         /// </summary>
         public static IEnumerable<DependencyObject> ElementsAndSelf(this IEnumerable<DependencyObject> items)
         {
@@ -328,7 +323,7 @@ namespace LinqToVisualTree
         }
 
         /// <summary>
-        /// Returns a collection of descendant elements which match the given type.
+        ///     Returns a collection of descendant elements which match the given type.
         /// </summary>
         public static IEnumerable<DependencyObject> Descendants<T>(this IEnumerable<DependencyObject> items)
             where T : DependencyObject
@@ -337,8 +332,8 @@ namespace LinqToVisualTree
         }
 
         /// <summary>
-        /// Returns a collection containing this element and all descendant elements.
-        /// which match the given type.
+        ///     Returns a collection containing this element and all descendant elements.
+        ///     which match the given type.
         /// </summary>
         public static IEnumerable<DependencyObject> DescendantsAndSelf<T>(this IEnumerable<DependencyObject> items)
             where T : DependencyObject
@@ -347,7 +342,7 @@ namespace LinqToVisualTree
         }
 
         /// <summary>
-        /// Returns a collection of ancestor elements which match the given type.
+        ///     Returns a collection of ancestor elements which match the given type.
         /// </summary>
         public static IEnumerable<DependencyObject> Ancestors<T>(this IEnumerable<DependencyObject> items)
             where T : DependencyObject
@@ -356,8 +351,8 @@ namespace LinqToVisualTree
         }
 
         /// <summary>
-        /// Returns a collection containing this element and all ancestor elements.
-        /// which match the given type.
+        ///     Returns a collection containing this element and all ancestor elements.
+        ///     which match the given type.
         /// </summary>
         public static IEnumerable<DependencyObject> AncestorsAndSelf<T>(this IEnumerable<DependencyObject> items)
             where T : DependencyObject
@@ -366,7 +361,7 @@ namespace LinqToVisualTree
         }
 
         /// <summary>
-        /// Returns a collection of child elements which match the given type.
+        ///     Returns a collection of child elements which match the given type.
         /// </summary>
         public static IEnumerable<DependencyObject> Elements<T>(this IEnumerable<DependencyObject> items)
             where T : DependencyObject
@@ -375,8 +370,8 @@ namespace LinqToVisualTree
         }
 
         /// <summary>
-        /// Returns a collection containing this element and all child elements.
-        /// which match the given type.
+        ///     Returns a collection containing this element and all child elements.
+        ///     which match the given type.
         /// </summary>
         public static IEnumerable<DependencyObject> ElementsAndSelf<T>(this IEnumerable<DependencyObject> items)
             where T : DependencyObject

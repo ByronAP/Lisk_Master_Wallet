@@ -116,7 +116,7 @@ namespace LiskMasterWallet.Pages
                 if (rmpw.DialogResult == null || rmpw.DialogResult == false || string.IsNullOrEmpty(avm.Password))
                     return;
                 var i = 0;
-                var ii = 0;
+                var ii = 1;
                 var pd = new ProcessingDialog("Importing Accounts",
                     "Please wait while your accounts are imported. This may take some time depending on the number of accounts.");
                 pd.Show();

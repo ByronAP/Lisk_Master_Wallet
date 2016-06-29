@@ -5,16 +5,6 @@ namespace LiskMasterWallet.Helpers
     //these classes act as type converters since WPF only understands properties not fields
     public class Delegate_Class
     {
-        public string Address { get; set; }
-        public decimal Approval { get; set; }
-        public long MissedBlocks { get; set; }
-        public long ProducedBlocks { get; set; }
-        public decimal Productivity { get; set; }
-        public string PublicKey { get; set; }
-        public int Rate { get; set; }
-        public string Username { get; set; }
-        public string Vote { get; set; }
-
         public Delegate_Class()
         {
         }
@@ -31,5 +21,15 @@ namespace LiskMasterWallet.Helpers
             Username = delegate_object.username;
             Vote = delegate_object.vote;
         }
+
+        public string Address { get; set; }
+        public decimal Approval { get; set; }
+        public long MissedBlocks { get; set; }
+        public long ProducedBlocks { get; set; }
+        public decimal Productivity { get; set; }
+        public string PublicKey { get; set; }
+        public int Rate { get; set; }
+        public string Username { get; set; }
+        public string Vote { get; set; }
     }
 }

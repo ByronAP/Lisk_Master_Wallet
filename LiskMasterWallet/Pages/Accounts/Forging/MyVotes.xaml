@@ -1,7 +1,7 @@
 ﻿<UserControl x:Class="LiskMasterWallet.Pages.Accounts.Forging.MyVotes"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:controls="clr-namespace:LiskMasterWallet.Controls"
              mc:Ignorable="d"
@@ -9,8 +9,8 @@
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid Style="{StaticResource ContentRoot}">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <TextBlock Text="My Votes" Style="{StaticResource Heading2}" />
         <ScrollViewer Grid.Row="1">
@@ -24,7 +24,7 @@
                         </ItemsControl.ItemsPanel>
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                                <controls:DelegateTile/>
+                                <controls:DelegateTile />
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
