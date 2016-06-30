@@ -94,6 +94,7 @@ namespace LiskMasterWallet.ViewModels
                 new ObservableCollection<Account>(Globals.DbContext.Accounts);
             await UpdateAccount(account.Address);
             Globals.AppViewModel.AccountsViewModel.RaisePropertyChanged("TotalAccounts");
+            await Globals.AppViewModel.TransactionsViewModel.UpdateTransactionsForAccountAsync(account.Address);
         }
 
         public static async Task RemoveAccountAsync(Account account)
