@@ -25,8 +25,8 @@
                         <RowDefinition />
                         <RowDefinition />
                     </Grid.RowDefinitions>
-                    <TextBlock Grid.Column="0" Text="Address Book:" VerticalAlignment="Top" Margin="0,0,16,4" />
-                    <ComboBox Grid.Row="0" Grid.Column="1" x:Name="AddressBookComboBox" VerticalAlignment="Center"
+                    <TextBlock Visibility="Hidden" Grid.Column="0" Text="Address Book:" VerticalAlignment="Top" Margin="0,0,16,4" />
+                    <ComboBox Visibility="Hidden" Grid.Row="0" Grid.Column="1" x:Name="AddressBookComboBox" VerticalAlignment="Center"
                               Margin="0,0,0,4" SelectionChanged="AddressBookComboBox_OnSelectionChanged" />
 
                     <TextBlock Grid.Row="1" Grid.Column="0" Text="To Address:" VerticalAlignment="Top"

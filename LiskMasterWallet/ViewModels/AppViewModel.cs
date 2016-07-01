@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Linq;
 using Lisk.API.Responses;
 
@@ -100,10 +101,18 @@ namespace LiskMasterWallet.ViewModels
 
         private void Globals_OnNewBlockReceived(Block_Object block)
         {
-            StatusText = "Blocks " + Globals.CurrentBlockHeight + "    Server " +
-                         Globals.API.Server_Url.ToLower().Replace("https://", "") + "    " + TotalBalance + " LSK in " +
-                         TotalAccounts + " accounts";
-            RaisePropertyChanged("CurrentBlockHeight");
+            try
+            {
+                StatusText = "Blocks " + Globals.CurrentBlockHeight + "    Server " +
+                             Globals.API.Server_Url.ToLower().Replace("https://", "") + "    " + TotalBalance +
+                             " LSK in " +
+                             TotalAccounts + " accounts";
+                RaisePropertyChanged("CurrentBlockHeight");
+            }
+            catch (Exception crap)
+            {
+                Console.WriteLine("ERROR: Globals_OnNewBlockReceived | " + crap.Message);
+            }
         }
 
         private void ViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
